@@ -2,11 +2,11 @@
   <div>
     <input type="text" id="input_account"/>
     <button v-on:click="getRecentMatchesByAccount">search</button>
- <!--     <ul>
+      <ul>
           <li v-for="item in items">
               {{item}}
           </li>
-      </ul>-->
+      </ul>
   </div>
 </template>
 
@@ -15,10 +15,13 @@ import 'whatwg-fetch';
 export default {
   name: 'search-account-profile',
   data () {
-      /*items:[
-          { message: 'Foo' },
-          { message: 'Bar' }
-      ]*/
+      return{
+          items:[
+              { message: 'Foo' },
+              { message: 'Bar' }
+          ]
+      }
+
   },
   methods: {
     getRecentMatchesByAccount: function () {
