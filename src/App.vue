@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-  <!--  <img src="./assets/img/hero_icon/shadow_demon_hphover.png">-->
+    <img src="./assets/img/hero_icon/shadow_demon_hphover.png">
     <router-link to="/">HOME</router-link>
     <router-link to="/helloworld">helloworld page</router-link>
     <router-link to="/404">404</router-link>
@@ -12,7 +12,6 @@
 </template>
 
 <script>
-
 import SearchAccountProfile from './components/SearchAccountProfile';
 
 export default {
