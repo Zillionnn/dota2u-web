@@ -7,7 +7,6 @@
     <router-view/>
     <br/>
     <hr/>
-    <search-account-profile />
   </div>
 </template>
 
@@ -26,7 +25,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #d1cecf;
-
   margin-top: 60px;
 }
   a{
