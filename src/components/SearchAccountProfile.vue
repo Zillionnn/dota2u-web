@@ -112,6 +112,7 @@ export default {
 .userinfo{
     width: 100%;
     height: 210px;
+    margin: 30px 0 0 0 ;
 }
     .headPic{
         float:left;
