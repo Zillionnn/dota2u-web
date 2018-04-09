@@ -1,9 +1,19 @@
-<template>
+<template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <div>
     <input type="text" id="input_account"/>
     <button v-on:click="getRecentMatchesByAccount">search</button>
+      <p v-if="userInfo">
 
-          <p v-for="matches in playerRecent25Matches">
+          <img  v-bind:src="userInfo.avatarfull"/>
+
+          ID:{{userInfo.account_id}}
+          {{userInfo.personaname}}
+      </p>
+
+      <p v-if="playerForbid">
+          用户未开放数据
+      </p>
+          <p v-if="!playerForbid" v-for="matches in playerRecent25Matches">
           <img class="hero_icon"  v-bind:src="matches.hero_img"/>           {{matches.match_id}} {{matches.time}}
           </p>
 
@@ -19,7 +29,9 @@ export default {
   data () {
       return{
           playerRecent25Matches:[],
-          heroes:dotaconstants.hero
+          heroes:dotaconstants.hero,
+          userInfo:null,
+          playerForbid:false
       }
 
   },
@@ -28,6 +40,20 @@ export default {
       let account = document.getElementById('input_account').value;
      // console.log(account);
 
+        fetch('/api/player/getUserInfoByAccount',{
+            method:'POST',
+            headers:{
+                "Content-Type":'application/json'
+            },
+            body:JSON.stringify({account:account})
+        }).then((res)=>{
+            return res.json();
+        }).then((data)=>{
+            console.log("USER INFO>>\n",data);
+            this.userInfo=data;
+        });
+
+        //获取玩家比赛概览
       fetch('/api/player/getRecentMatchesByAccount', {
         method: 'POST',
         headers: {
@@ -37,7 +63,10 @@ export default {
       }).then((res) => {
         return res.json();
       }).then((data) => {
-
+          if(data.error){
+              this.playerForbid=true;
+              return;
+          }
             this.playerRecent25Matches=[];
             for(var i in data){
                 let match={};

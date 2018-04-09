@@ -1,12 +1,20 @@
 <template>
   <div id="app">
-    <img src="./assets/img/hero_icon/shadow_demon_hphover.png">
-    <router-link to="/">HOME</router-link>
-    <router-link to="/helloworld">helloworld page</router-link>
-    <router-link to="/404">404</router-link>
-    <router-view/>
+      <div class="content">
+          <img src="./assets/img/hero_icon/shadow_demon_hphover.png">
+          <router-link to="/">HOME</router-link>
+          <router-link to="/helloworld">helloworld page</router-link>
+          <router-link to="/404">404</router-link>
+      </div>
+
+      <hr/>
+
+      <div class="content">
+          <router-view/>
+      </div>
+
     <br/>
-    <hr/>
+
   </div>
 </template>
 
@@ -30,4 +38,8 @@ export default {
   a{
     color: #eed221;
   }
+    .content{
+        width: 80%;
+        margin: 0 auto;
+    }
 </style>
