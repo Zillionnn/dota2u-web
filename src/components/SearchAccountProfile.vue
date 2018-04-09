@@ -2,20 +2,25 @@
   <div>
     <input type="text" id="input_account"/>
     <button v-on:click="getRecentMatchesByAccount">search</button>
-      <p v-if="userInfo">
+      <div v-if="userInfo" class="userinfo">
 
-          <img  v-bind:src="userInfo.avatarfull"/>
+          <div class="headPic">
+              <img  v-bind:src="userInfo.avatarfull"/>
+              <span class="headID">ID:{{userInfo.account_id}}</span>
+          </div>
 
-          ID:{{userInfo.account_id}}
-          {{userInfo.personaname}}
-      </p>
+
+          <span class="headPersonname">{{userInfo.personaname}}</span>
+
+      </div>
 
       <p v-if="playerForbid">
           用户未开放数据
       </p>
-          <p v-if="!playerForbid" v-for="matches in playerRecent25Matches">
+
+      <p v-if="!playerForbid" v-for="matches in playerRecent25Matches">
           <img class="hero_icon"  v-bind:src="matches.hero_img"/>           {{matches.match_id}} {{matches.time}}
-          </p>
+      </p>
 
   </div>
 </template>
@@ -103,4 +108,23 @@ export default {
     width: 4em;
     height: 2.1em;
 }
+
+.userinfo{
+    width: 100%;
+    height: 210px;
+}
+    .headPic{
+        float:left;
+        width: 210px;
+        height: 210px;
+        text-align: center;
+    }
+    .headID{
+
+    }
+    .headPersonname{
+        float:left;
+        margin: 0 0 0 2em;
+        font-size: 1.5em;
+    }
 </style>
