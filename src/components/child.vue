@@ -1,30 +1,31 @@
 <template>
-<div>
-  CHILD COMPONENT:
-  <span></span>
+<div class="child_section">
+    {{child_messge}}
+  <span>{{message}}</span>
 
-  <input type="text" v-model="message"/>
-  <button v-on:click="handleSendMessage">send</button>
+<span>{{name}}</span>
+    <span>{{age}}</span>
+
 </div>
 </template>
 
 <script>
 export default {
   name: 'child',
-  data: function () {
+  data () {
     return {
-      // myMessage: ,
-      message: 'test message'
+        child_messge:'CHILD COMPONENT'
     };
   },
-  methods: {
-    handleSendMessage: function () {
-      this.$emit('message', {message: this.message});
-    }
-  }
+    /*声明props*/
+    props:['message','name','age',"parentObj"]
+
 };
 </script>
 
 <style scoped>
-
+    .child_section{
+        border: #eed221 1px solid;
+        margin: 1em;
+    }
 </style>
