@@ -71,32 +71,34 @@ export default {
           if(data.error){
               this.playerForbid=true;
               return;
-          }
-            this.playerRecent25Matches=[];
-            for(var i in data){
-                let match={};
-                match.match_id=data[i].match_id;
-            match.time=new Date(parseInt(data[i].start_time+'000')).toLocaleString();
-            let players=data[i].players;
-            for(var j in players){
-                if(players[j].account_id==account){
-                    let heroes=this.heroes;
-                 //   console.log(heroes);
-                    for(var k in heroes){
-                        if(heroes[k].id==players[j].hero_id){
-                            let hero_name=heroes[k].name.replace("npc_dota_hero_","");
-                            match.hero_img=`/static/img/hero_icon/${hero_name}_hphover.png`;
-                            break;
-                        }
-                    }
-                    match.player=players[j];
-                    break;
-                }
-            }
-            this.playerRecent25Matches.push(match);
-            }
+          }else{
+              this.playerForbid=false;
+              this.playerRecent25Matches=[];
+              for(var i in data){
+                  let match={};
+                  match.match_id=data[i].match_id;
+                  match.time=new Date(parseInt(data[i].start_time+'000')).toLocaleString();
+                  let players=data[i].players;
+                  for(var j in players){
+                      if(players[j].account_id==account){
+                          let heroes=this.heroes;
+                          //   console.log(heroes);
+                          for(var k in heroes){
+                              if(heroes[k].id==players[j].hero_id){
+                                  let hero_name=heroes[k].name.replace("npc_dota_hero_","");
+                                  match.hero_img=`/static/img/hero_icon/${hero_name}_hphover.png`;
+                                  break;
+                              }
+                          }
+                          match.player=players[j];
+                          break;
+                      }
+                  }
+                  this.playerRecent25Matches.push(match);
+              }
 
-       // console.log(this.playerRecent25Matches);
+              // console.log(this.playerRecent25Matches);
+          }
       });
     }
   }
