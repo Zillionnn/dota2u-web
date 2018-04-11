@@ -11,12 +11,19 @@
         天辉
         <p>
             <div v-for="(player,index) in matchDetail.players" v-if="index<5" >
-                <span>{{player.account_id}}</span>
-                <span v-if="player.player_name">{{player.player_name}}</span>
+                <span style="display: none">{{player.account_id}}</span>
+
+        <span v-if="player.player_name">{{player.player_name}}</span>
+        <span v-if="!player.player_name">匿名玩家</span>
+
         <img v-if="player.player_head_icon" v-bind:src="player.player_head_icon"/>
-        <span>{{player.assists}}</span>
-        <span>{{player.kill}}</span>
-        <span>{{player.deaths}}</span>
+        <img v-if="!player.player_head_icon"  src="/static/img/null_head_icon.png"/>
+
+        <span> </span>
+        <span> </span>
+        <span>{{player.kills}}/{{player.deaths}}/{{player.assists}}</span>
+        <span> </span>
+        <span> </span>
         <span>{{player.last_hits}}/{{player.denies}}</span>
             </div>
 
@@ -25,12 +32,19 @@
         夜魇
         <p>
         <div v-for="(player,index) in matchDetail.players" v-if="index>=5">
-            <span>{{player.account_id}}</span>
-        <span>{{player.player_name}}</span>
-        <img  v-bind:src="player.player_head_icon"/>
-        <span>{{player.assists}}</span>
-        <span>{{player.kill}}</span>
-        <span>{{player.deaths}}</span>
+            <span style="display: none">{{player.account_id}}</span>
+
+        <span v-if="player.player_name">{{player.player_name}}</span>
+        <span v-if="!player.player_name">匿名玩家</span>
+
+        <img v-if="player.player_head_icon" v-bind:src="player.player_head_icon"/>
+        <img v-if="!player.player_head_icon"  src="/static/img/null_head_icon.png"/>
+
+        <span> </span>
+        <span> </span>
+        <span>{{player.kills}}/{{player.deaths}}/{{player.assists}}</span>
+        <span> </span>
+        <span> </span>
         <span>{{player.last_hits}}/{{player.denies}}</span>
 
     </div>
