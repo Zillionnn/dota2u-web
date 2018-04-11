@@ -44,7 +44,6 @@
 
 <script>
     import 'whatwg-fetch';
-    import async from  'async';
     import dotaconstants from   'dotaconstants';
 import game_mode from '../assets/game_mode.json';
 import * as utils from '../utils/utils';
