@@ -8,6 +8,7 @@
         <!--parent data=="parentMsg"-->
         <child v-bind:message="parentMsg" v-bind="parentObj"></child>
 
+        {{fullName}}
     </div>
 
 </template>
@@ -24,7 +25,15 @@ import Child from './child';
                 parentObj:{
                     name:'jack',
                     age:16
-                }
+                },
+                firstName: 'Foo',
+                lastName: 'Bar'
+            }
+        },
+        computed: {
+            fullName: function () {
+               // console.log("full name");
+                return this.firstName + ' ' + this.lastName
             }
         }
     }

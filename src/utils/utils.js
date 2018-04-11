@@ -1,3 +1,7 @@
+
+import 'whatwg-fetch';
+
+
 /**
  * V社时间戳，
  * @param time_string （s）
@@ -11,3 +15,21 @@ export  function formatVTime(time_string) {
     let time=n_date+' '+n_time;
     return time;
 };
+
+
+export function getPlayerInfo(account_id,callback) {
+   
+    fetch('/api/player/getUserInfoByAccount',{
+        method:'POST',
+        headers:{
+            "Content-Type":'application/json'
+        },
+        body:JSON.stringify({account:account_id})
+    }).then((res)=>{
+        return res.json();
+    }).then((data)=>{
+      //  console.log("USER INFO>>\n",data);
+      callback(data);
+    });
+   
+}

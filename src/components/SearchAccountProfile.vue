@@ -49,7 +49,7 @@ export default {
   methods: {
     getRecentMatchesByAccount: function () {
       let account = document.getElementById('input_account').value;
-     // console.log(account);
+      console.log(account);
 
         fetch('/api/player/getUserInfoByAccount',{
             method:'POST',
