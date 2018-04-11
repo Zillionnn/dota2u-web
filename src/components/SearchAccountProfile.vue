@@ -2,6 +2,7 @@
   <div>
     <input type="text" id="input_account"/>
     <button v-on:click="getRecentMatchesByAccount">search</button>
+      <button v-on:click="synchronousPlayerData">{{synchronousState}}</button>
       <div v-if="userInfo" class="userinfo">
 
           <div class="headPic">
@@ -18,8 +19,11 @@
           用户未开放数据
       </p>
 
-      <p v-if="!playerForbid" v-for="matches in playerRecent25Matches">
-          <img class="hero_icon"  v-bind:src="matches.hero_img"/>           {{matches.match_id}} {{matches.time}}
+      <p v-if="!playerForbid" v-for="matches in playerRecent25Matches" class="one_match">
+          <router-link v-bind:to="{name:'matchdetail', params:{match_id:matches.match_id}}">
+              <img class="hero_icon"  v-bind:src="matches.hero_img"/>           {{matches.match_id}} {{matches.time}}
+          </router-link>
+
       </p>
 
   </div>
@@ -36,7 +40,8 @@ export default {
           playerRecent25Matches:[],
           heroes:dotaconstants.hero,
           userInfo:null,
-          playerForbid:false
+          playerForbid:false,
+          synchronousState:'同步数据'
       }
 
   },
@@ -100,7 +105,24 @@ export default {
               // console.log(this.playerRecent25Matches);
           }
       });
-    }
+    },
+
+      synchronousPlayerData:function () {
+          let account = document.getElementById('input_account').value;
+
+          fetch('/api/player/SynchronousPlayerData',{
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({account: account})
+          }).then((res)=>{
+              return res.json();
+          }).then((data)=>{
+              console.log(data);
+        this.synchronousState=data.info;
+          });
+      }
   }
 };
 </script>
@@ -129,5 +151,12 @@ export default {
         float:left;
         margin: 0 0 0 2em;
         font-size: 1.5em;
+    }
+
+    .one_match{
+
+    }
+    .one_match:hover{
+        cursor: pointer;
     }
 </style>
