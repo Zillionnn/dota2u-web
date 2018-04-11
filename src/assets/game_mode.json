@@ -1,0 +1,94 @@
+[
+    {
+        "mode_code":0,
+        "mode":"None"
+    },
+    {
+        "mode_code":1,
+        "mode":"All Pick"
+    },
+    {
+        "mode_code":2,
+        "mode":"Captain's Mode"
+    },
+    {
+        "mode_code":3,
+        "mode":"Random Draft"
+    },
+    {
+        "mode_code":4,
+        "mode":"Single Draft"
+    },
+    {
+        "mode_code":5,
+        "mode":"All Random"
+    },
+    {
+        "mode_code":6,
+        "mode":"Intro"
+    },
+    {
+        "mode_code":7,
+        "mode":"Diretide"
+    },
+    {
+        "mode_code":8,
+        "mode":"Reverse Captain's Mode"
+    },
+    {
+        "mode_code":9,
+        "mode":"The Greeviling"
+    },
+    {
+        "mode_code":10,
+        "mode":"Tutorial"
+    },
+    {
+        "mode_code":11,
+        "mode":"Mid Only"
+    },
+    {
+        "mode_code":12,
+        "mode":"Least Played"
+    },
+    {
+        "mode_code":13,
+        "mode":" New Player Pool"
+    },
+    {
+        "mode_code":14,
+        "mode":"Compendium Matchmaking"
+    },
+    {
+        "mode_code":15,
+        "mode":"Co-op vs Bots"
+    },
+    {
+        "mode_code":16,
+        "mode":"Captains Draft"
+    },
+    {
+        "mode_code":17,
+        "mode":null
+    },
+    {
+        "mode_code":18,
+        "mode":"Ability Draft"
+    },
+    {
+        "mode_code":19,
+        "mode":null
+    },
+    {
+        "mode_code":20,
+        "mode":"All Random Deathmatch"
+    },
+    {
+        "mode_code":21,
+        "mode":"1v1 Mid Only"
+    },
+    {
+        "mode_code":22,
+        "mode":"Ranked Matchmaking"
+    }
+]
