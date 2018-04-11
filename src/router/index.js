@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import HelloWorld from '@/components/HelloWorld';
+
 import SearchAccountProfile from '@/components/SearchAccountProfile';
+import Parent from '@/components/Parent';
+import MatchDetail from '@/components/MatchDetail';
 
 Vue.use(Router);
 
@@ -13,9 +15,14 @@ export default new Router({
     component: SearchAccountProfile
     },
     {
-      path: '/helloworld',
-      name: 'HelloWorld',
-      component: HelloWorld
-    }
+      path: '/parent_component',
+      name: 'Parent',
+      component: Parent
+    },
+      {
+          path:'/matchdetail/:match_id',
+          name:'matchdetail',
+          component:MatchDetail
+      }
   ]
 });

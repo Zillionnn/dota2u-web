@@ -3,7 +3,7 @@
       <div class="content">
           <img src="./assets/img/hero_icon/shadow_demon_hphover.png">
           <router-link to="/">HOME</router-link>
-          <router-link to="/helloworld">helloworld page</router-link>
+          <router-link to="/parent_component">parent component</router-link>
           <router-link to="/404">404</router-link>
       </div>
 
