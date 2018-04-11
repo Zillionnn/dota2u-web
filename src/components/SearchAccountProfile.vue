@@ -32,6 +32,7 @@
 <script>
 import 'whatwg-fetch';
 import dotaconstants from   'dotaconstants';
+import * as utils from '../utils/utils';
 
 export default {
   name: 'search-account-profile',
@@ -82,7 +83,7 @@ export default {
               for(var i in data){
                   let match={};
                   match.match_id=data[i].match_id;
-                  match.time=new Date(parseInt(data[i].start_time+'000')).toLocaleString();
+                  match.time=utils.formatVTime(data[i].start_time);
                   let players=data[i].players;
                   for(var j in players){
                       if(players[j].account_id==account){
