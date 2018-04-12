@@ -1,10 +1,16 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <div>
-    <input type="text" id="input_account"/>
-    <button v-on:click="getRecentMatchesByAccount">search</button>
-      <button v-on:click="synchronousPlayerData">{{synchronousState}}</button>
-      <div v-if="userInfo" class="userinfo">
+<!--    <input type="text" id="input_account" v-model="account_id"/>
+    &lt;!&ndash;<button v-on:click="getRecentMatchesByAccount">search</button>&ndash;&gt;
 
+          <router-link v-bind:to="{name:'search-account-profile', params:{account_id:account_id}}">
+        <button>search</button>
+      </router-link>-->
+
+      <button v-on:click="synchronousPlayerData">{{synchronousState}}</button>
+
+
+      <div v-if="userInfo" class="userinfo">
           <div class="headPic">
               <img  v-bind:src="userInfo.avatarfull"/>
               <span class="headID">ID:{{userInfo.account_id}}</span>
@@ -35,9 +41,10 @@ import dotaconstants from   'dotaconstants';
 import * as utils from '../utils/utils';
 
 export default {
-  name: 'search-account-profile',
+  name: 'player',
   data () {
       return{
+          account_id:this.$route.params.account_id,
           playerRecent25Matches:[],
           heroes:dotaconstants.hero,
           userInfo:null,
@@ -46,11 +53,18 @@ export default {
       }
 
   },
+    mounted:function () {
+        let account_id=this.account_id;
+        console.log(account_id);
+      this.getRecentMatchesByAccount(account_id);
+    },
   methods: {
-    getRecentMatchesByAccount: function () {
-      let account = document.getElementById('input_account').value;
+    getRecentMatchesByAccount: function (account_id) {
+   /*   let account = document.getElementById('input_account').value;
       console.log(account);
-
+        */
+        let account=account_id;
+        console.log(account);
         fetch('/api/player/getUserInfoByAccount',{
             method:'POST',
             headers:{
@@ -109,7 +123,7 @@ export default {
     },
 
       synchronousPlayerData:function () {
-          let account = document.getElementById('input_account').value;
+          let account =this.account_id;
 
           fetch('/api/player/SynchronousPlayerData',{
               method: 'POST',

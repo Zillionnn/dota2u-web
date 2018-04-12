@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import SearchAccountProfile from '@/components/SearchAccountProfile';
+import Player from '@/components/Player';
 import Parent from '@/components/Parent';
 import MatchDetail from '@/components/MatchDetail';
 
@@ -10,9 +10,9 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
-      path: '/',
-    name: 'search-account-profile',
-    component: SearchAccountProfile
+      path: '/player/:account_id',
+    name: 'player',
+    component: Player
     },
     {
       path: '/parent_component',
