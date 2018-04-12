@@ -60,7 +60,7 @@ export default {
         */
         let account=account_id;
         console.log(account);
-        fetch('/api/player/getUserInfoByAccount',{
+        fetch('/api/player/fetchUserInfoByAccount',{
             method:'POST',
             headers:{
                 "Content-Type":'application/json'

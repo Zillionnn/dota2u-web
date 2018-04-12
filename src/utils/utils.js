@@ -16,7 +16,11 @@ export  function formatVTime(time_string) {
     return time;
 };
 
-
+/**
+ * 从数据库查询玩家信息；
+ * @param account_id
+ * @param callback
+ */
 export function getPlayerInfo(account_id,callback) {
    
     fetch('/api/player/getUserInfoByAccount',{
@@ -31,5 +35,5 @@ export function getPlayerInfo(account_id,callback) {
       //  console.log("USER INFO>>\n",data);
       callback(data);
     });
-   
+
 }
