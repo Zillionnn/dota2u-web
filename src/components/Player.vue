@@ -1,13 +1,5 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <div>
-<!--    <input type="text" id="input_account" v-model="account_id"/>
-    &lt;!&ndash;<button v-on:click="getRecentMatchesByAccount">search</button>&ndash;&gt;
-
-          <router-link v-bind:to="{name:'search-account-profile', params:{account_id:account_id}}">
-        <button>search</button>
-      </router-link>-->
-
-      <button v-on:click="synchronousPlayerData">{{synchronousState}}</button>
 
 
       <div v-if="userInfo" class="userinfo">
@@ -18,6 +10,9 @@
 
 
           <span class="headPersonname">{{userInfo.personaname}}</span>
+
+          <!--同步数据-->
+          <button class="synchronous_player_data" v-on:click="synchronousPlayerData">{{synchronousState}}</button>
 
       </div>
 
@@ -173,5 +168,8 @@ export default {
     }
     .one_match:hover{
         cursor: pointer;
+    }
+    .synchronous_player_data{
+        float: right;
     }
 </style>

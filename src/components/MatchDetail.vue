@@ -9,7 +9,7 @@
 
         </p>
 
-        <h2>天辉</h2>
+        <h2>天辉<span class="word_win" v-if="matchDetail.radiant_win">WIN</span></h2>
 
         <table class="match_detail_table">
             <tr>
@@ -39,7 +39,7 @@
 
 
 
-        <h2>夜魇</h2>
+        <h2>夜魇<span v-if="!matchDetail.radiant_win">WIN</span></h2>
 
         <table class="match_detail_table">
             <tr>
@@ -235,6 +235,9 @@ import * as utils from '../utils/utils';
     }
     .td_player_name{
         width: 8em;
+    }
+    .word_win{
+        color:red;
     }
 </style>
 
