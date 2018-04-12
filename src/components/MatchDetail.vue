@@ -8,48 +8,67 @@
             <span class="match_head">时长：{{matchDetail.duration}} 分</span>
 
         </p>
-        天辉
-        <p>
-            <div v-for="(player,index) in matchDetail.players" v-if="index<5" >
-                <span style="display: none">{{player.account_id}}</span>
 
-        <span v-if="player.player_name">{{player.player_name}}</span>
-        <span v-if="!player.player_name">匿名玩家</span>
+        <h2>天辉</h2>
 
-        <img v-if="player.player_head_icon" v-bind:src="player.player_head_icon"/>
-        <img v-if="!player.player_head_icon"  src="/static/img/null_head_icon.png"/>
+        <table class="match_detail_table">
+            <tr>
+                <td class="td_player_name"><h3>PLAYER</h3></td>
+                <td></td>
+                <td><h3>K/D/A</h3></td>
+                <td><h3>H/D</h3></td>
+            </tr>
+            <tr v-for="(player,index) in matchDetail.players" v-if="index<5">
+                <td style="display: none">{{player.account_id}}</td>
 
-        <span> </span>
-        <span> </span>
-        <span>{{player.kills}}/{{player.deaths}}/{{player.assists}}</span>
-        <span> </span>
-        <span> </span>
-        <span>{{player.last_hits}}/{{player.denies}}</span>
-            </div>
+                <td class="td_player_name" v-if="player.player_name">{{player.player_name}}</td>
+                <td class="td_player_name"  v-if="!player.player_name">匿名玩家</td>
 
-        </p>
+                <td>
+                    <img v-if="player.player_head_icon" v-bind:src="player.player_head_icon"/>
+                    <img v-if="!player.player_head_icon" src="/static/img/null_head_icon.png"/>
+                </td>
 
-        夜魇
-        <p>
-        <div v-for="(player,index) in matchDetail.players" v-if="index>=5">
-            <span style="display: none">{{player.account_id}}</span>
 
-        <span v-if="player.player_name">{{player.player_name}}</span>
-        <span v-if="!player.player_name">匿名玩家</span>
 
-        <img v-if="player.player_head_icon" v-bind:src="player.player_head_icon"/>
-        <img v-if="!player.player_head_icon"  src="/static/img/null_head_icon.png"/>
+                <td>{{player.kills}}/{{player.deaths}}/{{player.assists}}</td>
 
-        <span> </span>
-        <span> </span>
-        <span>{{player.kills}}/{{player.deaths}}/{{player.assists}}</span>
-        <span> </span>
-        <span> </span>
-        <span>{{player.last_hits}}/{{player.denies}}</span>
+                <td>{{player.last_hits}}/{{player.denies}}</td>
+            </tr>
+        </table>
 
-    </div>
 
-        </p>
+
+        <h2>夜魇</h2>
+
+        <table class="match_detail_table">
+            <tr>
+                <td class="td_player_name"><h3>PLAYER</h3></td>
+                <td></td>
+                <td><h3>K/D/A</h3></td>
+                <td><h3>H/D</h3></td>
+            </tr>
+            <tr v-for="(player,index) in matchDetail.players" v-if="index>=5">
+                <td style="display: none">{{player.account_id}}</td>
+
+                <td class="td_player_name" v-if="player.player_name">{{player.player_name}}</td>
+                <td class="td_player_name" v-if="!player.player_name">匿名玩家</td>
+
+                <td>
+                    <img v-if="player.player_head_icon" v-bind:src="player.player_head_icon"/>
+                    <img v-if="!player.player_head_icon" src="/static/img/null_head_icon.png"/>
+                </td>
+
+
+                <td>{{player.kills}}/{{player.deaths}}/{{player.assists}}</td>
+
+                <td>{{player.last_hits}}/{{player.denies}}</td>
+
+            </tr>
+        </table>
+
+
+
 
 
     </div>
@@ -209,6 +228,13 @@ import * as utils from '../utils/utils';
     }
     .player{
         width: 100px;
+    }
+    .match_detail_table{
+        width: 80%;
+        text-align: center;
+    }
+    .td_player_name{
+        width: 8em;
     }
 </style>
 
