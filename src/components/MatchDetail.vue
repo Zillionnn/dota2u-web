@@ -50,7 +50,7 @@
 
 
 
-        <h2>夜魇<span v-if="!matchDetail.radiant_win">WIN</span></h2>
+        <h2>夜魇<span  class="word_win"  v-if="!matchDetail.radiant_win">WIN</span></h2>
 
         <table class="match_detail_table">
             <tr>
