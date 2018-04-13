@@ -60,7 +60,17 @@ export default {
         */
         let account=account_id;
         console.log(account);
+        //玩家信息更新；
         fetch('/api/player/fetchUserInfoByAccount',{
+            method:'POST',
+            headers:{
+                "Content-Type":'application/json'
+            },
+            body:JSON.stringify({account:account})
+        });
+
+        //获取玩家信息；
+        fetch('/api/player/getUserInfoByAccount',{
             method:'POST',
             headers:{
                 "Content-Type":'application/json'
@@ -68,10 +78,10 @@ export default {
             body:JSON.stringify({account:account})
         }).then((res)=>{
             return res.json();
-        }).then((data)=>{
+    }).then((data)=>{
             console.log("USER INFO>>\n",data);
-            this.userInfo=data;
-        });
+        this.userInfo=data;
+    });
 
         //获取玩家比赛概览
       fetch('/api/player/getRecentMatchesByAccount', {
