@@ -5,7 +5,8 @@
             <span class="match_head">比赛id：  {{matchDetail.match_id}}</span>
             <span class="match_head">比赛模式：{{matchDetail.game_mode}}</span>
             <span class="match_head">开始时间：{{matchDetail.start_time}}</span>
-            <span class="match_head">时长：{{matchDetail.duration}} 分</span>
+            <span class="match_head">时长：{{matchDetail.duration}} </span>
+            <span class="match_head">一血时间：{{matchDetail.first_blood_time}}</span>
 
         </p>
 
@@ -13,27 +14,37 @@
 
         <table class="match_detail_table">
             <tr>
-                <td class="td_player_name"><h3>PLAYER</h3></td>
                 <td></td>
+                <td class="td_player_name"><h3>PLAYER</h3></td>
+                <td>HERO</td>
+                <td><h3>level</h3></td>
                 <td><h3>K/D/A</h3></td>
                 <td><h3>H/D</h3></td>
+                <td><h3>hero damage</h3></td>
+                <td><h3>tower damage</h3></td>
+                <td><h3>GPM</h3></td>
+                <td><h3>XPM</h3></td>
             </tr>
             <tr v-for="(player,index) in matchDetail.players" v-if="index<5">
                 <td style="display: none">{{player.account_id}}</td>
 
-                <td class="td_player_name" v-if="player.player_name">{{player.player_name}}</td>
-                <td class="td_player_name"  v-if="!player.player_name">匿名玩家</td>
-
-                <td>
+                <td >
                     <img v-if="player.player_head_icon" v-bind:src="player.player_head_icon"/>
                     <img v-if="!player.player_head_icon" src="/static/img/null_head_icon.png"/>
                 </td>
 
-
-
+                <td class="td_player_name" >
+                    <span v-if="player.player_name">{{player.player_name}}</span>
+                    <span  v-if="!player.player_name">匿名玩家</span>
+                </td>
+                <td> <img class="hero_icon"  v-bind:src="player.hero_img"/></td>
+                <td>{{player.level}}</td>
                 <td>{{player.kills}}/{{player.deaths}}/{{player.assists}}</td>
-
                 <td>{{player.last_hits}}/{{player.denies}}</td>
+                <td>{{player.hero_damage}}</td>
+                <td>{{player.tower_damage}}</td>
+                <td>{{player.gold_per_min}}</td>
+                <td>{{player.xp_per_min}}</td>
             </tr>
         </table>
 
@@ -43,27 +54,37 @@
 
         <table class="match_detail_table">
             <tr>
-                <td class="td_player_name"><h3>PLAYER</h3></td>
                 <td></td>
+                <td class="td_player_name"><h3>PLAYER</h3></td>
+                <td>HERO</td>
+                <td><h3>level</h3></td>
                 <td><h3>K/D/A</h3></td>
                 <td><h3>H/D</h3></td>
+                <td><h3>hero damage</h3></td>
+                <td><h3>tower damage</h3></td>
+                <td><h3>GPM</h3></td>
+                <td><h3>XPM</h3></td>
             </tr>
             <tr v-for="(player,index) in matchDetail.players" v-if="index>=5">
                 <td style="display: none">{{player.account_id}}</td>
 
-                <td class="td_player_name" v-if="player.player_name">{{player.player_name}}</td>
-                <td class="td_player_name" v-if="!player.player_name">匿名玩家</td>
-
-                <td>
+                <td >
                     <img v-if="player.player_head_icon" v-bind:src="player.player_head_icon"/>
                     <img v-if="!player.player_head_icon" src="/static/img/null_head_icon.png"/>
                 </td>
 
-
+                <td class="td_player_name" >
+                    <span v-if="player.player_name">{{player.player_name}}</span>
+                    <span  v-if="!player.player_name">匿名玩家</span>
+                </td>
+                <td> <img class="hero_icon"  v-bind:src="player.hero_img"/></td>
+                <td>{{player.level}}</td>
                 <td>{{player.kills}}/{{player.deaths}}/{{player.assists}}</td>
-
                 <td>{{player.last_hits}}/{{player.denies}}</td>
-
+                <td>{{player.hero_damage}}</td>
+                <td>{{player.tower_damage}}</td>
+                <td>{{player.gold_per_min}}</td>
+                <td>{{player.xp_per_min}}</td>
             </tr>
         </table>
 
@@ -190,19 +211,39 @@ import * as utils from '../utils/utils';
                     let game_mode_code=matchDetail.game_mode;
                    matchDetail.game_mode=game_mode[game_mode_code].mode;
                 let duration=matchDetail.duration;
-              matchDetail.duration=parseInt(duration/60);
+              matchDetail.duration=utils.s2Min$Second(duration);
 
                 let start_time=matchDetail.start_time;
                 start_time=utils.formatVTime(start_time);
                 matchDetail.start_time=start_time;
 
+                let first_blood_time=matchDetail.first_blood_time;
+                first_blood_time=utils.s2Min$Second(first_blood_time);
+                console.log("first_blood_time\n",first_blood_time);
+                matchDetail.first_blood_time=first_blood_time;
+
                 this.matchDetail=matchDetail;
                 //遍历players数组，每一项添加新属性；使其能够响应数据变化
+
+                //服务端需要修改
                  _self.matchDetail.players.map(function (item) {
+                     console.log(item.hero_id);
+                     let hero_name, heroes=dotaconstants.hero;
+
+                     for(var i in heroes){
+                         if(heroes[i].id==item.hero_id){
+                              hero_name=heroes[i].name.replace("npc_dota_hero_","");;
+                         }
+                     }
+                     console.log("hero_name>>",hero_name);
+
+                      let hero_img=`/static/img/hero_icon/${hero_name}_hphover.png`;
+                     _self.$set(item,"hero_img",hero_img);
                      utils.getPlayerInfo(item.account_id,function (playerInfo) {
                          console.log("util  playerInfo>>",playerInfo);
                          _self.$set(item,"player_name",playerInfo.personaname);
                          _self.$set(item,"player_head_icon",playerInfo.avatar);
+
                      });
                  });
 
@@ -238,6 +279,10 @@ import * as utils from '../utils/utils';
     }
     .word_win{
         color:red;
+    }
+    .hero_icon{
+        width: 4em;
+        height: 2.1em;
     }
 </style>
 

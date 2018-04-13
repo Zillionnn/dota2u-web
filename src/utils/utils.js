@@ -3,7 +3,7 @@ import 'whatwg-fetch';
 
 
 /**
- * V社时间戳，
+ * V社时间戳，秒到日期
  * @param time_string （s）
  * @returns {Date}
  */
@@ -36,4 +36,16 @@ export function getPlayerInfo(account_id,callback) {
       callback(data);
     });
 
+}
+
+/**
+ * 时间，秒->分
+ * @param second
+ * @returns {string}
+ */
+export function s2Min$Second(second) {
+    let n_min=parseInt(second/60);
+    let n_second=second%60;
+    let n_time_string=n_min+':'+n_second;
+    return n_time_string;
 }
