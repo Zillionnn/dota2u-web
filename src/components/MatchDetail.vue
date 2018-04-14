@@ -369,7 +369,7 @@
         text-align: center;
     }
     .td_player_name{
-        width: 4em;
+        width: 6em;
         word-wrap:break-word;
         word-break: break-all;
         overflow:hidden;
