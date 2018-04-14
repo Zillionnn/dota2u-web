@@ -233,7 +233,7 @@
             getMatchDetail:function () {
                 console.log('get match detail>>', this);
                 let match_id = parseInt(this.match_id);
-                console.log(match_id);
+              //  console.log(match_id);
                 fetch('/api/player/getonematchdetail/' + match_id, {
                     method: 'GET'
                 }).then((res) => {
@@ -244,15 +244,18 @@
                 let matchDetail = data[0];
 
                 let _self = this;
+                //游戏模式
                 let game_mode_code = matchDetail.game_mode;
                 matchDetail.game_mode = game_mode[game_mode_code].mode;
                 let duration = matchDetail.duration;
                 matchDetail.duration = utils.s2Min$Second(duration);
 
+                //开始时间
                 let start_time = matchDetail.start_time;
                 start_time = utils.formatVTime(start_time);
                 matchDetail.start_time = start_time;
 
+                //一血时间
                 let first_blood_time = matchDetail.first_blood_time;
                 first_blood_time = utils.s2Min$Second(first_blood_time);
                 console.log("first_blood_time\n", first_blood_time);
@@ -281,6 +284,7 @@
                     _self.$set(player, "kda", kda);
 
                     //添加物品图片
+                    //console.log("多少个物品？",game_items.length);
                     for(var i in game_items){
                         if(game_items[i].id==player.item_0){
                             let item_path=utils.itemID2Path(game_items[i].name);
