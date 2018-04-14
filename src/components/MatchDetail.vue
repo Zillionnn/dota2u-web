@@ -49,11 +49,11 @@
                 <td class="td_game_item">
                     <div class="inventory">
                         <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_0_pic"/>
-                        <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_1_pic"/>
-                        <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_2_pic"/>
-                        <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_3_pic"/>
-                        <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_4_pic"/>
-                        <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_5_pic"/>
+                        <img class="game_item_s" v-if="player.item_1_pic" v-bind:src="player.item_1_pic"/>
+                        <img class="game_item_s" v-if="player.item_2_pic" v-bind:src="player.item_2_pic"/>
+                        <img class="game_item_s" v-if="player.item_3_pic" v-bind:src="player.item_3_pic"/>
+                        <img class="game_item_s" v-if="player.item_4_pic" v-bind:src="player.item_4_pic"/>
+                        <img class="game_item_s" v-if="player.item_5_pic" v-bind:src="player.item_5_pic"/>
                     </div>
 
                     <div class="back_bag">
@@ -106,11 +106,11 @@
                 <td class="td_game_item">
                     <div class="inventory">
                         <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_0_pic"/>
-                        <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_1_pic"/>
-                        <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_2_pic"/>
-                        <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_3_pic"/>
-                        <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_4_pic"/>
-                        <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_5_pic"/>
+                        <img class="game_item_s" v-if="player.item_1_pic" v-bind:src="player.item_1_pic"/>
+                        <img class="game_item_s" v-if="player.item_2_pic" v-bind:src="player.item_2_pic"/>
+                        <img class="game_item_s" v-if="player.item_3_pic" v-bind:src="player.item_3_pic"/>
+                        <img class="game_item_s" v-if="player.item_4_pic" v-bind:src="player.item_4_pic"/>
+                        <img class="game_item_s" v-if="player.item_5_pic" v-bind:src="player.item_5_pic"/>
                     </div>
 
                     <div class="back_bag">
