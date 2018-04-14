@@ -1,4 +1,4 @@
-<template xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<template xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div>
         <h2>Match Details</h2>
         <p>
@@ -26,7 +26,7 @@
                 <td><h3>XPM</h3></td>
                 <td><h3>ITEMS</h3></td>
             </tr>
-            <tr v-for="(player,index) in matchDetail.players" v-if="index<5">
+            <tr v-for="(player,index) in matchDetail.players" v-if="index<5" v-on:click="toPlayerPage(player.account_id)">
                 <td style="display: none">{{player.account_id}}</td>
 
                 <td >
@@ -83,7 +83,7 @@
                 <td><h3>XPM</h3></td>
                 <td><h3>ITEMS</h3></td>
             </tr>
-            <tr v-for="(player,index) in matchDetail.players" v-if="index>=5">
+            <tr v-for="(player,index) in matchDetail.players" v-if="index>=5" v-on:click="toPlayerPage(player.account_id)">
                 <td style="display: none">{{player.account_id}}</td>
 
                 <td >
@@ -339,6 +339,16 @@
             });
             },
 
+            /**
+             * 路由
+             * 编程式 导航
+             * @param account_id
+             */
+            toPlayerPage:function (account_id) {
+                console.log("toPlayerPage>>>",account_id);
+                this.$router.push({name:'player', params:{account_id:account_id}});
+
+            }
         },
         watch :{
             'matchDetail':function (val, oldValue) {

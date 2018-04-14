@@ -8,6 +8,7 @@ import MatchDetail from '@/components/MatchDetail';
 Vue.use(Router);
 
 export default new Router({
+    mode: 'history',
   routes: [
     {
       path: '/player/:account_id',
