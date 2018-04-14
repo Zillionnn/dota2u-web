@@ -347,6 +347,13 @@
 </script>
 
 <style scoped>
+    @media only screen and (max-width: 1109px){
+        .match_detail_table{
+            width: 700px;
+            text-align: center;
+        }
+    }
+
     .match_head{
         margin: 0 1em;
     }
