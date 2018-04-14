@@ -49,3 +49,14 @@ export function s2Min$Second(second) {
     let n_time_string=n_min+':'+n_second;
     return n_time_string;
 }
+
+/**
+ * 物品名称 转 图片路径
+ * @param item_name
+ * @returns {string}
+ */
+export function itemID2Path(item_name) {
+    let n_name=item_name.replace("item_","");
+    let item_path=`/static/img/Items/${n_name}_lg.png`;
+    return item_path;
+}

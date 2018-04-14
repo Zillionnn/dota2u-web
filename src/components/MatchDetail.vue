@@ -10,13 +10,13 @@
 
         </p>
 
-        <h2>天辉<span class="word_win" v-if="matchDetail.radiant_win">WIN</span></h2>
 
+        <h2>天辉<span class="word_win" v-if="matchDetail.radiant_win">WIN</span>   <span>{{matchDetail.radiant_score}}</span></h2>
         <table class="match_detail_table">
             <tr>
                 <td></td>
                 <td class="td_player_name"><h3>PLAYER</h3></td>
-                <td>HERO</td>
+                <td><h3>HERO</h3></td>
                 <td><h3>level</h3></td>
                 <td><h3>K/D/A</h3></td>
                 <td><h3>H/D</h3></td>
@@ -24,13 +24,14 @@
                 <td><h3>tower damage</h3></td>
                 <td><h3>GPM</h3></td>
                 <td><h3>XPM</h3></td>
+                <td><h3>ITEMS</h3></td>
             </tr>
             <tr v-for="(player,index) in matchDetail.players" v-if="index<5">
                 <td style="display: none">{{player.account_id}}</td>
 
                 <td >
-                    <img v-if="player.player_head_icon" v-bind:src="player.player_head_icon"/>
-                    <img v-if="!player.player_head_icon" src="/static/img/null_head_icon.png"/>
+                        <img v-if="player.player_head_icon" v-bind:src="player.player_head_icon"/>
+                        <img v-if="!player.player_head_icon" src="/static/img/null_head_icon.png"/>
                 </td>
 
                 <td class="td_player_name" >
@@ -39,24 +40,40 @@
                 </td>
                 <td> <img class="hero_icon"  v-bind:src="player.hero_img"/></td>
                 <td>{{player.level}}</td>
-                <td>{{player.kills}}/{{player.deaths}}/{{player.assists}}</td>
+                <td>{{player.kda}} ({{player.kills}}/{{player.deaths}}/{{player.assists}})</td>
                 <td>{{player.last_hits}}/{{player.denies}}</td>
                 <td>{{player.hero_damage}}</td>
                 <td>{{player.tower_damage}}</td>
                 <td>{{player.gold_per_min}}</td>
                 <td>{{player.xp_per_min}}</td>
+                <td class="td_game_item">
+                    <div class="inventory">
+                        <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_0_pic"/>
+                        <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_1_pic"/>
+                        <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_2_pic"/>
+                        <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_3_pic"/>
+                        <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_4_pic"/>
+                        <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_5_pic"/>
+                    </div>
+
+                    <div class="back_bag">
+                        <img class="back_bag_item" v-if="player.backpack_0_pic" v-bind:src="player.backpack_0_pic"/>
+                        <img class="back_bag_item" v-if="player.backpack_1_pic" v-bind:src="player.backpack_1_pic"/>
+                        <img class="back_bag_item" v-if="player.backpack_2_pic" v-bind:src="player.backpack_2_pic"/>
+                    </div>
+
+                </td>
             </tr>
         </table>
 
 
 
-        <h2>夜魇<span  class="word_win"  v-if="!matchDetail.radiant_win">WIN</span></h2>
-
+        <h2>夜魇<span  class="word_win"  v-if="!matchDetail.radiant_win">WIN</span>     <span>{{matchDetail.dire_score}}</span></h2>
         <table class="match_detail_table">
             <tr>
                 <td></td>
                 <td class="td_player_name"><h3>PLAYER</h3></td>
-                <td>HERO</td>
+                <td><h3>HERO</h3></td>
                 <td><h3>level</h3></td>
                 <td><h3>K/D/A</h3></td>
                 <td><h3>H/D</h3></td>
@@ -64,6 +81,7 @@
                 <td><h3>tower damage</h3></td>
                 <td><h3>GPM</h3></td>
                 <td><h3>XPM</h3></td>
+                <td><h3>ITEMS</h3></td>
             </tr>
             <tr v-for="(player,index) in matchDetail.players" v-if="index>=5">
                 <td style="display: none">{{player.account_id}}</td>
@@ -79,12 +97,29 @@
                 </td>
                 <td> <img class="hero_icon"  v-bind:src="player.hero_img"/></td>
                 <td>{{player.level}}</td>
-                <td>{{player.kills}}/{{player.deaths}}/{{player.assists}}</td>
+                <td>{{player.kda}} ({{player.kills}}/{{player.deaths}}/{{player.assists}})</td>
                 <td>{{player.last_hits}}/{{player.denies}}</td>
                 <td>{{player.hero_damage}}</td>
                 <td>{{player.tower_damage}}</td>
                 <td>{{player.gold_per_min}}</td>
                 <td>{{player.xp_per_min}}</td>
+                <td class="td_game_item">
+                    <div class="inventory">
+                        <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_0_pic"/>
+                        <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_1_pic"/>
+                        <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_2_pic"/>
+                        <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_3_pic"/>
+                        <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_4_pic"/>
+                        <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_5_pic"/>
+                    </div>
+
+                    <div class="back_bag">
+                        <img class="back_bag_item" v-if="player.backpack_0_pic" v-bind:src="player.backpack_0_pic"/>
+                        <img class="back_bag_item" v-if="player.backpack_1_pic" v-bind:src="player.backpack_1_pic"/>
+                        <img class="back_bag_item" v-if="player.backpack_2_pic" v-bind:src="player.backpack_2_pic"/>
+                    </div>
+
+                </td>
             </tr>
         </table>
 
@@ -99,8 +134,9 @@
 <script>
     import 'whatwg-fetch';
     import dotaconstants from   'dotaconstants';
-import game_mode from '../assets/game_mode.json';
-import * as utils from '../utils/utils';
+    import game_mode from '../assets/game_mode.json';
+    import game_items from '../assets/game_items.json';
+    import * as utils from '../utils/utils';
 
     export default {
         name: "MatchDetail",
@@ -195,61 +231,108 @@ import * as utils from '../utils/utils';
         },
         methods:{
             getMatchDetail:function () {
-                console.log('get match detail>>',this);
-                let match_id=parseInt(this.match_id);
+                console.log('get match detail>>', this);
+                let match_id = parseInt(this.match_id);
                 console.log(match_id);
-                fetch('/api/player/getonematchdetail/'+match_id,{
-                    method:'GET'
-                }).then((res)=>{
+                fetch('/api/player/getonematchdetail/' + match_id, {
+                    method: 'GET'
+                }).then((res) => {
                     console.log(res);
-                    return res.json();
-                }).then((data)=>{
+                return res.json();
+            }).then((data)=>{
                     console.log(data[0]);
-                    let matchDetail=data[0];
+                let matchDetail = data[0];
 
-                let _self=this;
-                    let game_mode_code=matchDetail.game_mode;
-                   matchDetail.game_mode=game_mode[game_mode_code].mode;
-                let duration=matchDetail.duration;
-              matchDetail.duration=utils.s2Min$Second(duration);
+                let _self = this;
+                let game_mode_code = matchDetail.game_mode;
+                matchDetail.game_mode = game_mode[game_mode_code].mode;
+                let duration = matchDetail.duration;
+                matchDetail.duration = utils.s2Min$Second(duration);
 
-                let start_time=matchDetail.start_time;
-                start_time=utils.formatVTime(start_time);
-                matchDetail.start_time=start_time;
+                let start_time = matchDetail.start_time;
+                start_time = utils.formatVTime(start_time);
+                matchDetail.start_time = start_time;
 
-                let first_blood_time=matchDetail.first_blood_time;
-                first_blood_time=utils.s2Min$Second(first_blood_time);
-                console.log("first_blood_time\n",first_blood_time);
-                matchDetail.first_blood_time=first_blood_time;
+                let first_blood_time = matchDetail.first_blood_time;
+                first_blood_time = utils.s2Min$Second(first_blood_time);
+                console.log("first_blood_time\n", first_blood_time);
+                matchDetail.first_blood_time = first_blood_time;
 
-                this.matchDetail=matchDetail;
-                //遍历players数组，每一项添加新属性；使其能够响应数据变化
+                this.matchDetail = matchDetail;
 
-                //服务端需要修改
-                 _self.matchDetail.players.map(function (item) {
-                     console.log(item.hero_id);
-                     let hero_name, heroes=dotaconstants.hero;
+                //===========遍历players数组，每一项添加新属性；使其能够响应数据变化==========
+                //服务端需要修改？？？？？？？？？
+                _self.matchDetail.players.map(function (player) {
+                    //设置英雄头像
+                    //  console.log(item.hero_id);
+                    let hero_name, heroes = dotaconstants.hero;
+                    for (var i in heroes) {
+                        if (heroes[i].id == player.hero_id) {
+                            hero_name = heroes[i].name.replace("npc_dota_hero_", "");
+                        }
+                    }
+                    //  console.log("hero_name>>",hero_name);
+                    let hero_img = `/static/img/hero_icon/${hero_name}_hphover.png`;
+                    _self.$set(player, "hero_name",hero_name);
+                    _self.$set(player, "hero_img", hero_img);
 
-                     for(var i in heroes){
-                         if(heroes[i].id==item.hero_id){
-                              hero_name=heroes[i].name.replace("npc_dota_hero_","");;
-                         }
-                     }
-                     console.log("hero_name>>",hero_name);
+                    //计算kda
+                    let kda = parseFloat((player.kills + player.assists) / player.deaths).toFixed(2);
+                    _self.$set(player, "kda", kda);
 
-                      let hero_img=`/static/img/hero_icon/${hero_name}_hphover.png`;
-                     _self.$set(item,"hero_img",hero_img);
-                     utils.getPlayerInfo(item.account_id,function (playerInfo) {
-                         console.log("util  playerInfo>>",playerInfo);
-                         _self.$set(item,"player_name",playerInfo.personaname);
-                         _self.$set(item,"player_head_icon",playerInfo.avatar);
+                    //添加物品图片
+                    for(var i in game_items){
+                        if(game_items[i].id==player.item_0){
+                            let item_path=utils.itemID2Path(game_items[i].name);
+                            _self.$set(player,"item_0_pic",item_path);
+                        }
+                        if(game_items[i].id==player.item_1){
+                            let item_path=utils.itemID2Path(game_items[i].name);
+                            _self.$set(player,"item_1_pic",item_path);
+                        }
+                        if(game_items[i].id==player.item_2){
+                            let item_path=utils.itemID2Path(game_items[i].name);
+                            _self.$set(player,"item_2_pic",item_path);
+                        }
+                        if(game_items[i].id==player.item_3){
+                            let item_path=utils.itemID2Path(game_items[i].name);
+                            _self.$set(player,"item_3_pic",item_path);
+                        }
+                        if(game_items[i].id==player.item_4){
+                            let item_path=utils.itemID2Path(game_items[i].name);
+                            _self.$set(player,"item_4_pic",item_path);
+                        }
+                        if(game_items[i].id==player.item_5){
+                            let item_path=utils.itemID2Path(game_items[i].name);
+                            _self.$set(player,"item_5_pic",item_path);
+                        }
+                        if(game_items[i].id==player.backpack_0){
+                            let item_path=utils.itemID2Path(game_items[i].name);
+                            _self.$set(player,"backpack_0_pic",item_path);
+                        }
+                        if(game_items[i].id==player.backpack_1){
+                            let item_path=utils.itemID2Path(game_items[i].name);
+                            _self.$set(player,"backpack_1_pic",item_path);
+                        }
+                        if(game_items[i].id==player.backpack_2){
+                            let item_path=utils.itemID2Path(game_items[i].name);
+                            _self.$set(player,"backpack_2_pic",item_path);
+                        }
 
-                     });
-                 });
+                    }
+
+                        //设置玩家头像，名称
+                        utils.getPlayerInfo(player.account_id, function (playerInfo) {
+                            console.log("util  playerInfo>>", playerInfo);
+                            _self.$set(player, "player_name", playerInfo.personaname);
+                            _self.$set(player, "player_head_icon", playerInfo.avatar);
+
+                        });
+                });
 
                 console.log(this.matchDetail);
 
-                });
+            });
             },
 
         },
@@ -275,14 +358,43 @@ import * as utils from '../utils/utils';
         text-align: center;
     }
     .td_player_name{
-        width: 8em;
+        width: 4em;
+        word-wrap:break-word;
+        word-break: break-all;
+        overflow:hidden;
     }
+
     .word_win{
         color:red;
     }
     .hero_icon{
         width: 4em;
         height: 2.1em;
+    }
+    .inventory{
+        width: 6em;
+        height: 3em;
+        float: left;
+    }
+    .game_item_s{
+        width: 2em;
+        height: 1.5em;
+        float: left;
+    }
+
+    .back_bag{
+        float: right;
+        width: 1.6em;
+        height: 3.6em;
+        background: #272727;
+    }
+    .back_bag_item{
+        width: 1.6em;
+        height: 1.2em;
+        float: left;
+    }
+    .td_game_item{
+        width: 8em;
     }
 </style>
 
