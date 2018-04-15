@@ -11,7 +11,7 @@
         </p>
 
 
-        <h2>天辉<span class="word_win" v-if="matchDetail.radiant_win">WIN</span>   <span>{{matchDetail.radiant_score}}</span></h2>
+        <h2>天辉<span class="word_win" v-if="matchDetail.radiant_win">  WIN</span>   <span>{{matchDetail.radiant_score}}</span></h2>
         <table class="match_detail_table">
             <tr>
                 <td></td>
@@ -68,7 +68,7 @@
 
 
 
-        <h2>夜魇<span  class="word_win"  v-if="!matchDetail.radiant_win">WIN</span>     <span>{{matchDetail.dire_score}}</span></h2>
+        <h2>夜魇<span  class="word_win"  v-if="!matchDetail.radiant_win">  WIN</span>     <span>{{matchDetail.dire_score}}</span></h2>
         <table class="match_detail_table">
             <tr>
                 <td></td>

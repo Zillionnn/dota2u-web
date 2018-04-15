@@ -48,12 +48,16 @@ export default {
       }
 
   },
-    mounted:function () {
+    created:function () {
         let account_id=this.account_id;
         console.log(account_id);
       this.getRecentMatchesByAccount(account_id);
     },
   methods: {
+      /**
+       * 获取玩家最近20场比赛
+       * @param account_id
+       */
     getRecentMatchesByAccount: function (account_id) {
    /*   let account = document.getElementById('input_account').value;
       console.log(account);
@@ -127,6 +131,9 @@ export default {
       });
     },
 
+      /**
+       *同步玩家数据
+       */
       synchronousPlayerData:function () {
           let account =this.account_id;
 
@@ -143,7 +150,10 @@ export default {
         this.synchronousState=data.info;
           });
       }
-  }
+  },
+    watch:{
+        '$route':'getRecentMatchesByAccount'
+    }
 };
 </script>
 
