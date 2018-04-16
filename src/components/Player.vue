@@ -10,6 +10,14 @@
 
 
           <span class="headPersonname">{{userInfo.personaname}}</span>
+          <br/>
+
+          <div class="rank_box">
+              <img class="rank" v-bind:src="rank_img" />
+              <img class="rank_stars" v-bind:src="rank_stars_img" />
+          </div>
+
+
 
           <!--同步数据-->
           <button class="synchronous_player_data" v-on:click="synchronousPlayerData">{{synchronousState}}</button>
@@ -44,7 +52,10 @@ export default {
           heroes:dotaconstants.hero,
           userInfo:null,
           playerForbid:false,
-          synchronousState:'同步数据'
+          synchronousState:'同步数据',
+          rank_img:null,
+          rank_stars_img:null,
+          leaderboard_rank_img:null
       }
 
   },
@@ -71,7 +82,18 @@ export default {
                 "Content-Type":'application/json'
             },
             body:JSON.stringify({account:account})
-        });
+        }).then((res) => {
+            return res.json();
+        }).then((data) => {
+              let rank=data.rank_tier.substr(0,1);
+          let stars=data.rank_tier.substr(1,1);
+          let leaderboard_rank=data.leaderboard_rank;
+
+          this.rank_img=`/static/img/rank/rank_icon_${rank}.png`;
+          this.rank_stars_img=`/static/img/rank/rank_star_${stars}.png`;
+          console.log(this.rank_tier_img);
+          console.log(this.rank_stars_img);
+          });
 
         //获取玩家信息；
         fetch('/api/player/getUserInfoByAccount',{
@@ -191,5 +213,22 @@ export default {
     }
     .synchronous_player_data{
         float: right;
+    }
+
+    .rank_box{
+        float: left;
+        width: 5em;
+        height: 6em;
+    }
+    .rank{
+        width: 5em;
+        height: 5em;
+        float: left;
+    }
+    .rank_stars{
+        width: 5em;
+        height: 5em;
+        float: left;
+        margin-top: -5em;
     }
 </style>

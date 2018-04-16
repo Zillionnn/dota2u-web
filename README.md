@@ -25,3 +25,19 @@ npm test
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+
+
+Lam:
+rank 76 圣剑 7b
+leadboardrank 85
+
+
+paparuzi:
+rank_tier: 75,
+leaderboard_rank: 1
+
+
+
+34  3==中军
+        4==4颗星
