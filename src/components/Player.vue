@@ -13,8 +13,9 @@
           <br/>
 
           <div class="rank_box">
-              <img class="rank" v-bind:src="rank_img" />
-              <img class="rank_stars" v-bind:src="rank_stars_img" />
+              <img class="rank" v-bind:src="rank_img" v-if="rank_img"/>
+              <img class="rank_stars" v-bind:src="rank_stars_img"  v-if="rank_stars"/>
+              <span v-if="leaderboard_rank">{{leaderboard_rank}}</span>
           </div>
 
 
@@ -55,7 +56,7 @@ export default {
           synchronousState:'同步数据',
           rank_img:null,
           rank_stars_img:null,
-          leaderboard_rank_img:null
+          leaderboard_rank:null
       }
 
   },
@@ -85,12 +86,26 @@ export default {
         }).then((res) => {
             return res.json();
         }).then((data) => {
-              let rank=data.rank_tier.substr(0,1);
-          let stars=data.rank_tier.substr(1,1);
           let leaderboard_rank=data.leaderboard_rank;
+          this.leaderboard_rank=leaderboard_rank;
+          if(leaderboard_rank<=10){
+              this.rank_img=`/static/img/rank/rank_icon_7c.png`;
+          }
+          if(leaderboard_rank>10 && leaderboard_rank<=100){
+              this.rank_img=`/static/img/rank/rank_icon_7b.png`;
+          }
+          if(leaderboard_rank>100){
+              this.rank_img=`/static/img/rank/rank_icon_7a.png`;
+          }
+          if(leaderboard_rank==0){
+              let rank=data.rank_tier.substr(0,1);
+              let stars=data.rank_tier.substr(1,1);
+              if(parseInt(stars)>5){
 
-          this.rank_img=`/static/img/rank/rank_icon_${rank}.png`;
-          this.rank_stars_img=`/static/img/rank/rank_star_${stars}.png`;
+              }
+              this.rank_img=`/static/img/rank/rank_icon_${rank}.png`;
+              this.rank_stars_img=`/static/img/rank/rank_star_${stars}.png`;
+          }
           console.log(this.rank_tier_img);
           console.log(this.rank_stars_img);
           });
@@ -219,6 +234,9 @@ export default {
         float: left;
         width: 5em;
         height: 6em;
+        text-align: center;
+        color: #ffffff;
+        margin-left: 6em;
     }
     .rank{
         width: 5em;
