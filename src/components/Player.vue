@@ -14,7 +14,7 @@
 
           <div class="rank_box">
               <img class="rank" v-bind:src="rank_img" v-if="rank_img"/>
-              <img class="rank_stars" v-bind:src="rank_stars_img"  v-if="rank_stars"/>
+              <img class="rank_stars" v-bind:src="rank_stars_img"  v-if="rank_stars_img"/>
               <span v-if="leaderboard_rank">{{leaderboard_rank}}</span>
           </div>
 
