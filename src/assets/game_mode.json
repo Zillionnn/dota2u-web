@@ -5,15 +5,18 @@
     },
     {
         "mode_code":1,
-        "mode":"All Pick"
+        "mode":"All Pick",
+        "zh_localized_name":""
     },
     {
         "mode_code":2,
-        "mode":"Captain's Mode"
+        "mode":"Captain's Mode",
+        "zh_localized_name":"队长模式"
     },
     {
         "mode_code":3,
-        "mode":"Random Draft"
+        "mode":"Random Draft",
+        "zh_localized_name":"随机征召"
     },
     {
         "mode_code":4,
@@ -89,7 +92,8 @@
     },
     {
         "mode_code":22,
-        "mode":"Ranked Matchmaking"
+        "mode":"ALL DRAFT",
+        "zh_localized_name":"全英雄选择"
     },
     {
         "mode_code":23,

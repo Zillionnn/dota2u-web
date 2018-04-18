@@ -28,10 +28,16 @@
       <p v-if="playerForbid">
           用户未开放数据
       </p>
-
+      <p><span class="latest_20_win_rate" v-if="latest_20_win_rate">{{latest_20_win_rate}}%</span>过去20场胜率</p>
       <p v-if="!playerForbid" v-for="matches in playerRecent25Matches" class="one_match">
-          <router-link v-bind:to="{name:'matchdetail', params:{match_id:matches.match_id}}">
-              <img class="hero_icon"  v-bind:src="matches.hero_img"/>           {{matches.match_id}} {{matches.time}}
+          <router-link v-bind:to="{name:'matchdetail', params:{match_id:matches.match_id}}" class="to_match_detail">
+              <img class="hero_icon"  v-bind:src="matches.hero_img"/>
+              <span v-if="matches.win" class="win_word">WIN</span>
+              <span v-if="!matches.win" class="lose_word">LOSE</span>
+              {{matches.match_id}}
+              {{matches.game_mode}}
+              {{matches.time}}
+              {{matches.player.kills}}/{{matches.player.deaths}}/{{matches.player.assists}}
           </router-link>
 
       </p>
@@ -43,6 +49,7 @@
 import 'whatwg-fetch';
 import dotaconstants from   'dotaconstants';
 import * as utils from '../utils/utils';
+import game_mode from '../assets/game_mode.json';
 
 export default {
   name: 'player',
@@ -56,7 +63,8 @@ export default {
           synchronousState:'同步数据',
           rank_img:null,
           rank_stars_img:null,
-          leaderboard_rank:null
+          leaderboard_rank:null,
+          latest_20_win_rate:null
       }
 
   },
@@ -140,10 +148,12 @@ export default {
           }else{
               this.playerForbid=false;
               this.playerRecent25Matches=[];
+              let num_win=0;
               for(var i in data){
                   let match={};
                   match.match_id=data[i].match_id;
                   match.time=utils.formatVTime(data[i].start_time);
+
                   let players=data[i].players;
                   for(var j in players){
                       if(players[j].account_id==account){
@@ -157,13 +167,24 @@ export default {
                               }
                           }
                           match.player=players[j];
+                          if(j<5){
+                              match.win=data[i].radiant_win;
+                          }else{
+                              match.win=!data[i].radiant_win;
+                          }
+                          if(match.win==true){
+                              num_win++;
+                              this.latest_20_win_rate=(num_win*100)/20;
+                          }
+
+                          match.game_mode=game_mode[data[i].game_mode].mode;
                           break;
                       }
                   }
                   this.playerRecent25Matches.push(match);
               }
 
-              // console.log(this.playerRecent25Matches);
+               console.log(this.playerRecent25Matches);
           }
       });
     },
@@ -184,7 +205,7 @@ export default {
               return res.json();
           }).then((data)=>{
               console.log(data);
-        this.synchronousState=data.info;
+        this.synchronousState=data.result;
           });
       }
   },
@@ -248,5 +269,20 @@ export default {
         height: 5em;
         float: left;
         margin-top: -5em;
+    }
+    .to_match_detail{
+        text-decoration: none;
+    }
+
+    .win_word{
+        color: green;
+    }
+    .lose_word{
+        color:red;
+    }
+
+    .latest_20_win_rate{
+        font-size: 2em;
+        font-weight: bold;
     }
 </style>
