@@ -4,12 +4,18 @@ import Router from 'vue-router';
 import Player from '@/components/Player';
 import Parent from '@/components/Parent';
 import MatchDetail from '@/components/MatchDetail';
+import Index from '@/components/Index';
 
 Vue.use(Router);
 
 export default new Router({
     mode: 'history',
   routes: [
+      {
+          path: '/',
+          name: 'index',
+          component: Index
+      },
     {
       path: '/player/:account_id',
     name: 'player',

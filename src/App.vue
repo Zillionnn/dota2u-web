@@ -9,27 +9,23 @@
       </div>
 
       <hr/>
-      <div class="content">
-          <input type="text" id="input_account" v-model="account_id"/>
-          <router-link v-bind:to="{name:'player', params:{account_id:account_id}}">
-              <button>search{{account_id}}</button>
-          </router-link>
-      </div>
+
 
       <div class="content">
           <router-view/>
       </div>
 
-    <br/>
+
 
   </div>
 </template>
 
 <script>
 import Player from './components/Player.vue';
+import Index from './components/Index';
 
 export default {
-  components: {Player},
+  components: {Player,Index},
   name: 'App',
     data(){
         return{
