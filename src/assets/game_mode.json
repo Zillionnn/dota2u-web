@@ -6,7 +6,7 @@
     {
         "mode_code":1,
         "mode":"All Pick",
-        "zh_localized_name":"全英雄选择/普通"
+        "zh_localized_name":"全英雄选择"
     },
     {
         "mode_code":2,
@@ -16,7 +16,7 @@
     {
         "mode_code":3,
         "mode":"Random Draft",
-        "zh_localized_name":"随机征召/天梯"
+        "zh_localized_name":"随机征召"
     },
     {
         "mode_code":4,
@@ -94,7 +94,7 @@
     {
         "mode_code":22,
         "mode":"ALL DRAFT",
-        "zh_localized_name":"全英雄选择/天梯"
+        "zh_localized_name":"全英雄选择"
     },
     {
         "mode_code":23,

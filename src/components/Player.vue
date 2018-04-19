@@ -350,7 +350,7 @@ export default {
     }
     .td_game_mode{
         font-size: 0.8em;
-        color: #eeeeee;
+        color: #aaa4aa
     }
     .win_or_lose{
         width: 4em;
