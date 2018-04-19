@@ -318,10 +318,10 @@ export default {
     }
 
     .win_word{
-        color: green;
+        color: #00e200;
     }
     .lose_word{
-        color:red;
+        color: #ff0000;
     }
 
     .latest_20_win_rate{
