@@ -4,6 +4,7 @@ import 'whatwg-fetch';
 
 /**
  * V社时间戳，秒到日期
+ * start_time;
  * @param time_string （s）
  * @returns {Date}
  */
@@ -17,12 +18,62 @@ export  function formatVTime(time_string) {
 };
 
 /**
+ * start_time转  xxx天前
+ * @param time_string
+ * @returns {string}
+ */
+export function formatVTime_startTime(time_string) {
+    let history_t=parseInt(time_string+'000');
+    let current_t=new Date().getTime();
+
+    let result_t=current_t-history_t;
+    let result_second=parseInt(result_t/1000);
+    let result_min=parseInt(result_second/60);
+    let result_hour=parseInt(result_min/60);
+    let result_day=parseInt(result_hour/24);
+    let result_month=parseInt(result_day/30);
+    let result_year=parseInt(result_day/365);
+    if(result_year>1){
+        let result=result_year+'年前';
+        console.log(result);
+        return result;
+    }
+    if(result_month>1){
+        let result=result_year+'个月前';
+        console.log(result);
+        return result;
+    }
+    if(result_day>1){
+        console.log(result_day);
+        let result=result_day+'天前';
+        return result;
+    }
+    if(result_hour>1){
+        let result=result_hour+'小时前';
+        console.log(result);
+        return result;
+    }
+    if(result_min>1){
+        let result=result_year+'分钟前';
+        console.log(result);
+        return result;
+    }
+    if(result_second>1){
+        let result=result_year+'秒前';
+        console.log(result);
+        return result;
+    }
+
+}
+
+
+/**
  * 从数据库查询玩家信息；
  * @param account_id
  * @param callback
  */
 export function getPlayerInfo(account_id,callback) {
-   
+
     fetch('/api/player/getUserInfoByAccount',{
         method:'POST',
         headers:{
@@ -39,6 +90,7 @@ export function getPlayerInfo(account_id,callback) {
 }
 
 /**
+ * duration
  * 时间，秒->分
  * @param second
  * @returns {string}

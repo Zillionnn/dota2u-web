@@ -29,18 +29,45 @@
           用户未开放数据
       </p>
       <p><span class="latest_20_win_rate" v-if="latest_20_win_rate">{{latest_20_win_rate}}%</span>过去20场胜率</p>
-      <p v-if="!playerForbid" v-for="matches in playerRecent25Matches" class="one_match">
-          <router-link v-bind:to="{name:'matchdetail', params:{match_id:matches.match_id}}" class="to_match_detail">
-              <img class="hero_icon"  v-bind:src="matches.hero_img"/>
-              <span v-if="matches.win" class="win_word">WIN</span>
-              <span v-if="!matches.win" class="lose_word">LOSE</span>
-              {{matches.match_id}}
-              {{matches.game_mode}}
-              {{matches.time}}
-              {{matches.player.kills}}/{{matches.player.deaths}}/{{matches.player.assists}}
-          </router-link>
+      <h3>最近比赛</h3>
+      <table  v-if="!playerForbid" class="recent_matches_table">
+          <thead style="text-align: center">
+          <th>英雄</th>
+          <th class="win_or_lose">胜败</th>
+          <th>比赛编号</th>
+          <th>时间</th>
+          <th>KDA</th>
+          </thead>
+          <tbody>
+          <tr v-for="(matches,index) in playerRecent25Matches"
+              v-on:click="toMatchDetailPage(matches.match_id)" class="tr_match" v-bind:class="{tr_even: index%2}">
+              <td class="td_hero_img">
+                  <img class="hero_icon"  v-bind:src="matches.hero_img"/>
+                  <div style="float:left;margin-top: 0.5em">{{matches.player.hero_localized_name}}</div>
+              </td>
+              <td class="win_or_lose">
+                  <span v-if="matches.win" class="win_word">胜</span>
+                  <span v-if="!matches.win" class="lose_word">败</span>
+              </td>
 
-      </p>
+              <td style="width: 10em">
+                  <div>
+                      <span>{{matches.match_id}}</span><br/>
+                      <span class="td_game_mode">{{matches.game_mode}}</span>
+                  </div>
+              </td>
+
+              <td style="width: 10em">
+                  <div >
+                      <span>{{matches.start_time}}</span><br/>
+                      <span>{{matches.duration}}</span>
+                  </div>
+              </td>
+              <td>{{matches.player.kills}}/{{matches.player.deaths}}/{{matches.player.assists}}</td>
+          </tr>
+          </tbody>
+      </table>
+
 
   </div>
 </template>
@@ -152,7 +179,9 @@ export default {
               for(var i in data){
                   let match={};
                   match.match_id=data[i].match_id;
-                  match.time=utils.formatVTime(data[i].start_time);
+                  match.start_time=utils.formatVTime_startTime(data[i].start_time);
+
+                  match.duration=utils.s2Min$Second(data[i].duration);
 
                   let players=data[i].players;
                   for(var j in players){
@@ -163,6 +192,8 @@ export default {
                               if(heroes[k].id==players[j].hero_id){
                                   let hero_name=heroes[k].name.replace("npc_dota_hero_","");
                                   match.hero_img=`/static/img/hero_icon/${hero_name}_hphover.png`;
+                                  players[j].hero_name=hero_name;
+                                  players[j].hero_localized_name=heroes[k].localized_name;
                                   break;
                               }
                           }
@@ -177,7 +208,8 @@ export default {
                               this.latest_20_win_rate=(num_win*100)/20;
                           }
 
-                          match.game_mode=game_mode[data[i].game_mode].mode;
+                          //match.game_mode=game_mode[data[i].game_mode].mode;
+                          match.game_mode=game_mode[data[i].game_mode].zh_localized_name;
                           break;
                       }
                   }
@@ -207,7 +239,17 @@ export default {
               console.log(data);
         this.synchronousState=data.result;
           });
+      },
+
+      /**
+       * 跳转比赛详情页面component
+       * @param match_id
+       */
+      toMatchDetailPage:function (match_id) {
+          this.$router.push({name:'matchdetail',params:{match_id:match_id}});
       }
+
+      //methods
   },
     watch:{
         '$route':'getRecentMatchesByAccount'
@@ -219,6 +261,7 @@ export default {
 .hero_icon{
     width: 4em;
     height: 2.1em;
+    float: left;
 }
 
 .userinfo{
@@ -285,4 +328,35 @@ export default {
         font-size: 2em;
         font-weight: bold;
     }
+    .recent_matches_table{
+      /*  width: 80%;*/
+        border: 0;
+    }
+    .recent_matches_table tr{
+        border: 0;
+    }
+    .recent_matches_table td{
+        border: 0;
+    }
+    .tr_match{
+       height: 3em;
+        text-align: center;
+    }
+    .tr_match:hover{
+        cursor: pointer;
+    }
+    .td_hero_img{
+        width: 12.5em;
+    }
+    .td_game_mode{
+        font-size: 0.8em;
+        color: #eeeeee;
+    }
+    .win_or_lose{
+        width: 4em;
+    }
+    .tr_even{
+        background: #224e62;
+    }
+
 </style>

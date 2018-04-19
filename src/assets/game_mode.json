@@ -6,7 +6,7 @@
     {
         "mode_code":1,
         "mode":"All Pick",
-        "zh_localized_name":""
+        "zh_localized_name":"全英雄选择/普通"
     },
     {
         "mode_code":2,
@@ -16,7 +16,7 @@
     {
         "mode_code":3,
         "mode":"Random Draft",
-        "zh_localized_name":"随机征召"
+        "zh_localized_name":"随机征召/天梯"
     },
     {
         "mode_code":4,
@@ -84,7 +84,8 @@
     },
     {
         "mode_code":20,
-        "mode":"All Random Deathmatch"
+        "mode":"All Random Deathmatch",
+        "zh_localized_name":"全英雄死亡随机"
     },
     {
         "mode_code":21,
@@ -93,7 +94,7 @@
     {
         "mode_code":22,
         "mode":"ALL DRAFT",
-        "zh_localized_name":"全英雄选择"
+        "zh_localized_name":"全英雄选择/天梯"
     },
     {
         "mode_code":23,
