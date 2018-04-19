@@ -33,34 +33,34 @@ export function formatVTime_startTime(time_string) {
     let result_day=parseInt(result_hour/24);
     let result_month=parseInt(result_day/30);
     let result_year=parseInt(result_day/365);
-    if(result_year>1){
+    if(result_year>=1){
         let result=result_year+'年前';
-        console.log(result);
+        //console.log(result);
         return result;
     }
-    if(result_month>1){
+    if(result_month>=1){
         let result=result_year+'个月前';
-        console.log(result);
+        //console.log(result);
         return result;
     }
-    if(result_day>1){
-        console.log(result_day);
+    if(result_day>=1){
+       // console.log(result_day);
         let result=result_day+'天前';
         return result;
     }
-    if(result_hour>1){
+    if(result_hour>=1){
         let result=result_hour+'小时前';
-        console.log(result);
+       // console.log(result);
         return result;
     }
-    if(result_min>1){
-        let result=result_year+'分钟前';
-        console.log(result);
+    if(result_min>=1){
+        let result=result_min+'分钟前';
+      //  console.log(result);
         return result;
     }
-    if(result_second>1){
-        let result=result_year+'秒前';
-        console.log(result);
+    if(result_second>=1){
+        let result=result_second+'秒前';
+      //  console.log(result);
         return result;
     }
 
@@ -73,7 +73,9 @@ export function formatVTime_startTime(time_string) {
  * @param callback
  */
 export function getPlayerInfo(account_id,callback) {
-
+    if(account_id==4294967295){
+        return;
+    }
     fetch('/api/player/getUserInfoByAccount',{
         method:'POST',
         headers:{
