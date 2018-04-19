@@ -13,19 +13,19 @@
 
         <h2>天辉<span class="word_win" v-if="matchDetail.radiant_win">  WIN</span>   <span>{{matchDetail.radiant_score}}</span></h2>
         <table class="match_detail_table">
-            <tr>
-                <td></td>
-                <td class="td_player_name"><h3>PLAYER</h3></td>
-                <td><h3>HERO</h3></td>
-                <td><h3>level</h3></td>
-                <td><h3>K/D/A</h3></td>
-                <td><h3>H/D</h3></td>
-                <td><h3>hero damage</h3></td>
-                <td><h3>tower damage</h3></td>
-                <td><h3>GPM</h3></td>
-                <td><h3>XPM</h3></td>
-                <td><h3>ITEMS</h3></td>
-            </tr>
+            <thead>
+                <th></th>
+                <th class="td_player_name">PLAYER</th>
+                <th>HERO</th>
+                <th>level</th>
+                <th>K/D/A</th>
+                <th>H/D</th>
+                <th>参战率</th>
+                <th>  伤害   </th>
+                <th>GPM</th>
+                <th>XPM</th>
+                <th>ITEMS</th>
+            </thead>
             <tr v-for="(player,index) in matchDetail.players" v-if="index<5" v-on:click="toPlayerPage(player.account_id)">
                 <td style="display: none">{{player.account_id}}</td>
 
@@ -42,9 +42,26 @@
                 <td>{{player.level}}</td>
                 <td>{{player.kda}} ({{player.kills}}/{{player.deaths}}/{{player.assists}})</td>
                 <td>{{player.last_hits}}/{{player.denies}}</td>
-                <td>{{player.hero_damage}}</td>
-                <td>{{player.tower_damage}}</td>
-                <td>{{player.gold_per_min}}</td>
+                <td>{{player.combat_percent}}%</td>
+                <td class="td_hero_damage">
+                   <!-- {{player.hero_damage}}-->
+                    <div class="damage_percentage_div">
+                        <div v-bind:style="{width: player.hero_damage_percentage+'%',height : damage_div_height+'em'}"
+                             style="background: #9b322c;float: left"  ></div>
+                        <span style="font-size: 0.5em;float: left;margin-left: 3px">   {{player.hero_damage}} </span>
+                    </div>
+
+                    <div class="damage_percentage_div">
+                        <div v-bind:style="{width: player.tower_damage_percent+'%',height : damage_div_height+'em'}"
+                             style="background: #4284d4;float: left"  ></div>
+                        <span style="font-size: 0.5em;float: left;margin-left: 3px"> {{player.tower_damage}}</span>
+                    </div>
+
+                </td>
+
+                <td>
+                    <span style="color: yellow">{{player.gold_per_min}}</span>
+                </td>
                 <td>{{player.xp_per_min}}</td>
                 <td class="td_game_item">
                     <div class="inventory">
@@ -70,19 +87,19 @@
 
         <h2>夜魇<span  class="word_win"  v-if="!matchDetail.radiant_win">  WIN</span>     <span>{{matchDetail.dire_score}}</span></h2>
         <table class="match_detail_table">
-            <tr>
-                <td></td>
-                <td class="td_player_name"><h3>PLAYER</h3></td>
-                <td><h3>HERO</h3></td>
-                <td><h3>level</h3></td>
-                <td><h3>K/D/A</h3></td>
-                <td><h3>H/D</h3></td>
-                <td><h3>hero damage</h3></td>
-                <td><h3>tower damage</h3></td>
-                <td><h3>GPM</h3></td>
-                <td><h3>XPM</h3></td>
-                <td><h3>ITEMS</h3></td>
-            </tr>
+            <thead>
+            <th></th>
+            <th class="td_player_name">PLAYER</th>
+            <th>HERO</th>
+            <th>level</th>
+            <th>K/D/A</th>
+            <th>H/D</th>
+            <th>参战率</th>
+            <th>  伤害   </th>
+            <th>GPM</th>
+            <th>XPM</th>
+            <th>ITEMS</th>
+            </thead>
             <tr v-for="(player,index) in matchDetail.players" v-if="index>=5" v-on:click="toPlayerPage(player.account_id)">
                 <td style="display: none">{{player.account_id}}</td>
 
@@ -99,9 +116,26 @@
                 <td>{{player.level}}</td>
                 <td>{{player.kda}} ({{player.kills}}/{{player.deaths}}/{{player.assists}})</td>
                 <td>{{player.last_hits}}/{{player.denies}}</td>
-                <td>{{player.hero_damage}}</td>
-                <td>{{player.tower_damage}}</td>
-                <td>{{player.gold_per_min}}</td>
+                <td>{{player.combat_percent}}%</td>
+                <td class="td_hero_damage">
+                    <!-- {{player.hero_damage}}-->
+                    <div class="damage_percentage_div">
+                        <div v-bind:style="{width: player.hero_damage_percentage+'%',height : damage_div_height+'em'}"
+                             style="background: #9b322c;float: left"  ></div>
+                        <span style="font-size: 0.5em;float: left;margin-left: 3px">   {{player.hero_damage}} </span>
+                    </div>
+
+                    <div class="damage_percentage_div">
+                        <div v-bind:style="{width: player.tower_damage_percent+'%',height : damage_div_height+'em'}"
+                             style="background: #4284d4;float: left"  ></div>
+                        <span style="font-size: 0.5em;float: left;margin-left: 3px"> {{player.tower_damage}}</span>
+                    </div>
+
+                </td>
+
+                <td>
+                    <span style="color: yellow">{{player.gold_per_min}}</span>
+                </td>
                 <td>{{player.xp_per_min}}</td>
                 <td class="td_game_item">
                     <div class="inventory">
@@ -182,6 +216,7 @@
                     tower_status_dire: 0,
                     tower_status_radiant: 0
                 },
+                damage_div_height:0.5,
                 firstName: 'Foo',
                 lastName: 'Bar'
             }
@@ -263,9 +298,25 @@
 
                 this.matchDetail = matchDetail;
 
-                //===========遍历players数组，每一项添加新属性；使其能够响应数据变化==========
+                    let radiantTotalDamage=0,
+                        radiantTowerTotalDamage=0,
+                        direTotalDamage=0,
+                        direTowerTotalDamage=0;
+                    let players=_self.matchDetail.players;
+                    for(var i in players){
+                        if(i<5){
+                            radiantTotalDamage+=players[i].hero_damage;
+                            radiantTowerTotalDamage+=players[i].tower_damage;
+                        }else{
+                            direTotalDamage+=players[i].hero_damage;
+                            direTowerTotalDamage+=players[i].tower_damage;
+                        }
+                    }
+                    let radian_score=_self.matchDetail.radiant_score;
+                    let dire_score=_self.matchDetail.dire_score;
+                    //===========遍历players数组，每一项添加新属性；使其能够响应数据变化==========
                 //服务端需要修改？？？？？？？？？
-                _self.matchDetail.players.map(function (player) {
+                _self.matchDetail.players.map(function (player,index) {
                     //设置英雄头像
                     //  console.log(item.hero_id);
                     let hero_name, heroes = dotaconstants.hero;
@@ -282,6 +333,20 @@
                     //计算kda
                     let kda = parseFloat((player.kills + player.assists) / player.deaths).toFixed(2);
                     _self.$set(player, "kda", kda);
+
+                    //计算输出占比
+                    //计算参战率
+                    //计算建筑伤害占比
+                    console.log("map index",index);
+                    if(index<5){
+                        _self.$set(player,"hero_damage_percentage",parseFloat(player.hero_damage*100/radiantTotalDamage).toFixed(2));
+                        _self.$set(player,"tower_damage_percent",parseFloat(player.tower_damage*100/radiantTowerTotalDamage).toFixed(2));
+                        _self.$set(player,"combat_percent",parseFloat((player.kills+player.assists)*100/radian_score).toFixed(1));
+                    }else{
+                        _self.$set(player,"hero_damage_percentage",parseFloat(player.hero_damage*100/direTotalDamage).toFixed(2));
+                        _self.$set(player,"tower_damage_percent",parseFloat(player.tower_damage*100/direTowerTotalDamage).toFixed(2));
+                        _self.$set(player,"combat_percent",parseFloat((player.kills+player.assists)*100/dire_score).toFixed(1));
+                    }
 
                     //添加物品图片
                     //console.log("多少个物品？",game_items.length);
@@ -375,7 +440,7 @@
         width: 100px;
     }
     .match_detail_table{
-        width: 80%;
+        width: 770px;
         text-align: center;
     }
     .td_player_name{
@@ -416,6 +481,22 @@
     }
     .td_game_item{
         width: 8em;
+    }
+
+    .td_hero_damage{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 59.2px;
+        width: 5em;
+    }
+    .damage_percentage_div{
+        width: 85%;
+        height: 0.5em;
+        /* background: #8c868c;*/
+        margin: 2px 0 2px 2em;
+
     }
 </style>
 

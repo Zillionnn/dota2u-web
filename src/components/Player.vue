@@ -60,7 +60,7 @@
               <td style="width: 10em">
                   <div >
                       <span>{{matches.start_time}}</span><br/>
-                      <span>{{matches.duration}}</span>
+                      <span class="td_duration">{{matches.duration}}</span>
                   </div>
               </td>
               <td>{{matches.player.kills}}/{{matches.player.deaths}}/{{matches.player.assists}}</td>
@@ -352,6 +352,10 @@ export default {
         font-size: 0.8em;
         color: #aaa4aa
     }
+.td_duration{
+    font-size: 0.8em;
+    color: #aaa4aa
+}
     .win_or_lose{
         width: 4em;
     }
