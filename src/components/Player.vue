@@ -99,6 +99,8 @@ export default {
         let account_id=this.account_id;
         console.log(account_id);
       this.getRecentMatchesByAccount(account_id);
+
+      this.getAllMatches(account_id);
     },
   methods: {
       /**
@@ -139,7 +141,10 @@ export default {
 
               }
               this.rank_img=`/static/img/rank/rank_icon_${rank}.png`;
-              this.rank_stars_img=`/static/img/rank/rank_star_${stars}.png`;
+              if(stars>=0){
+                  this.rank_stars_img=`/static/img/rank/rank_star_${stars}.png`;
+              }
+
           }
           console.log(this.rank_tier_img);
           console.log(this.rank_stars_img);
@@ -247,6 +252,16 @@ export default {
        */
       toMatchDetailPage:function (match_id) {
           this.$router.push({name:'matchdetail',params:{match_id:match_id}});
+      },
+
+      getAllMatches:function (account_id) {
+          fetch('/api/player/getAllMatches/'+account_id,{
+              method:'GET'
+          }).then((res)=>{
+              return res.json();
+          }).then((data)=>{
+              console.log("GET PLAYER ALL MATCHES",data);
+          });
       }
 
       //methods
