@@ -39,15 +39,15 @@
           <th>KDA</th>
           </thead>
           <tbody>
-          <tr v-for="(matches,index) in playerRecent25Matches"
+          <tr v-for="(matches,index) in recent20matches"
               v-on:click="toMatchDetailPage(matches.match_id)" class="tr_match" v-bind:class="{tr_even: index%2}">
               <td class="td_hero_img">
                   <img class="hero_icon"  v-bind:src="matches.hero_img"/>
                   <div style="float:left;margin-top: 0.5em">{{matches.player.hero_localized_name}}</div>
               </td>
               <td class="win_or_lose">
-                  <span v-if="matches.win" class="win_word">胜</span>
-                  <span v-if="!matches.win" class="lose_word">败</span>
+                  <span v-if="matches.win==true" class="win_word">胜</span>
+                  <span v-if="matches.win==false" class="lose_word">败</span>
               </td>
 
               <td style="width: 10em">
@@ -83,7 +83,7 @@ export default {
   data () {
       return{
           account_id:this.$route.params.account_id,
-          playerRecent25Matches:[],
+          recent20matches:[],
           heroes:dotaconstants.hero,
           userInfo:null,
           playerForbid:false,
@@ -98,71 +98,76 @@ export default {
     created:function () {
         let account_id=this.account_id;
         console.log(account_id);
+        this.getOrUpdatePlayerInfo(account_id);
+       // this.getAllMatches(account_id);
       this.getRecentMatchesByAccount(account_id);
 
-      this.getAllMatches(account_id);
+    },
+    mounted:function(){
+
     },
   methods: {
+
+      getOrUpdatePlayerInfo:function(account_id){
+          let account=account_id;
+          console.log(account);
+          //玩家信息更新；
+          fetch('/api/player/fetchUserInfoByAccount',{
+              method:'POST',
+              headers:{
+                  "Content-Type":'application/json'
+              },
+              body:JSON.stringify({account:account})
+          }).then((res) => {
+              return res.json();
+          }).then((data) => {
+              let leaderboard_rank=data.leaderboard_rank;
+              this.leaderboard_rank=leaderboard_rank;
+              if(leaderboard_rank<=10){
+                  this.rank_img=`/static/img/rank/rank_icon_7c.png`;
+              }
+              if(leaderboard_rank>10 && leaderboard_rank<=100){
+                  this.rank_img=`/static/img/rank/rank_icon_7b.png`;
+              }
+              if(leaderboard_rank>100){
+                  this.rank_img=`/static/img/rank/rank_icon_7a.png`;
+              }
+              if(leaderboard_rank==0){
+                  let rank=data.rank_tier.substr(0,1);
+                  let stars=data.rank_tier.substr(1,1);
+                  if(parseInt(stars)>5){
+
+                  }
+                  this.rank_img=`/static/img/rank/rank_icon_${rank}.png`;
+                  if(stars>=0){
+                      this.rank_stars_img=`/static/img/rank/rank_star_${stars}.png`;
+                  }
+
+              }
+              console.log(this.rank_tier_img);
+              console.log(this.rank_stars_img);
+          });
+
+          //获取玩家信息；
+          fetch('/api/player/getUserInfoByAccount',{
+              method:'POST',
+              headers:{
+                  "Content-Type":'application/json'
+              },
+              body:JSON.stringify({account:account})
+          }).then((res)=>{
+              return res.json();
+          }).then((data)=>{
+              console.log("USER INFO>>\n",data);
+              this.userInfo=data;
+          });
+      },
+
       /**
        * 获取玩家最近20场比赛
        * @param account_id
        */
     getRecentMatchesByAccount: function (account_id) {
-   /*   let account = document.getElementById('input_account').value;
-      console.log(account);
-        */
-        let account=account_id;
-        console.log(account);
-        //玩家信息更新；
-        fetch('/api/player/fetchUserInfoByAccount',{
-            method:'POST',
-            headers:{
-                "Content-Type":'application/json'
-            },
-            body:JSON.stringify({account:account})
-        }).then((res) => {
-            return res.json();
-        }).then((data) => {
-          let leaderboard_rank=data.leaderboard_rank;
-          this.leaderboard_rank=leaderboard_rank;
-          if(leaderboard_rank<=10){
-              this.rank_img=`/static/img/rank/rank_icon_7c.png`;
-          }
-          if(leaderboard_rank>10 && leaderboard_rank<=100){
-              this.rank_img=`/static/img/rank/rank_icon_7b.png`;
-          }
-          if(leaderboard_rank>100){
-              this.rank_img=`/static/img/rank/rank_icon_7a.png`;
-          }
-          if(leaderboard_rank==0){
-              let rank=data.rank_tier.substr(0,1);
-              let stars=data.rank_tier.substr(1,1);
-              if(parseInt(stars)>5){
-
-              }
-              this.rank_img=`/static/img/rank/rank_icon_${rank}.png`;
-              if(stars>=0){
-                  this.rank_stars_img=`/static/img/rank/rank_star_${stars}.png`;
-              }
-
-          }
-          console.log(this.rank_tier_img);
-          console.log(this.rank_stars_img);
-          });
-
-        //获取玩家信息；
-        fetch('/api/player/getUserInfoByAccount',{
-            method:'POST',
-            headers:{
-                "Content-Type":'application/json'
-            },
-            body:JSON.stringify({account:account})
-        }).then((res)=>{
-            return res.json();
-    }).then((data)=>{
-            console.log("USER INFO>>\n",data);
-        this.userInfo=data;
-    });
 
         //获取玩家比赛概览
       fetch('/api/player/getRecentMatchesByAccount', {
@@ -170,7 +175,7 @@ export default {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({account: account})
+        body: JSON.stringify({account: account_id})
       }).then((res) => {
         return res.json();
       }).then((data) => {
@@ -179,49 +184,11 @@ export default {
               return;
           }else{
               this.playerForbid=false;
-              this.playerRecent25Matches=[];
-              let num_win=0;
-              for(var i in data){
-                  let match={};
-                  match.match_id=data[i].match_id;
-                  match.start_time=utils.formatVTime_startTime(data[i].start_time);
-
-                  match.duration=utils.s2Min$Second(data[i].duration);
-
-                  let players=data[i].players;
-                  for(var j in players){
-                      if(players[j].account_id==account){
-                          let heroes=this.heroes;
-                          //   console.log(heroes);
-                          for(var k in heroes){
-                              if(heroes[k].id==players[j].hero_id){
-                                  let hero_name=heroes[k].name.replace("npc_dota_hero_","");
-                                  match.hero_img=`/static/img/hero_icon/${hero_name}_hphover.png`;
-                                  players[j].hero_name=hero_name;
-                                  players[j].hero_localized_name=heroes[k].localized_name;
-                                  break;
-                              }
-                          }
-                          match.player=players[j];
-                          if(j<5){
-                              match.win=data[i].radiant_win;
-                          }else{
-                              match.win=!data[i].radiant_win;
-                          }
-                          if(match.win==true){
-                              num_win++;
-                              this.latest_20_win_rate=(num_win*100)/20;
-                          }
-
-                          //match.game_mode=game_mode[data[i].game_mode].mode;
-                          match.game_mode=game_mode[data[i].game_mode].zh_localized_name;
-                          break;
-                      }
-                  }
-                  this.playerRecent25Matches.push(match);
+              console.log(data);
+              if(data.result==200){
+                  this.getAllMatches(account_id);
               }
 
-               console.log(this.playerRecent25Matches);
           }
       });
     },
@@ -255,12 +222,60 @@ export default {
       },
 
       getAllMatches:function (account_id) {
+          console.log("get all matches");
           fetch('/api/player/getAllMatches/'+account_id,{
               method:'GET'
           }).then((res)=>{
               return res.json();
           }).then((data)=>{
               console.log("GET PLAYER ALL MATCHES",data);
+              let recent20Array=data.slice(0,20);
+              console.log(recent20Array);
+                  this.recent20matches=[];
+                  let num_win=0;
+                  for(var i in recent20Array){
+                      let match={};
+                      match.match_id=recent20Array[i].match_id;
+                      match.start_time=utils.formatVTime_startTime(recent20Array[i].start_time);
+                   //   console.log(match.start_time);
+                      match.duration=utils.s2Min$Second(recent20Array[i].duration);
+
+                      let player=recent20Array[i].player_json;
+
+                              let heroes=this.heroes;
+                              //   console.log(heroes);
+                              for(var k in heroes){
+                                  if(heroes[k].id==player.hero_id){
+                                      let hero_name=heroes[k].name.replace("npc_dota_hero_","");
+                                      match.hero_img=`/static/img/hero_icon/${hero_name}_hphover.png`;
+                                      player.hero_name=hero_name;
+                                      player.hero_localized_name=heroes[k].localized_name;
+                                      break;
+                                  }
+                              }
+                      match.player = player;
+                      match.win = recent20Array[i].radiant_win;
+                      match.win = recent20Array[i].radiant_win;
+
+                      if(recent20Array[i].player_position<5){
+                          match.win=data[i].radiant_win;
+                      }else{
+                          match.win=!data[i].radiant_win;
+                      }
+
+                      if(match.win==true){
+                          num_win++;
+                          this.latest_20_win_rate=(num_win*100)/20;
+                      }
+
+                              //match.game_mode=game_mode[data[i].game_mode].mode;
+                              match.game_mode=game_mode[recent20Array[i].game_mode].zh_localized_name;
+
+                      this.recent20matches.push(match);
+                  }
+
+                  console.log(this.recent20matches);
+
           });
       }
 

@@ -24,7 +24,7 @@ export  function formatVTime(time_string) {
  */
 export function formatVTime_startTime(time_string) {
     let history_t=new Date(time_string).getTime();
-    console.log(history_t);
+   // console.log(history_t);
     let current_t=new Date().getTime();
 
     let result_t=current_t-history_t;
