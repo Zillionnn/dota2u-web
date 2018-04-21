@@ -28,6 +28,7 @@ export function formatVTime_startTime(time_string) {
     let current_t=new Date().getTime();
 
     let result_t=current_t-history_t;
+
     let result_second=parseInt(result_t/1000);
     let result_min=parseInt(result_second/60);
     let result_hour=parseInt(result_min/60);
@@ -40,7 +41,7 @@ export function formatVTime_startTime(time_string) {
         return result;
     }
     if(result_month>=1){
-        let result=result_year+'个月前';
+        let result=result_month+'个月前';
         //console.log(result);
         return result;
     }
