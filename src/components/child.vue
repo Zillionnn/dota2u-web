@@ -1,10 +1,12 @@
 <template>
 <div class="child_section">
     {{child_messge}}
-  <span>{{message}}</span>
 
-<span>{{name}}</span>
-    <span>{{age}}</span>
+
+  <span>props .message:{{message}}</span><br/>
+
+<span>props>name            {{name}}</span><br/>
+    <span>props>age          {{age}}</span>
 
 </div>
 </template>
@@ -18,7 +20,10 @@ export default {
     };
   },
     /*声明props*/
-    props:['message','name','age',"parentObj"]
+    props:['message',
+
+        "parentObj"
+    ]
 
 };
 </script>

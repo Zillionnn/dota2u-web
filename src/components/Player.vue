@@ -25,49 +25,17 @@
 
       </div>
 
+
+
       <p v-if="playerForbid">
           用户未开放数据
       </p>
       <div v-if="playerForbid==false"><span class="latest_20_win_rate" v-if="latest_20_win_rate">{{latest_20_win_rate}}%</span>过去20场胜率</div>
-      <h3>最近比赛</h3>
-      <table  v-if="!playerForbid" class="recent_matches_table">
-          <thead style="text-align: center">
-          <th>英雄</th>
-          <th class="win_or_lose">胜败</th>
-          <th>比赛编号</th>
-          <th>时间</th>
-          <th>KDA</th>
-          </thead>
-          <tbody>
-          <tr v-for="(matches,index) in recent20matches"
-              v-on:click="toMatchDetailPage(matches.match_id)" class="tr_match" v-bind:class="{tr_even: index%2}">
-              <td class="td_hero_img">
-                  <img class="hero_icon"  v-bind:src="matches.hero_img"/>
-                  <div style="float:left;margin-top: 0.5em">{{matches.player.hero_localized_name}}</div>
-              </td>
-              <td class="win_or_lose">
-                  <span v-if="matches.win==true" class="win_word">胜</span>
-                  <span v-if="matches.win==false" class="lose_word">败</span>
-              </td>
+      <h3 v-on:click="linkToRecentMatches">最近比赛</h3>
+      <h3 v-on:click="linkToAllMatches">查看战绩</h3>
 
-              <td style="width: 10em">
-                  <div>
-                      <span>{{matches.match_id}}</span><br/>
-                      <span class="td_game_mode">{{matches.game_mode}}</span>
-                  </div>
-              </td>
-
-              <td style="width: 10em">
-                  <div >
-                      <span>{{matches.start_time}}</span><br/>
-                      <span class="td_duration">{{matches.duration}}</span>
-                  </div>
-              </td>
-              <td>{{matches.player.kills}}/{{matches.player.deaths}}/{{matches.player.assists}}</td>
-          </tr>
-          </tbody>
-      </table>
-
+      <!--router -view -->
+      <router-view></router-view>
 
   </div>
 </template>
@@ -77,9 +45,12 @@ import 'whatwg-fetch';
 import dotaconstants from   'dotaconstants';
 import * as utils from '../utils/utils';
 import game_mode from '../assets/game_mode.json';
+import PlayerAllMatchesComponent from '../components/PlayerAllMatchesComponent';
 
 export default {
   name: 'player',
+    components:{PlayerAllMatchesComponent},
+
   data () {
       return{
           account_id:this.$route.params.account_id,
@@ -91,7 +62,8 @@ export default {
           rank_img:null,
           rank_stars_img:null,
           leaderboard_rank:null,
-          latest_20_win_rate:null
+          latest_20_win_rate:null,
+          allMatches:[]
       }
 
   },
@@ -220,6 +192,15 @@ export default {
       toMatchDetailPage:function (match_id) {
           this.$router.push({name:'matchdetail',params:{match_id:match_id}});
       },
+      linkToRecentMatches(){
+          let account_id=this.account_id;
+          this.$router.push({ path: `/player/${account_id}` });
+      },
+
+      linkToAllMatches:function(){
+          let account_id=this.account_id;
+        this.$router.push({ path: `/player/${account_id}/allMatches` });
+      },
 
       getAllMatches:function (account_id) {
           console.log("get all matches");
@@ -229,6 +210,7 @@ export default {
               return res.json();
           }).then((data)=>{
               console.log("GET PLAYER ALL MATCHES",data);
+              this.allMatches=data;
               let recent20Array=data.slice(0,20);
               console.log(recent20Array);
                   this.recent20matches=[];
