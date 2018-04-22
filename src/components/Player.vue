@@ -28,7 +28,7 @@
       <p v-if="playerForbid">
           用户未开放数据
       </p>
-      <p><span class="latest_20_win_rate" v-if="latest_20_win_rate">{{latest_20_win_rate}}%</span>过去20场胜率</p>
+      <div v-if="playerForbid==false"><span class="latest_20_win_rate" v-if="latest_20_win_rate">{{latest_20_win_rate}}%</span>过去20场胜率</div>
       <h3>最近比赛</h3>
       <table  v-if="!playerForbid" class="recent_matches_table">
           <thead style="text-align: center">
