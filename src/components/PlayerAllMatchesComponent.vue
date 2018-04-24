@@ -1,8 +1,9 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <div>
+
         <p><button v-on:click="prePage(allMatches)">pre page</button>   <button v-on:click="nextPage(allMatches)">next page</button>
             {{current_page.page}}/{{total_page}}</p>
-        <table  v-if="!playerForbid" class="recent_matches_table">
+        <table  class="recent_matches_table">
             <thead style="text-align: center">
             <th>英雄</th>
             <th class="win_or_lose">胜败</th>
@@ -52,6 +53,7 @@
     import * as utils from '../utils/utils';
     import game_mode from '../assets/game_mode.json';
     import PlayerAllMatchesComponent from '../components/PlayerAllMatchesComponent';
+    import { mapGetters, mapActions } from 'vuex';
 
     export default {
         name: 'player',
@@ -60,15 +62,7 @@
         data () {
             return{
                 account_id:this.$route.params.account_id,
-                recent20matches:[],
                 heroes:dotaconstants.hero,
-                userInfo:null,
-                playerForbid:false,
-                synchronousState:'同步数据',
-                rank_img:null,
-                rank_stars_img:null,
-                leaderboard_rank:null,
-                latest_20_win_rate:null,
                 allMatches:[],
                 total:null,
                 per_page:20,
@@ -80,6 +74,12 @@
             }
 
         },
+/*        computed:{
+            ...mapGetters({
+            playerMatchResult:'getterPlayerMatchesResult'
+        }),
+
+        },*/
         created:function () {
             let account_id=this.account_id;
             console.log(account_id);
@@ -93,112 +93,6 @@
 
         },
         methods: {
-
-            getOrUpdatePlayerInfo:function(account_id){
-                let account=account_id;
-                console.log(account);
-                //玩家信息更新；
-                fetch('/api/player/fetchUserInfoByAccount',{
-                    method:'POST',
-                    headers:{
-                        "Content-Type":'application/json'
-                    },
-                    body:JSON.stringify({account:account})
-                }).then((res) => {
-                    return res.json();
-                }).then((data) => {
-                    let leaderboard_rank=data.leaderboard_rank;
-                    this.leaderboard_rank=leaderboard_rank;
-                    if(leaderboard_rank<=10){
-                        this.rank_img=`/static/img/rank/rank_icon_7c.png`;
-                    }
-                    if(leaderboard_rank>10 && leaderboard_rank<=100){
-                        this.rank_img=`/static/img/rank/rank_icon_7b.png`;
-                    }
-                    if(leaderboard_rank>100){
-                        this.rank_img=`/static/img/rank/rank_icon_7a.png`;
-                    }
-                    if(leaderboard_rank==0){
-                        let rank=data.rank_tier.substr(0,1);
-                        let stars=data.rank_tier.substr(1,1);
-                        if(parseInt(stars)>5){
-
-                        }
-                        this.rank_img=`/static/img/rank/rank_icon_${rank}.png`;
-                        if(stars>=0){
-                            this.rank_stars_img=`/static/img/rank/rank_star_${stars}.png`;
-                        }
-
-                    }
-                    console.log(this.rank_tier_img);
-                    console.log(this.rank_stars_img);
-                });
-
-                //获取玩家信息；
-                fetch('/api/player/getUserInfoByAccount',{
-                    method:'POST',
-                    headers:{
-                        "Content-Type":'application/json'
-                    },
-                    body:JSON.stringify({account:account})
-                }).then((res)=>{
-                    return res.json();
-                }).then((data)=>{
-                    console.log("USER INFO>>\n",data);
-                    this.userInfo=data;
-                });
-            },
-
-            /**
-             * 获取玩家最近20场比赛
-             * @param account_id
-             */
-            getRecentMatchesByAccount: function (account_id) {
-
-                //获取玩家比赛概览
-                fetch('/api/player/getRecentMatchesByAccount', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({account: account_id})
-                }).then((res) => {
-                    return res.json();
-                }).then((data) => {
-                    if(data.error){
-                        this.playerForbid=true;
-                        return;
-                    }else{
-                        this.playerForbid=false;
-                        console.log(data);
-                        if(data.result==200){
-                            this.getAllMatches(account_id);
-                        }
-
-                    }
-                });
-            },
-
-            /**
-             *同步玩家数据
-             */
-            synchronousPlayerData:function () {
-                let account =this.account_id;
-
-                fetch('/api/player/SynchronousPlayerData',{
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({account: account})
-                }).then((res)=>{
-                    return res.json();
-                }).then((data)=>{
-                    console.log(data);
-                    this.synchronousState=data.result;
-                });
-            },
-
             /**
              * 跳转比赛详情页面component
              * @param match_id
@@ -220,16 +114,12 @@
              * 获取所有比赛，分页
              * @param account_id
              */
-            getAllMatches:function (account_id) {
-                console.log("get all matches");
-                fetch('/api/player/getAllMatches/'+account_id,{
-                    method:'GET'
-                }).then((res)=>{
-                    return res.json();
-                }).then((data)=>{
-                    console.log("GET PLAYER ALL MATCHES",data);
-                    let allMatches=data;
+            getAllMatches:function () {
 
+                    //let allMatches=this.$store.state.matchDetail.statePlayerMatchesResult.allMatches;
+                let localStorage=window.localStorage.getItem("playerMatchesResult");
+
+                let allMatches=JSON.parse(localStorage).allMatches;
                     console.log(allMatches);
                     this.recent20matches=[];
                     let num_win=0;
@@ -257,40 +147,29 @@
                         match.win = allMatches[i].radiant_win;
                         match.win = allMatches[i].radiant_win;
 
-                        if(allMatches[i].player_position<5){
-                            match.win=data[i].radiant_win;
-                        }else{
-                            match.win=!data[i].radiant_win;
+                        if (allMatches[i].player_position < 5) {
+                            match.win = allMatches[i].radiant_win;
+                        } else {
+                            match.win = !allMatches[i].radiant_win;
                         }
-
-                        if(match.win==true){
-                            num_win++;
-                            this.latest_20_win_rate=(num_win*100)/20;
-                        }
-
-                        //match.game_mode=game_mode[data[i].game_mode].mode;
-                        match.game_mode=game_mode[allMatches[i].game_mode].zh_localized_name;
-
                         this.allMatches.push(match);
+                        this.total = this.allMatches.length;
+                        this.total_page = parseInt(this.total / this.per_page) + 1;
+                        this.current_page.page = 1;
+                        this.current_page.matches = this.allMatches.slice(0, 20);
+                     //   console.log(this.current_page);
+                        //console.log("total page>>", this.total_page);
+
+                     //   console.log(this.allMatches);
                     }
 
-                    this.total=this.allMatches.length;
-                    this.total_page=parseInt(this.total/this.per_page)+1;
-                    this.current_page.page=1;
-                    this.current_page.matches=this.allMatches.slice(0,20);
-                    console.log(this.current_page);
-                    console.log("total page>>",this.total_page);
-
-                    console.log(this.allMatches);
-
-                });
-            },
+                },
 
             prePage:function (allMatches) {
                 /*  if(this.current_page.page==1){
                       this.current_page.matches=allMatches.slice(0,20);
                   }*/
-                console.log("next page all matches >>",allMatches);
+              //  console.log("next page all matches >>",allMatches);
                 if(this.current_page.page==1){
                     this.current_page.matches=this.allMatches.slice(0,20);
                     return;
@@ -307,7 +186,7 @@
               /*  if(this.current_page.page==1){
                     this.current_page.matches=allMatches.slice(0,20);
                 }*/
-              console.log("next page all matches >>",allMatches);
+          //    console.log("next page all matches >>",allMatches);
                 this.current_page.page+=1;
                 let start_index=(this.current_page.page-1)*20;
                 console.log("start index",start_index);

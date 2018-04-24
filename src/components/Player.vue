@@ -6,7 +6,6 @@
               <span class="headID">ID:{{playerInfo.account_id}}</span>
           </div>
 
-
           <span class="headPersonname">{{playerInfo.personaname}}</span>
           <br/>
 
@@ -16,14 +15,9 @@
               <span v-if="rankInfo.leaderboard_rank">{{rankInfo.leaderboard_rank}}</span>
           </div>
 
-
-
           <!--同步数据-->
           <button class="synchronous_player_data" v-on:click="synchronousPlayerData">{{synchronousState}}</button>
-
       </div>
-
-
 
 
       <h3 v-on:click="linkToRecentMatches">最近比赛</h3>
@@ -80,61 +74,6 @@ export default {
 
     },
   methods: {
-
-      /*getOrUpdatePlayerInfo:function(account_id){
-          let account=account_id;
-          console.log(account);
-          //玩家信息更新；
-          fetch('/api/player/fetchUserInfoByAccount',{
-              method:'POST',
-              headers:{
-                  "Content-Type":'application/json'
-              },
-              body:JSON.stringify({account:account})
-          }).then((res) => {
-              return res.json();
-          }).then((data) => {
-              let leaderboard_rank=data.leaderboard_rank;
-              this.leaderboard_rank=leaderboard_rank;
-              if(leaderboard_rank<=10){
-                  this.rank_img=`/static/img/rank/rank_icon_7c.png`;
-              }
-              if(leaderboard_rank>10 && leaderboard_rank<=100){
-                  this.rank_img=`/static/img/rank/rank_icon_7b.png`;
-              }
-              if(leaderboard_rank>100){
-                  this.rank_img=`/static/img/rank/rank_icon_7a.png`;
-              }
-              if(leaderboard_rank==0){
-                  let rank=data.rank_tier.substr(0,1);
-                  let stars=data.rank_tier.substr(1,1);
-                  if(parseInt(stars)>5){
-
-                  }
-                  this.rank_img=`/static/img/rank/rank_icon_${rank}.png`;
-                  if(stars>=0){
-                      this.rank_stars_img=`/static/img/rank/rank_star_${stars}.png`;
-                  }
-
-              }
-              console.log(this.rank_tier_img);
-              console.log(this.rank_stars_img);
-          });
-
-          //获取玩家信息；
-          fetch('/api/player/getUserInfoByAccount',{
-              method:'POST',
-              headers:{
-                  "Content-Type":'application/json'
-              },
-              body:JSON.stringify({account:account})
-          }).then((res)=>{
-              return res.json();
-          }).then((data)=>{
-              console.log("USER INFO>>\n",data);
-              this.userInfo=data;
-          });
-      },*/
 
       /**
        * 获取玩家最近20场比赛

@@ -35,6 +35,18 @@ import Child from './child';
                // console.log("full name");
                 return this.firstName + ' ' + this.lastName
             }
+        },
+        created:function () {
+            console.log("Parent.vue>>\n",this);
+            this.count();
+        },
+        methods:{
+            count:function () {
+                console.log(this.$store);
+                console.log(this.$store.state.count);
+                  //  return store.state.count
+
+            }
         }
     }
 </script>
