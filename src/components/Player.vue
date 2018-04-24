@@ -66,6 +66,7 @@ export default {
         console.log(account_id);
         //this.getOrUpdatePlayerInfo(account_id);
         this.$store.dispatch('actionGetOrUpdatePlayerInfo',account_id);
+        this.linkToRecentMatches();
        // this.getAllMatches(account_id);
      // this.getRecentMatchesByAccount(account_id);
 
@@ -79,7 +80,7 @@ export default {
        * 获取玩家最近20场比赛
        * @param account_id
        */
-    getRecentMatchesByAccount: function (account_id) {
+/*    getRecentMatchesByAccount: function (account_id) {
 
         //获取玩家比赛概览
       fetch('/api/player/getRecentMatchesByAccount', {
@@ -103,7 +104,7 @@ export default {
 
           }
       });
-    },
+    },*/
 
       /**
        *同步玩家数据

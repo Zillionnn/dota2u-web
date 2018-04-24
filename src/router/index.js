@@ -32,7 +32,7 @@ export default new Router({
                 component: PlayerAllMatchesComponent
             },
             {
-                path: '',
+                path: '/',
                 name:'recentMatches',
                 component: RecentMatchesComponent
             }
