@@ -1,21 +1,19 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
   <div>
-
-
-      <div v-if="userInfo" class="userinfo">
+      <div v-if="playerInfo" class="userinfo">
           <div class="headPic">
-              <img  v-bind:src="userInfo.avatarfull"/>
-              <span class="headID">ID:{{userInfo.account_id}}</span>
+              <img  v-bind:src="playerInfo.avatarfull"/>
+              <span class="headID">ID:{{playerInfo.account_id}}</span>
           </div>
 
 
-          <span class="headPersonname">{{userInfo.personaname}}</span>
+          <span class="headPersonname">{{playerInfo.personaname}}</span>
           <br/>
 
           <div class="rank_box">
-              <img class="rank" v-bind:src="rank_img" v-if="rank_img"/>
-              <img class="rank_stars" v-bind:src="rank_stars_img"  v-if="rank_stars_img"/>
-              <span v-if="leaderboard_rank">{{leaderboard_rank}}</span>
+              <img class="rank" v-bind:src="rankInfo.rank_img" v-if="rankInfo.rank_img"/>
+              <img class="rank_stars" v-bind:src="rankInfo.rank_stars_img"  v-if="rankInfo.rank_stars_img"/>
+              <span v-if="rankInfo.leaderboard_rank">{{rankInfo.leaderboard_rank}}</span>
           </div>
 
 
@@ -27,10 +25,7 @@
 
 
 
-      <p v-if="playerForbid">
-          用户未开放数据
-      </p>
-      <div v-if="playerForbid==false"><span class="latest_20_win_rate" v-if="latest_20_win_rate">{{latest_20_win_rate}}%</span>过去20场胜率</div>
+
       <h3 v-on:click="linkToRecentMatches">最近比赛</h3>
       <h3 v-on:click="linkToAllMatches">查看战绩</h3>
 
@@ -47,32 +42,38 @@ import * as utils from '../utils/utils';
 import game_mode from '../assets/game_mode.json';
 import PlayerAllMatchesComponent from '../components/PlayerAllMatchesComponent';
 
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'player',
     components:{PlayerAllMatchesComponent},
-
   data () {
       return{
           account_id:this.$route.params.account_id,
           recent20matches:[],
           heroes:dotaconstants.hero,
-          userInfo:null,
+       /*   userInfo:null,*/
           playerForbid:false,
           synchronousState:'同步数据',
-          rank_img:null,
+       /*   rank_img:null,
           rank_stars_img:null,
-          leaderboard_rank:null,
+          leaderboard_rank:null,*/
           latest_20_win_rate:null,
           allMatches:[]
       }
 
   },
+    computed:mapGetters({
+        playerInfo:'getterPlayerInfo',
+        rankInfo:'getterRankInfo'
+    }),
     created:function () {
         let account_id=this.account_id;
         console.log(account_id);
-        this.getOrUpdatePlayerInfo(account_id);
+        //this.getOrUpdatePlayerInfo(account_id);
+        this.$store.dispatch('actionGetOrUpdatePlayerInfo',account_id);
        // this.getAllMatches(account_id);
-      this.getRecentMatchesByAccount(account_id);
+     // this.getRecentMatchesByAccount(account_id);
 
     },
     mounted:function(){
@@ -80,7 +81,7 @@ export default {
     },
   methods: {
 
-      getOrUpdatePlayerInfo:function(account_id){
+      /*getOrUpdatePlayerInfo:function(account_id){
           let account=account_id;
           console.log(account);
           //玩家信息更新；
@@ -133,7 +134,7 @@ export default {
               console.log("USER INFO>>\n",data);
               this.userInfo=data;
           });
-      },
+      },*/
 
       /**
        * 获取玩家最近20场比赛
@@ -263,6 +264,19 @@ export default {
 
       //methods
   },
+
+/*    methods: {
+        ...mapActions([
+            'increment', // 将 `this.increment()` 映射为 `this.$store.dispatch('increment')`
+
+            // `mapActions` 也支持载荷：
+            'incrementBy' // 将 `this.incrementBy(amount)` 映射为 `this.$store.dispatch('incrementBy', amount)`
+        ]),
+      test:function () {
+
+      }
+    },*/
+
     watch:{
         '$route':'getRecentMatchesByAccount'
     }
