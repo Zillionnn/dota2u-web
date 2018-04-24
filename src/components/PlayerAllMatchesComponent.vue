@@ -1,5 +1,7 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <div>
+        <p><button v-on:click="prePage(allMatches)">pre page</button>   <button v-on:click="nextPage(allMatches)">next page</button>
+            {{current_page.page}}/{{total_page}}</p>
         <table  v-if="!playerForbid" class="recent_matches_table">
             <thead style="text-align: center">
             <th>英雄</th>
@@ -9,7 +11,7 @@
             <th>KDA</th>
             </thead>
             <tbody>
-            <tr v-for="(matches,index) in allMatches"
+            <tr v-for="(matches,index) in current_page.matches"
                 v-on:click="toMatchDetailPage(matches.match_id)" class="tr_match" v-bind:class="{tr_even: index%2}">
                 <td class="td_hero_img">
                     <img class="hero_icon"  v-bind:src="matches.hero_img"/>
@@ -37,6 +39,9 @@
             </tr>
             </tbody>
         </table>
+
+        <p><button v-on:click="prePage(allMatches)">pre page</button>   <button v-on:click="nextPage(allMatches)">next page</button>
+            {{current_page.page}}/{{total_page}}</p>
     </div>
 </template>
 
@@ -64,16 +69,24 @@
                 rank_stars_img:null,
                 leaderboard_rank:null,
                 latest_20_win_rate:null,
-                allMatches:[]
+                allMatches:[],
+                total:null,
+                per_page:20,
+                current_page:{
+                    page:1,
+                    matches:[]
+                },
+                total_page:null,
             }
 
         },
         created:function () {
             let account_id=this.account_id;
             console.log(account_id);
-            this.getOrUpdatePlayerInfo(account_id);
+          //  this.getOrUpdatePlayerInfo(account_id);
             // this.getAllMatches(account_id);
-            this.getRecentMatchesByAccount(account_id);
+           // this.getRecentMatchesByAccount(account_id);
+            this.getAllMatches(account_id);
 
         },
         mounted:function(){
@@ -203,6 +216,10 @@
                 this.$router.push({ path: `/player/${account_id}/allMatches` });
             },
 
+            /**
+             * 获取所有比赛，分页
+             * @param account_id
+             */
             getAllMatches:function (account_id) {
                 console.log("get all matches");
                 fetch('/api/player/getAllMatches/'+account_id,{
@@ -257,9 +274,45 @@
                         this.allMatches.push(match);
                     }
 
+                    this.total=this.allMatches.length;
+                    this.total_page=parseInt(this.total/this.per_page)+1;
+                    this.current_page.page=1;
+                    this.current_page.matches=this.allMatches.slice(0,20);
+                    console.log(this.current_page);
+                    console.log("total page>>",this.total_page);
+
                     console.log(this.allMatches);
 
                 });
+            },
+
+            prePage:function (allMatches) {
+                /*  if(this.current_page.page==1){
+                      this.current_page.matches=allMatches.slice(0,20);
+                  }*/
+                console.log("next page all matches >>",allMatches);
+                if(this.current_page.page==1){
+                    this.current_page.matches=this.allMatches.slice(0,20);
+                    return;
+                }
+                this.current_page.page-=1;
+
+                let start_index=(this.current_page.page-1)*20;
+                //console.log("start index",start_index);
+                this.current_page.matches=allMatches.slice(start_index,start_index+20);
+
+               // console.log("NEXT  PAGE",this.current_page);
+            },
+            nextPage:function (allMatches) {
+              /*  if(this.current_page.page==1){
+                    this.current_page.matches=allMatches.slice(0,20);
+                }*/
+              console.log("next page all matches >>",allMatches);
+                this.current_page.page+=1;
+                let start_index=(this.current_page.page-1)*20;
+                console.log("start index",start_index);
+                this.current_page.matches=allMatches.slice(start_index,start_index+20);
+                console.log("NEXT  PAGE",this.current_page);
             }
 
             //methods
