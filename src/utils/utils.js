@@ -9,11 +9,12 @@ import 'whatwg-fetch';
  * @returns {Date}
  */
 export  function formatVTime(time_string) {
-    let n_date=new Date(parseInt(time_string+'000')).toLocaleDateString();
-    let n_time=new Date(parseInt(time_string+'000')).toTimeString();
+    let n_date=new Date(time_string).toLocaleDateString();
+    let n_time=new Date(time_string).toTimeString();
     let end=n_time.indexOf("G");
     n_time=n_time.substring(0,end);
     let time=n_date+' '+n_time;
+  //  console.log(time);
     return time;
 };
 

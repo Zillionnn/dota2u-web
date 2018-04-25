@@ -443,7 +443,10 @@
 
                 //开始时间
                 let start_time = matchDetail.start_time;
+                console.log(start_time);
                 start_time = utils.formatVTime(start_time);
+                   //start_time=new Date(start_time).toLocaleString();
+
                 matchDetail.start_time = start_time;
 
                 //一血时间
