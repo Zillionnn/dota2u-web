@@ -23,7 +23,10 @@ export default {
     props:['message',
 
         "parentObj"
-    ]
+    ],
+    created:function () {
+        console.log('chjild component created');
+    }
 
 };
 </script>

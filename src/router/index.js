@@ -7,6 +7,7 @@ import MatchDetail from '@/components/MatchDetail';
 import Index from '@/components/Index';
 import PlayerAllMatchesComponent from '@/components/PlayerAllMatchesComponent';
 import RecentMatchesComponent from'@/components/RecentMatchesComponent';
+import Child from '@/components/child';
 
 
 Vue.use(Router);
@@ -21,27 +22,32 @@ export default new Router({
       },
     {
       path: '/player/:account_id',
-    name: 'player',
+    name: 'Player',
     component: Player,
         children:[
+            {
+                path:'',
+                component:RecentMatchesComponent
+            },
             {
                 // 当 /player/:account_id/allMatches 匹配成功，
                 // PlayerAllMatchesComponent 会被渲染在 User 的 <router-view> 中
                 path: 'allMatches',
                 name:'allMatches',
                 component: PlayerAllMatchesComponent
-            },
-            {
-                path: '/',
-                name:'recentMatches',
-                component: RecentMatchesComponent
             }
         ]
     },
     {
-      path: '/parent_component',
+      path: '/parent_component/:name',
       name: 'Parent',
-      component: Parent
+      component: Parent,
+        children:[
+            {
+                path:'',
+                component:Child
+            }
+        ]
     },
       {
           path:'/matchdetail/:match_id',

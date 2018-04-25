@@ -4,7 +4,7 @@
           <img src="./assets/img/hero_icon/shadow_demon_hphover.png">
           <router-link to="/">HOME</router-link>
         <!--  <router-link to="/player/121320102">player</router-link>-->
-          <router-link to="/parent_component">parent component</router-link>
+          <router-link to="/parent_component/foo">parent component</router-link>
           <router-link to="/404">404</router-link>
       </div>
 
@@ -21,11 +21,7 @@
 </template>
 
 <script>
-import Player from './components/Player.vue';
-import Index from './components/Index';
-
 export default {
-  components: {Player,Index},
   name: 'App',
     data(){
         return{

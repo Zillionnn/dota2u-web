@@ -1,6 +1,5 @@
 <template xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <div>
-
     <p v-if="playerForbid">
         用户未开放数据
     </p>
@@ -55,24 +54,17 @@
     import dotaconstants from   'dotaconstants';
     import * as utils from '../utils/utils';
     import game_mode from '../assets/game_mode.json';
-    import PlayerAllMatchesComponent from '../components/PlayerAllMatchesComponent';
     import { mapGetters, mapActions } from 'vuex';
 
     export default {
-        name: 'player',
-        components:{PlayerAllMatchesComponent},
+        name: 'RecentMatchesComponent',
 
         data () {
             return{
                 account_id:this.$route.params.account_id,
-            /*    recent20matches:[],*/
                 heroes:dotaconstants.hero,
-
                 playerForbid:false,
-                synchronousState:'同步数据',
-
-               /* latest_20_win_rate:null,*/
-
+                synchronousState:'同步数据'
             }
 
         },
@@ -80,10 +72,10 @@
         computed:mapGetters({
             playerMatchResult:'getterPlayerMatchesResult'
         }),
+
         created:function () {
             let account_id=this.account_id;
            // console.log(account_id);
-            //alert('recent');
             this.getRecentMatchesByAccount(account_id);
 
         },
@@ -125,32 +117,13 @@
             },
 
             /**
-             *同步玩家数据
-             */
-            synchronousPlayerData:function () {
-                let account =this.account_id;
-
-                fetch('/api/player/SynchronousPlayerData',{
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({account: account})
-                }).then((res)=>{
-                    return res.json();
-                }).then((data)=>{
-                    console.log(data);
-                    this.synchronousState=data.result;
-                });
-            },
-
-            /**
              * 跳转比赛详情页面component
              * @param match_id
              */
             toMatchDetailPage:function (match_id) {
                 this.$router.push({name:'matchdetail',params:{match_id:match_id}});
             },
+
             linkToRecentMatches(){
                 let account_id=this.account_id;
                 this.$router.push({ path: `/player/${account_id}` });

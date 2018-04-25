@@ -6,18 +6,21 @@
         <input v-model="parentMsg">
         <br/>
         <!--parent data=="parentMsg"-->
-        <child v-bind:message="parentMsg" v-bind="parentObj"></child>
+       <!-- <child v-bind:message="parentMsg" v-bind="parentObj"></child>-->
+
 
         {{fullName}}
+
+        <router-view></router-view>
     </div>
 
 </template>
 
 <script>
-import Child from './child';
+//import Child from './child';
 
     export default {
-        components: {Child},
+        //components: {Child},
         name: "Parent",
         data(){
             return{
