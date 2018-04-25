@@ -1,49 +1,57 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <div>
+        <div v-if="!current_localStorage">
+            无数据
+        </div>
+        <div v-if="current_localStorage">
+            <p><button v-on:click="prePage(allMatches)">pre page</button>   <button v-on:click="nextPage(allMatches)">next page</button>
+                {{current_page.page}}/{{total_page}}</p>
+            <table  class="recent_matches_table">
+                <thead style="text-align: center">
+                <th>英雄</th>
+                <th class="win_or_lose">胜败</th>
+                <th>比赛编号</th>
+                <th>时间</th>
+                <th>KDA</th>
+                </thead>
+                <tbody>
+                <tr v-for="(matches,index) in current_page.matches"
+                    v-on:click="toMatchDetailPage(matches.match_id)" class="tr_match" v-bind:class="{tr_even: index%2}">
+                    <td class="td_hero_img">
+                        <img class="hero_icon"  v-bind:src="matches.hero_img"/>
+                        <div style="float:left;margin-top: 0.5em">{{matches.player.hero_localized_name}}</div>
+                    </td>
+                    <td class="win_or_lose">
+                        <span v-if="matches.win==true" class="win_word">胜</span>
+                        <span v-if="matches.win==false" class="lose_word">败</span>
+                    </td>
 
-        <p><button v-on:click="prePage(allMatches)">pre page</button>   <button v-on:click="nextPage(allMatches)">next page</button>
-            {{current_page.page}}/{{total_page}}</p>
-        <table  class="recent_matches_table">
-            <thead style="text-align: center">
-            <th>英雄</th>
-            <th class="win_or_lose">胜败</th>
-            <th>比赛编号</th>
-            <th>时间</th>
-            <th>KDA</th>
-            </thead>
-            <tbody>
-            <tr v-for="(matches,index) in current_page.matches"
-                v-on:click="toMatchDetailPage(matches.match_id)" class="tr_match" v-bind:class="{tr_even: index%2}">
-                <td class="td_hero_img">
-                    <img class="hero_icon"  v-bind:src="matches.hero_img"/>
-                    <div style="float:left;margin-top: 0.5em">{{matches.player.hero_localized_name}}</div>
-                </td>
-                <td class="win_or_lose">
-                    <span v-if="matches.win==true" class="win_word">胜</span>
-                    <span v-if="matches.win==false" class="lose_word">败</span>
-                </td>
+                    <td style="width: 10em">
+                        <div>
+                            <span>{{matches.match_id}}</span><br/>
+                            <span class="td_game_mode">{{matches.game_mode}}</span>
+                        </div>
+                    </td>
 
-                <td style="width: 10em">
-                    <div>
-                        <span>{{matches.match_id}}</span><br/>
-                        <span class="td_game_mode">{{matches.game_mode}}</span>
-                    </div>
-                </td>
+                    <td style="width: 10em">
+                        <div >
+                            <span>{{matches.start_time}}</span><br/>
+                            <span class="td_duration">{{matches.duration}}</span>
+                        </div>
+                    </td>
+                    <td>{{matches.player.kills}}/{{matches.player.deaths}}/{{matches.player.assists}}</td>
+                </tr>
+                </tbody>
+            </table>
 
-                <td style="width: 10em">
-                    <div >
-                        <span>{{matches.start_time}}</span><br/>
-                        <span class="td_duration">{{matches.duration}}</span>
-                    </div>
-                </td>
-                <td>{{matches.player.kills}}/{{matches.player.deaths}}/{{matches.player.assists}}</td>
-            </tr>
-            </tbody>
-        </table>
+            <p><button v-on:click="prePage(allMatches)">pre page</button>   <button v-on:click="nextPage(allMatches)">next page</button>
+                {{current_page.page}}/{{total_page}}</p>
+        </div>
 
-        <p><button v-on:click="prePage(allMatches)">pre page</button>   <button v-on:click="nextPage(allMatches)">next page</button>
-            {{current_page.page}}/{{total_page}}</p>
-    </div>
+
+</div>
+
+
 </template>
 
 
@@ -62,6 +70,7 @@
         data () {
             return{
                 account_id:this.$route.params.account_id,
+                current_localStorage:false,
                 heroes:dotaconstants.hero,
                 allMatches:[],
                 total:null,
@@ -118,8 +127,9 @@
 
                     //let allMatches=this.$store.state.matchDetail.statePlayerMatchesResult.allMatches;
                 let localStorage=window.localStorage.getItem("playerMatchesResult");
-
-                let allMatches=JSON.parse(localStorage).allMatches;
+                if(localStorage){
+                    this.current_localStorage=true;
+                    let allMatches=JSON.parse(localStorage).allMatches;
                     console.log(allMatches);
                     this.recent20matches=[];
                     let num_win=0;
@@ -157,11 +167,15 @@
                         this.total_page = parseInt(this.total / this.per_page) + 1;
                         this.current_page.page = 1;
                         this.current_page.matches = this.allMatches.slice(0, 20);
-                     //   console.log(this.current_page);
+                        //   console.log(this.current_page);
                         //console.log("total page>>", this.total_page);
 
-                     //   console.log(this.allMatches);
+                        //   console.log(this.allMatches);
                     }
+
+                }else {
+                    this.current_localStorage=false;
+                }
 
                 },
 

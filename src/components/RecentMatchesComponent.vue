@@ -100,6 +100,7 @@
                 }).then((res) => {
                     return res.json();
                 }).then((data) => {
+                    localStorage.removeItem('playerMatchesResult');
                     if(data.error){
                         this.playerForbid=true;
                         return;
