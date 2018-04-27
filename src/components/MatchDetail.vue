@@ -570,7 +570,7 @@
              */
             toPlayerPage:function (account_id) {
                 console.log("toPlayerPage>>>",account_id);
-                this.$router.push({name:'player', params:{account_id:account_id}});
+                this.$router.push({path:`/player/${account_id}`});
 
             }
         },
