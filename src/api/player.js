@@ -81,8 +81,8 @@ export default {
                 rank_img=`/static/img/rank/rank_icon_7a.png`;
             }
             if(leaderboard_rank==0){
-                let rank=data.rank_tier.substr(0,1);
-                let stars=data.rank_tier.substr(1,1);
+                let rank=playerInfo.rank_tier.toString().substr(0,1);
+                let stars=playerInfo.rank_tier.toString().substr(1,1);
                 if(parseInt(stars)>5){
 
                 }
