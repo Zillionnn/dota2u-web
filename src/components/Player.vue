@@ -10,9 +10,9 @@
             <br/>
 
             <div class="rank_box">
-                <img class="rank" v-bind:src="rankInfo.rank_img" v-if="rankInfo.rank_img"/>
-                <img class="rank_stars" v-bind:src="rankInfo.rank_stars_img"  v-if="rankInfo.rank_stars_img"/>
-                <span v-if="rankInfo.leaderboard_rank">{{rankInfo.leaderboard_rank}}</span>
+                <img class="rank" v-bind:src="playerInfo.rank_img" v-if="playerInfo.rank_img"/>
+                <img class="rank_stars" v-bind:src="playerInfo.rank_stars_img"  v-if="playerInfo.rank_stars_img"/>
+                <span v-if="playerInfo.leaderboard_rank">{{playerInfo.leaderboard_rank}}</span>
             </div>
 
             <!--同步数据-->

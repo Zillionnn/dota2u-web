@@ -1,5 +1,7 @@
 <template xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <div>
+   <!-- 111111111111111111111111
+    <button class="synchronous_player_data" v-on:click="getRecentMatchesByAccount(121320102)">123</button>-->
     <p v-if="playerForbid">
         用户未开放数据
     </p>
@@ -75,21 +77,36 @@
 
         created:function () {
             let account_id=this.account_id;
-           // console.log(account_id);
+            console.log("recent matches");
             this.getRecentMatchesByAccount(account_id);
 
         },
         mounted:function(){
 
         },
-        methods: {
+        methods: {      synchronousPlayerData:function () {
+                let account =this.account_id;
+
+                fetch('/api/player/SynchronousPlayerData',{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({account: account})
+                }).then((res)=>{
+                    return res.json();
+                }).then((data)=>{
+                    console.log(data);
+                    this.synchronousState=data.result;
+                });
+            },
 
             /**
              * 获取玩家最近20场比赛
              * @param account_id
              */
             getRecentMatchesByAccount: function (account_id) {
-
+                console.log('in get recent matches ');
                 //获取玩家比赛概览
                 fetch('/api/player/getRecentMatchesByAccount', {
                     method: 'POST',

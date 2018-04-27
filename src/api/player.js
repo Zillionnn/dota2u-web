@@ -69,10 +69,32 @@ export default {
         }).then((data)=>{
             console.log("PLAYER  INFO>>\n",data);
              playerInfo=data;
-            playerInfo.rank_img=rank_img;
-            playerInfo.leaderboard_rank=leaderboard_rank;
-            playerInfo.rank_stars_img=rank_stars_img;
+            leaderboard_rank=data.leaderboard_rank;
 
+            if(leaderboard_rank<=10){
+                rank_img=`/static/img/rank/rank_icon_7c.png`;
+            }
+            if(leaderboard_rank>10 && leaderboard_rank<=100){
+                rank_img=`/static/img/rank/rank_icon_7b.png`;
+            }
+            if(leaderboard_rank>100){
+                rank_img=`/static/img/rank/rank_icon_7a.png`;
+            }
+            if(leaderboard_rank==0){
+                let rank=data.rank_tier.substr(0,1);
+                let stars=data.rank_tier.substr(1,1);
+                if(parseInt(stars)>5){
+
+                }
+                rank_img=`/static/img/rank/rank_icon_${rank}.png`;
+                if(stars>=0){
+                    rank_stars_img=`/static/img/rank/rank_star_${stars}.png`;
+                }
+
+            }
+            playerInfo.leaderboard_rank=leaderboard_rank;
+            playerInfo.rank_img=rank_img;
+            playerInfo.rank_stars_img=rank_stars_img;
            // console.log("API>>\n",playerInfo);
             callback(playerInfo);
 
