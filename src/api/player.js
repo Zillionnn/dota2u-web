@@ -87,7 +87,7 @@ export default {
 
                 }
                 rank_img=`/static/img/rank/rank_icon_${rank}.png`;
-                if(stars>=0){
+                if(stars>0){
                     rank_stars_img=`/static/img/rank/rank_star_${stars}.png`;
                 }
 
