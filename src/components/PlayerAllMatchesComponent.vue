@@ -1,9 +1,9 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <div>
-        <div v-if="!current_localStorage">
-            无数据
+        <div v-show="isLoading">
+            加载中。。。
         </div>
-        <div v-if="current_localStorage">
+        <div v-show="!isLoading">
             <p><button v-on:click="prePage(allMatches)">pre page</button>   <button v-on:click="nextPage(allMatches)">next page</button>
                 {{current_page.page}}/{{total_page}}</p>
             <table  class="recent_matches_table">
@@ -46,8 +46,8 @@
 
             <p><button v-on:click="prePage(allMatches)">pre page</button>   <button v-on:click="nextPage(allMatches)">next page</button>
                 {{current_page.page}}/{{total_page}}</p>
-        </div>
 
+        </div>
 
 </div>
 
@@ -70,7 +70,7 @@
         data () {
             return{
                 account_id:this.$route.params.account_id,
-                current_localStorage:false,
+               isLoading:true,
                 heroes:dotaconstants.hero,
                 allMatches:[],
                 total:null,
@@ -83,12 +83,12 @@
             }
 
         },
-/*        computed:{
+        computed:{
             ...mapGetters({
             playerMatchResult:'getterPlayerMatchesResult'
         }),
 
-        },*/
+        },
         created:function () {
             let account_id=this.account_id;
             console.log(account_id);
@@ -100,6 +100,9 @@
         },
         mounted:function(){
 
+        },
+        updated:function(){
+            this.isLoading=false;
         },
         methods: {
             /**
@@ -124,60 +127,66 @@
              * @param account_id
              */
             getAllMatches:function () {
-
-                    //let allMatches=this.$store.state.matchDetail.statePlayerMatchesResult.allMatches;
-                let localStorage=window.localStorage.getItem("playerMatchesResult");
-                if(localStorage){
-                    this.current_localStorage=true;
-                    let allMatches=JSON.parse(localStorage).allMatches;
-                    console.log(allMatches);
-                    this.recent20matches=[];
-                    let num_win=0;
-                    for(var i in allMatches){
-                        let match={};
-                        match.match_id=allMatches[i].match_id;
-                        match.start_time=utils.formatVTime_startTime(allMatches[i].start_time);
-                        //   console.log(match.start_time);
-                        match.duration=utils.s2Min$Second(allMatches[i].duration);
-
-                        let player=allMatches[i].player_json;
-
-                        let heroes=this.heroes;
-                        //   console.log(heroes);
-                        for(var k in heroes){
-                            if(heroes[k].id==player.hero_id){
-                                let hero_name=heroes[k].name.replace("npc_dota_hero_","");
-                                match.hero_img=`/static/img/hero_icon/${hero_name}_hphover.png`;
-                                player.hero_name=hero_name;
-                                player.hero_localized_name=heroes[k].localized_name;
-                                break;
-                            }
-                        }
-                        match.player = player;
-                        match.win = allMatches[i].radiant_win;
-                        match.win = allMatches[i].radiant_win;
-
-                        if (allMatches[i].player_position < 5) {
-                            match.win = allMatches[i].radiant_win;
-                        } else {
-                            match.win = !allMatches[i].radiant_win;
-                        }
-                        this.allMatches.push(match);
-                        this.total = this.allMatches.length;
-                        this.total_page = parseInt(this.total / this.per_page) + 1;
-                        this.current_page.page = 1;
-                        this.current_page.matches = this.allMatches.slice(0, 20);
-                        //   console.log(this.current_page);
-                        //console.log("total page>>", this.total_page);
-
-                        //   console.log(this.allMatches);
-                    }
-
-                }else {
-                    this.current_localStorage=false;
+                let playerMatchesResult=this.$store.state.matchDetail.statePlayerMatchesResult;
+                if(playerMatchesResult==null){
+                    console.log('is Null');
+                    this.$store.dispatch('actionGetPlayerMatchesDetail',this.account_id);
+                }else{
+                    console.log("not null");
+                    this.isLoading=false;
+                    this.generateCurrentPage();
                 }
 
                 },
+
+            generateCurrentPage:function(){
+
+                let allMatches=this.$store.state.matchDetail.statePlayerMatchesResult.allMatches;
+                //  let localStorage=window.localStorage.getItem("playerMatchesResult");
+                // let allMatches=JSON.parse(localStorage).allMatches;
+                console.log(allMatches);
+                this.recent20matches=[];
+                let num_win=0;
+                for(var i in allMatches){
+                    let match={};
+                    match.match_id=allMatches[i].match_id;
+                    match.start_time=utils.formatVTime_startTime(allMatches[i].start_time);
+                    //   console.log(match.start_time);
+                    match.duration=utils.s2Min$Second(allMatches[i].duration);
+
+                    let player=allMatches[i].player_json;
+
+                    let heroes=this.heroes;
+                    //   console.log(heroes);
+                    for(var k in heroes){
+                        if(heroes[k].id==player.hero_id){
+                            let hero_name=heroes[k].name.replace("npc_dota_hero_","");
+                            match.hero_img=`/static/img/hero_icon/${hero_name}_hphover.png`;
+                            player.hero_name=hero_name;
+                            player.hero_localized_name=heroes[k].localized_name;
+                            break;
+                        }
+                    }
+                    match.player = player;
+                    match.win = allMatches[i].radiant_win;
+                    match.win = allMatches[i].radiant_win;
+
+                    if (allMatches[i].player_position < 5) {
+                        match.win = allMatches[i].radiant_win;
+                    } else {
+                        match.win = !allMatches[i].radiant_win;
+                    }
+                    this.allMatches.push(match);
+                    this.total = this.allMatches.length;
+                    this.total_page = parseInt(this.total / this.per_page) + 1;
+                    this.current_page.page = 1;
+                    this.current_page.matches = this.allMatches.slice(0, 20);
+                    //   console.log(this.current_page);
+                    //    console.log("total page>>", this.total_page);
+
+                    //   console.log(this.allMatches);
+                }
+            },
 
             prePage:function (allMatches) {
                 /*  if(this.current_page.page==1){
@@ -211,7 +220,10 @@
             //methods
         },
         watch:{
-            '$route':'getRecentMatchesByAccount'
+            '$route':'getRecentMatchesByAccount',
+            playerMatchResult:function () {
+                this.generateCurrentPage();
+            }
         }
     };
 </script>

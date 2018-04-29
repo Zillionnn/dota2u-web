@@ -21,7 +21,7 @@ const actions={
 const mutations={
     setPlayerMatchesResult:(state,playerMatchesResult)=>{
         //console.log("playerMatchResult>>\n",playerMatchesResult);
-        window.localStorage.setItem('playerMatchesResult',JSON.stringify(playerMatchesResult));
+      //  window.localStorage.setItem('playerMatchesResult',JSON.stringify(playerMatchesResult));
 
         state.statePlayerMatchesResult=playerMatchesResult;
     }
