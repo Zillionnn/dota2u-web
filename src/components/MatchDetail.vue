@@ -1,317 +1,317 @@
 <template xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div>
         <h2>Match Details</h2>
-        <p>
-            <span class="match_head">比赛id：  {{matchDetail.match_id}}</span>
-            <span class="match_head">比赛模式：{{matchDetail.game_mode}}</span>
-            <span class="match_head">开始时间：{{matchDetail.start_time}}</span>
-            <span class="match_head">时长：{{matchDetail.duration}} </span>
-            <span class="match_head">一血时间：{{matchDetail.first_blood_time}}</span>
-
-        </p>
-
-        <div v-if="human_players==10">
-    <h2>天辉<span class="word_win" v-if="matchDetail.radiant_win">  WIN</span>   <span>{{matchDetail.radiant_score}}</span></h2>
-    <table class="match_detail_table">
-        <thead>
-        <th></th>
-        <th class="td_player_name">PLAYER</th>
-        <th>HERO</th>
-        <th>level</th>
-        <th>K/D/A</th>
-        <th>H/D</th>
-        <th>参战率</th>
-        <th>  伤害   </th>
-        <th>GPM</th>
-        <th>XPM</th>
-        <th>ITEMS</th>
-        </thead>
-        <tr v-for="(player,index) in matchDetail.players" v-if="index<5" v-on:click="toPlayerPage(player.account_id)" class="tr_match_detail">
-            <td style="display: none">{{player.account_id}}</td>
-
-            <td >
-                <img v-if="player.player_head_icon" v-bind:src="player.player_head_icon"/>
-                <img v-if="!player.player_head_icon" src="/static/img/null_head_icon.png"/>
-            </td>
-
-            <td class="td_player_name" >
-                <span v-if="player.player_name">{{player.player_name}}</span>
-                <span  v-if="!player.player_name">匿名玩家</span>
-            </td>
-            <td> <img class="hero_icon"  v-bind:src="player.hero_img"/></td>
-            <td>{{player.level}}</td>
-            <td>{{player.kda}} ({{player.kills}}/{{player.deaths}}/{{player.assists}})</td>
-            <td>{{player.last_hits}}/{{player.denies}}</td>
-            <td>{{player.combat_percent}}%</td>
-            <td class="td_hero_damage">
-                <!-- {{player.hero_damage}}-->
-                <div class="damage_percentage_div">
-                    <div v-bind:style="{width: player.hero_damage_percentage+'%',height : damage_div_height+'em'}"
-                         style="background: #9b322c;float: left"  ></div>
-                    <span style="font-size: 0.5em;float: left;margin-left: 3px">   {{player.hero_damage}} </span>
-                </div>
-
-                <div class="damage_percentage_div">
-                    <div v-bind:style="{width: player.tower_damage_percent+'%',height : damage_div_height+'em'}"
-                         style="background: #4284d4;float: left"  ></div>
-                    <span style="font-size: 0.5em;float: left;margin-left: 3px"> {{player.tower_damage}}</span>
-                </div>
-
-            </td>
-
-            <td>
-                <span style="color: yellow">{{player.gold_per_min}}</span>
-            </td>
-            <td>{{player.xp_per_min}}</td>
-            <td class="td_game_item">
-                <div class="inventory">
-                    <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_0_pic"/>
-                    <img class="game_item_s" v-if="player.item_1_pic" v-bind:src="player.item_1_pic"/>
-                    <img class="game_item_s" v-if="player.item_2_pic" v-bind:src="player.item_2_pic"/>
-                    <img class="game_item_s" v-if="player.item_3_pic" v-bind:src="player.item_3_pic"/>
-                    <img class="game_item_s" v-if="player.item_4_pic" v-bind:src="player.item_4_pic"/>
-                    <img class="game_item_s" v-if="player.item_5_pic" v-bind:src="player.item_5_pic"/>
-                </div>
-
-                <div class="back_bag">
-                    <img class="back_bag_item" v-if="player.backpack_0_pic" v-bind:src="player.backpack_0_pic"/>
-                    <img class="back_bag_item" v-if="player.backpack_1_pic" v-bind:src="player.backpack_1_pic"/>
-                    <img class="back_bag_item" v-if="player.backpack_2_pic" v-bind:src="player.backpack_2_pic"/>
-                </div>
-
-            </td>
-        </tr>
-    </table>
-
-
-
-    <h2>夜魇<span  class="word_win"  v-if="!matchDetail.radiant_win">  WIN</span>     <span>{{matchDetail.dire_score}}</span></h2>
-    <table class="match_detail_table">
-        <thead>
-        <th></th>
-        <th class="td_player_name">PLAYER</th>
-        <th>HERO</th>
-        <th>level</th>
-        <th>K/D/A</th>
-        <th>H/D</th>
-        <th>参战率</th>
-        <th>  伤害   </th>
-        <th>GPM</th>
-        <th>XPM</th>
-        <th>ITEMS</th>
-        </thead>
-        <tr v-for="(player,index) in matchDetail.players" v-if="index>=5" v-on:click="toPlayerPage(player.account_id)" class="tr_match_detail">
-            <td style="display: none">{{player.account_id}}</td>
-
-            <td >
-                <img v-if="player.player_head_icon" v-bind:src="player.player_head_icon"/>
-                <img v-if="!player.player_head_icon" src="/static/img/null_head_icon.png"/>
-            </td>
-
-            <td class="td_player_name" >
-                <span v-if="player.player_name">{{player.player_name}}</span>
-                <span  v-if="!player.player_name">匿名玩家</span>
-            </td>
-            <td> <img class="hero_icon"  v-bind:src="player.hero_img"/></td>
-            <td>{{player.level}}</td>
-            <td>{{player.kda}} ({{player.kills}}/{{player.deaths}}/{{player.assists}})</td>
-            <td>{{player.last_hits}}/{{player.denies}}</td>
-            <td>{{player.combat_percent}}%</td>
-            <td class="td_hero_damage">
-                <!-- {{player.hero_damage}}-->
-                <div class="damage_percentage_div">
-                    <div v-bind:style="{width: player.hero_damage_percentage+'%',height : damage_div_height+'em'}"
-                         style="background: #9b322c;float: left"  ></div>
-                    <span style="font-size: 0.5em;float: left;margin-left: 3px">   {{player.hero_damage}} </span>
-                </div>
-
-                <div class="damage_percentage_div">
-                    <div v-bind:style="{width: player.tower_damage_percent+'%',height : damage_div_height+'em'}"
-                         style="background: #4284d4;float: left"  ></div>
-                    <span style="font-size: 0.5em;float: left;margin-left: 3px"> {{player.tower_damage}}</span>
-                </div>
-
-            </td>
-
-            <td>
-                <span style="color: yellow">{{player.gold_per_min}}</span>
-            </td>
-            <td>{{player.xp_per_min}}</td>
-            <td class="td_game_item">
-                <div class="inventory">
-                    <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_0_pic"/>
-                    <img class="game_item_s" v-if="player.item_1_pic" v-bind:src="player.item_1_pic"/>
-                    <img class="game_item_s" v-if="player.item_2_pic" v-bind:src="player.item_2_pic"/>
-                    <img class="game_item_s" v-if="player.item_3_pic" v-bind:src="player.item_3_pic"/>
-                    <img class="game_item_s" v-if="player.item_4_pic" v-bind:src="player.item_4_pic"/>
-                    <img class="game_item_s" v-if="player.item_5_pic" v-bind:src="player.item_5_pic"/>
-                </div>
-
-                <div class="back_bag">
-                    <img class="back_bag_item" v-if="player.backpack_0_pic" v-bind:src="player.backpack_0_pic"/>
-                    <img class="back_bag_item" v-if="player.backpack_1_pic" v-bind:src="player.backpack_1_pic"/>
-                    <img class="back_bag_item" v-if="player.backpack_2_pic" v-bind:src="player.backpack_2_pic"/>
-                </div>
-
-            </td>
-        </tr>
-    </table>
-</div>
-
-
-        <div v-if="human_players==2">
-            <h2>天辉<span class="word_win" v-if="matchDetail.radiant_win">  WIN</span>   <span>{{matchDetail.radiant_score}}</span></h2>
-            <table class="match_detail_table">
-                <thead>
-                <th></th>
-                <th class="td_player_name">PLAYER</th>
-                <th>HERO</th>
-                <th>level</th>
-                <th>K/D/A</th>
-                <th>H/D</th>
-                <th>参战率</th>
-                <th>  伤害   </th>
-                <th>GPM</th>
-                <th>XPM</th>
-                <th>ITEMS</th>
-                </thead>
-                <tr v-for="(player,index) in matchDetail.players" v-if="index<1" v-on:click="toPlayerPage(player.account_id)" class="tr_match_detail">
-                    <td style="display: none">{{player.account_id}}</td>
-
-                    <td >
-                        <img v-if="player.player_head_icon" v-bind:src="player.player_head_icon"/>
-                        <img v-if="!player.player_head_icon" src="/static/img/null_head_icon.png"/>
-                    </td>
-
-                    <td class="td_player_name" >
-                        <span v-if="player.player_name">{{player.player_name}}</span>
-                        <span  v-if="!player.player_name">匿名玩家</span>
-                    </td>
-                    <td> <img class="hero_icon"  v-bind:src="player.hero_img"/></td>
-                    <td>{{player.level}}</td>
-                    <td>{{player.kda}} ({{player.kills}}/{{player.deaths}}/{{player.assists}})</td>
-                    <td>{{player.last_hits}}/{{player.denies}}</td>
-                    <td>{{player.combat_percent}}%</td>
-                    <td class="td_hero_damage">
-                        <!-- {{player.hero_damage}}-->
-                        <div class="damage_percentage_div">
-                            <div v-bind:style="{width: player.hero_damage_percentage+'%',height : damage_div_height+'em'}"
-                                 style="background: #9b322c;float: left"  ></div>
-                            <span style="font-size: 0.5em;float: left;margin-left: 3px">   {{player.hero_damage}} </span>
-                        </div>
-
-                        <div class="damage_percentage_div">
-                            <div v-bind:style="{width: player.tower_damage_percent+'%',height : damage_div_height+'em'}"
-                                 style="background: #4284d4;float: left"  ></div>
-                            <span style="font-size: 0.5em;float: left;margin-left: 3px"> {{player.tower_damage}}</span>
-                        </div>
-
-                    </td>
-
-                    <td>
-                        <span style="color: yellow">{{player.gold_per_min}}</span>
-                    </td>
-                    <td>{{player.xp_per_min}}</td>
-                    <td class="td_game_item">
-                        <div class="inventory">
-                            <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_0_pic"/>
-                            <img class="game_item_s" v-if="player.item_1_pic" v-bind:src="player.item_1_pic"/>
-                            <img class="game_item_s" v-if="player.item_2_pic" v-bind:src="player.item_2_pic"/>
-                            <img class="game_item_s" v-if="player.item_3_pic" v-bind:src="player.item_3_pic"/>
-                            <img class="game_item_s" v-if="player.item_4_pic" v-bind:src="player.item_4_pic"/>
-                            <img class="game_item_s" v-if="player.item_5_pic" v-bind:src="player.item_5_pic"/>
-                        </div>
-
-                        <div class="back_bag">
-                            <img class="back_bag_item" v-if="player.backpack_0_pic" v-bind:src="player.backpack_0_pic"/>
-                            <img class="back_bag_item" v-if="player.backpack_1_pic" v-bind:src="player.backpack_1_pic"/>
-                            <img class="back_bag_item" v-if="player.backpack_2_pic" v-bind:src="player.backpack_2_pic"/>
-                        </div>
-
-                    </td>
-                </tr>
-            </table>
-
-
-
-            <h2>夜魇<span  class="word_win"  v-if="!matchDetail.radiant_win">  WIN</span>     <span>{{matchDetail.dire_score}}</span></h2>
-            <table class="match_detail_table">
-                <thead>
-                <th></th>
-                <th class="td_player_name">PLAYER</th>
-                <th>HERO</th>
-                <th>level</th>
-                <th>K/D/A</th>
-                <th>H/D</th>
-                <th>参战率</th>
-                <th>  伤害   </th>
-                <th>GPM</th>
-                <th>XPM</th>
-                <th>ITEMS</th>
-                </thead>
-                <tr v-for="(player,index) in matchDetail.players" v-if="index>=1" v-on:click="toPlayerPage(player.account_id)" class="tr_match_detail">
-                    <td style="display: none">{{player.account_id}}</td>
-
-                    <td >
-                        <img v-if="player.player_head_icon" v-bind:src="player.player_head_icon"/>
-                        <img v-if="!player.player_head_icon" src="/static/img/null_head_icon.png"/>
-                    </td>
-
-                    <td class="td_player_name" >
-                        <span v-if="player.player_name">{{player.player_name}}</span>
-                        <span  v-if="!player.player_name">匿名玩家</span>
-                    </td>
-                    <td> <img class="hero_icon"  v-bind:src="player.hero_img"/></td>
-                    <td>{{player.level}}</td>
-                    <td>{{player.kda}} ({{player.kills}}/{{player.deaths}}/{{player.assists}})</td>
-                    <td>{{player.last_hits}}/{{player.denies}}</td>
-                    <td>{{player.combat_percent}}%</td>
-                    <td class="td_hero_damage">
-                        <!-- {{player.hero_damage}}-->
-                        <div class="damage_percentage_div">
-                            <div v-bind:style="{width: player.hero_damage_percentage+'%',height : damage_div_height+'em'}"
-                                 style="background: #9b322c;float: left"  ></div>
-                            <span style="font-size: 0.5em;float: left;margin-left: 3px">   {{player.hero_damage}} </span>
-                        </div>
-
-                        <div class="damage_percentage_div">
-                            <div v-bind:style="{width: player.tower_damage_percent+'%',height : damage_div_height+'em'}"
-                                 style="background: #4284d4;float: left"  ></div>
-                            <span style="font-size: 0.5em;float: left;margin-left: 3px"> {{player.tower_damage}}</span>
-                        </div>
-
-                    </td>
-
-                    <td>
-                        <span style="color: yellow">{{player.gold_per_min}}</span>
-                    </td>
-                    <td>{{player.xp_per_min}}</td>
-                    <td class="td_game_item">
-                        <div class="inventory">
-                            <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_0_pic"/>
-                            <img class="game_item_s" v-if="player.item_1_pic" v-bind:src="player.item_1_pic"/>
-                            <img class="game_item_s" v-if="player.item_2_pic" v-bind:src="player.item_2_pic"/>
-                            <img class="game_item_s" v-if="player.item_3_pic" v-bind:src="player.item_3_pic"/>
-                            <img class="game_item_s" v-if="player.item_4_pic" v-bind:src="player.item_4_pic"/>
-                            <img class="game_item_s" v-if="player.item_5_pic" v-bind:src="player.item_5_pic"/>
-                        </div>
-
-                        <div class="back_bag">
-                            <img class="back_bag_item" v-if="player.backpack_0_pic" v-bind:src="player.backpack_0_pic"/>
-                            <img class="back_bag_item" v-if="player.backpack_1_pic" v-bind:src="player.backpack_1_pic"/>
-                            <img class="back_bag_item" v-if="player.backpack_2_pic" v-bind:src="player.backpack_2_pic"/>
-                        </div>
-
-                    </td>
-                </tr>
-            </table>
+        <div v-show="isLoading">
+            加载中。。。
         </div>
+        <div v-show="!isLoading">
+            <p>
+                <span class="match_head">比赛id：  {{matchDetail.match_id}}</span>
+                <span class="match_head">比赛模式：{{matchDetail.game_mode}}</span>
+                <span class="match_head">开始时间：{{matchDetail.start_time}}</span>
+                <span class="match_head">时长：{{matchDetail.duration}} </span>
+                <span class="match_head">一血时间：{{matchDetail.first_blood_time}}</span>
+
+            </p>
+
+            <div v-if="human_players==10">
+                <h2>天辉<span class="word_win" v-if="matchDetail.radiant_win">  WIN</span>   <span>{{matchDetail.radiant_score}}</span></h2>
+                <table class="match_detail_table">
+                    <thead>
+                    <th></th>
+                    <th class="td_player_name">PLAYER</th>
+                    <th>HERO</th>
+                    <th>level</th>
+                    <th>K/D/A</th>
+                    <th>H/D</th>
+                    <th>参战率</th>
+                    <th>  伤害   </th>
+                    <th>GPM</th>
+                    <th>XPM</th>
+                    <th>ITEMS</th>
+                    </thead>
+                    <tr v-for="(player,index) in matchDetail.players" v-if="index<5" v-on:click="toPlayerPage(player.account_id)" class="tr_match_detail">
+                        <td style="display: none">{{player.account_id}}</td>
+
+                        <td >
+                            <img v-if="player.player_head_icon" v-bind:src="player.player_head_icon"/>
+                            <img v-if="!player.player_head_icon" src="/static/img/null_head_icon.png"/>
+                        </td>
+
+                        <td class="td_player_name" >
+                            <span v-if="player.player_name">{{player.player_name}}</span>
+                            <span  v-if="!player.player_name">匿名玩家</span>
+                        </td>
+                        <td> <img class="hero_icon"  v-bind:src="player.hero_img"/></td>
+                        <td>{{player.level}}</td>
+                        <td>{{player.kda}} ({{player.kills}}/{{player.deaths}}/{{player.assists}})</td>
+                        <td>{{player.last_hits}}/{{player.denies}}</td>
+                        <td>{{player.combat_percent}}%</td>
+                        <td class="td_hero_damage">
+                            <!-- {{player.hero_damage}}-->
+                            <div class="damage_percentage_div">
+                                <div v-bind:style="{width: player.hero_damage_percentage+'%',height : damage_div_height+'em'}"
+                                     style="background: #9b322c;float: left"  ></div>
+                                <span style="font-size: 0.5em;float: left;margin-left: 3px">   {{player.hero_damage}} </span>
+                            </div>
+
+                            <div class="damage_percentage_div">
+                                <div v-bind:style="{width: player.tower_damage_percent+'%',height : damage_div_height+'em'}"
+                                     style="background: #4284d4;float: left"  ></div>
+                                <span style="font-size: 0.5em;float: left;margin-left: 3px"> {{player.tower_damage}}</span>
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <span style="color: yellow">{{player.gold_per_min}}</span>
+                        </td>
+                        <td>{{player.xp_per_min}}</td>
+                        <td class="td_game_item">
+                            <div class="inventory">
+                                <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_0_pic"/>
+                                <img class="game_item_s" v-if="player.item_1_pic" v-bind:src="player.item_1_pic"/>
+                                <img class="game_item_s" v-if="player.item_2_pic" v-bind:src="player.item_2_pic"/>
+                                <img class="game_item_s" v-if="player.item_3_pic" v-bind:src="player.item_3_pic"/>
+                                <img class="game_item_s" v-if="player.item_4_pic" v-bind:src="player.item_4_pic"/>
+                                <img class="game_item_s" v-if="player.item_5_pic" v-bind:src="player.item_5_pic"/>
+                            </div>
+
+                            <div class="back_bag">
+                                <img class="back_bag_item" v-if="player.backpack_0_pic" v-bind:src="player.backpack_0_pic"/>
+                                <img class="back_bag_item" v-if="player.backpack_1_pic" v-bind:src="player.backpack_1_pic"/>
+                                <img class="back_bag_item" v-if="player.backpack_2_pic" v-bind:src="player.backpack_2_pic"/>
+                            </div>
+
+                        </td>
+                    </tr>
+                </table>
 
 
 
+                <h2>夜魇<span  class="word_win"  v-if="!matchDetail.radiant_win">  WIN</span>     <span>{{matchDetail.dire_score}}</span></h2>
+                <table class="match_detail_table">
+                    <thead>
+                    <th></th>
+                    <th class="td_player_name">PLAYER</th>
+                    <th>HERO</th>
+                    <th>level</th>
+                    <th>K/D/A</th>
+                    <th>H/D</th>
+                    <th>参战率</th>
+                    <th>  伤害   </th>
+                    <th>GPM</th>
+                    <th>XPM</th>
+                    <th>ITEMS</th>
+                    </thead>
+                    <tr v-for="(player,index) in matchDetail.players" v-if="index>=5" v-on:click="toPlayerPage(player.account_id)" class="tr_match_detail">
+                        <td style="display: none">{{player.account_id}}</td>
+
+                        <td >
+                            <img v-if="player.player_head_icon" v-bind:src="player.player_head_icon"/>
+                            <img v-if="!player.player_head_icon" src="/static/img/null_head_icon.png"/>
+                        </td>
+
+                        <td class="td_player_name" >
+                            <span v-if="player.player_name">{{player.player_name}}</span>
+                            <span  v-if="!player.player_name">匿名玩家</span>
+                        </td>
+                        <td> <img class="hero_icon"  v-bind:src="player.hero_img"/></td>
+                        <td>{{player.level}}</td>
+                        <td>{{player.kda}} ({{player.kills}}/{{player.deaths}}/{{player.assists}})</td>
+                        <td>{{player.last_hits}}/{{player.denies}}</td>
+                        <td>{{player.combat_percent}}%</td>
+                        <td class="td_hero_damage">
+                            <!-- {{player.hero_damage}}-->
+                            <div class="damage_percentage_div">
+                                <div v-bind:style="{width: player.hero_damage_percentage+'%',height : damage_div_height+'em'}"
+                                     style="background: #9b322c;float: left"  ></div>
+                                <span style="font-size: 0.5em;float: left;margin-left: 3px">   {{player.hero_damage}} </span>
+                            </div>
+
+                            <div class="damage_percentage_div">
+                                <div v-bind:style="{width: player.tower_damage_percent+'%',height : damage_div_height+'em'}"
+                                     style="background: #4284d4;float: left"  ></div>
+                                <span style="font-size: 0.5em;float: left;margin-left: 3px"> {{player.tower_damage}}</span>
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <span style="color: yellow">{{player.gold_per_min}}</span>
+                        </td>
+                        <td>{{player.xp_per_min}}</td>
+                        <td class="td_game_item">
+                            <div class="inventory">
+                                <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_0_pic"/>
+                                <img class="game_item_s" v-if="player.item_1_pic" v-bind:src="player.item_1_pic"/>
+                                <img class="game_item_s" v-if="player.item_2_pic" v-bind:src="player.item_2_pic"/>
+                                <img class="game_item_s" v-if="player.item_3_pic" v-bind:src="player.item_3_pic"/>
+                                <img class="game_item_s" v-if="player.item_4_pic" v-bind:src="player.item_4_pic"/>
+                                <img class="game_item_s" v-if="player.item_5_pic" v-bind:src="player.item_5_pic"/>
+                            </div>
+
+                            <div class="back_bag">
+                                <img class="back_bag_item" v-if="player.backpack_0_pic" v-bind:src="player.backpack_0_pic"/>
+                                <img class="back_bag_item" v-if="player.backpack_1_pic" v-bind:src="player.backpack_1_pic"/>
+                                <img class="back_bag_item" v-if="player.backpack_2_pic" v-bind:src="player.backpack_2_pic"/>
+                            </div>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+
+            <div v-if="human_players==2">
+                <h2>天辉<span class="word_win" v-if="matchDetail.radiant_win">  WIN</span>   <span>{{matchDetail.radiant_score}}</span></h2>
+                <table class="match_detail_table">
+                    <thead>
+                    <th></th>
+                    <th class="td_player_name">PLAYER</th>
+                    <th>HERO</th>
+                    <th>level</th>
+                    <th>K/D/A</th>
+                    <th>H/D</th>
+                    <th>参战率</th>
+                    <th>  伤害   </th>
+                    <th>GPM</th>
+                    <th>XPM</th>
+                    <th>ITEMS</th>
+                    </thead>
+                    <tr v-for="(player,index) in matchDetail.players" v-if="index<1" v-on:click="toPlayerPage(player.account_id)" class="tr_match_detail">
+                        <td style="display: none">{{player.account_id}}</td>
+
+                        <td >
+                            <img v-if="player.player_head_icon" v-bind:src="player.player_head_icon"/>
+                            <img v-if="!player.player_head_icon" src="/static/img/null_head_icon.png"/>
+                        </td>
+
+                        <td class="td_player_name" >
+                            <span v-if="player.player_name">{{player.player_name}}</span>
+                            <span  v-if="!player.player_name">匿名玩家</span>
+                        </td>
+                        <td> <img class="hero_icon"  v-bind:src="player.hero_img"/></td>
+                        <td>{{player.level}}</td>
+                        <td>{{player.kda}} ({{player.kills}}/{{player.deaths}}/{{player.assists}})</td>
+                        <td>{{player.last_hits}}/{{player.denies}}</td>
+                        <td>{{player.combat_percent}}%</td>
+                        <td class="td_hero_damage">
+                            <!-- {{player.hero_damage}}-->
+                            <div class="damage_percentage_div">
+                                <div v-bind:style="{width: player.hero_damage_percentage+'%',height : damage_div_height+'em'}"
+                                     style="background: #9b322c;float: left"  ></div>
+                                <span style="font-size: 0.5em;float: left;margin-left: 3px">   {{player.hero_damage}} </span>
+                            </div>
+
+                            <div class="damage_percentage_div">
+                                <div v-bind:style="{width: player.tower_damage_percent+'%',height : damage_div_height+'em'}"
+                                     style="background: #4284d4;float: left"  ></div>
+                                <span style="font-size: 0.5em;float: left;margin-left: 3px"> {{player.tower_damage}}</span>
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <span style="color: yellow">{{player.gold_per_min}}</span>
+                        </td>
+                        <td>{{player.xp_per_min}}</td>
+                        <td class="td_game_item">
+                            <div class="inventory">
+                                <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_0_pic"/>
+                                <img class="game_item_s" v-if="player.item_1_pic" v-bind:src="player.item_1_pic"/>
+                                <img class="game_item_s" v-if="player.item_2_pic" v-bind:src="player.item_2_pic"/>
+                                <img class="game_item_s" v-if="player.item_3_pic" v-bind:src="player.item_3_pic"/>
+                                <img class="game_item_s" v-if="player.item_4_pic" v-bind:src="player.item_4_pic"/>
+                                <img class="game_item_s" v-if="player.item_5_pic" v-bind:src="player.item_5_pic"/>
+                            </div>
+
+                            <div class="back_bag">
+                                <img class="back_bag_item" v-if="player.backpack_0_pic" v-bind:src="player.backpack_0_pic"/>
+                                <img class="back_bag_item" v-if="player.backpack_1_pic" v-bind:src="player.backpack_1_pic"/>
+                                <img class="back_bag_item" v-if="player.backpack_2_pic" v-bind:src="player.backpack_2_pic"/>
+                            </div>
+
+                        </td>
+                    </tr>
+                </table>
 
 
 
+                <h2>夜魇<span  class="word_win"  v-if="!matchDetail.radiant_win">  WIN</span>     <span>{{matchDetail.dire_score}}</span></h2>
+                <table class="match_detail_table">
+                    <thead>
+                    <th></th>
+                    <th class="td_player_name">PLAYER</th>
+                    <th>HERO</th>
+                    <th>level</th>
+                    <th>K/D/A</th>
+                    <th>H/D</th>
+                    <th>参战率</th>
+                    <th>  伤害   </th>
+                    <th>GPM</th>
+                    <th>XPM</th>
+                    <th>ITEMS</th>
+                    </thead>
+                    <tr v-for="(player,index) in matchDetail.players" v-if="index>=1" v-on:click="toPlayerPage(player.account_id)" class="tr_match_detail">
+                        <td style="display: none">{{player.account_id}}</td>
+
+                        <td >
+                            <img v-if="player.player_head_icon" v-bind:src="player.player_head_icon"/>
+                            <img v-if="!player.player_head_icon" src="/static/img/null_head_icon.png"/>
+                        </td>
+
+                        <td class="td_player_name" >
+                            <span v-if="player.player_name">{{player.player_name}}</span>
+                            <span  v-if="!player.player_name">匿名玩家</span>
+                        </td>
+                        <td> <img class="hero_icon"  v-bind:src="player.hero_img"/></td>
+                        <td>{{player.level}}</td>
+                        <td>{{player.kda}} ({{player.kills}}/{{player.deaths}}/{{player.assists}})</td>
+                        <td>{{player.last_hits}}/{{player.denies}}</td>
+                        <td>{{player.combat_percent}}%</td>
+                        <td class="td_hero_damage">
+                            <!-- {{player.hero_damage}}-->
+                            <div class="damage_percentage_div">
+                                <div v-bind:style="{width: player.hero_damage_percentage+'%',height : damage_div_height+'em'}"
+                                     style="background: #9b322c;float: left"  ></div>
+                                <span style="font-size: 0.5em;float: left;margin-left: 3px">   {{player.hero_damage}} </span>
+                            </div>
+
+                            <div class="damage_percentage_div">
+                                <div v-bind:style="{width: player.tower_damage_percent+'%',height : damage_div_height+'em'}"
+                                     style="background: #4284d4;float: left"  ></div>
+                                <span style="font-size: 0.5em;float: left;margin-left: 3px"> {{player.tower_damage}}</span>
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <span style="color: yellow">{{player.gold_per_min}}</span>
+                        </td>
+                        <td>{{player.xp_per_min}}</td>
+                        <td class="td_game_item">
+                            <div class="inventory">
+                                <img class="game_item_s" v-if="player.item_0_pic" v-bind:src="player.item_0_pic"/>
+                                <img class="game_item_s" v-if="player.item_1_pic" v-bind:src="player.item_1_pic"/>
+                                <img class="game_item_s" v-if="player.item_2_pic" v-bind:src="player.item_2_pic"/>
+                                <img class="game_item_s" v-if="player.item_3_pic" v-bind:src="player.item_3_pic"/>
+                                <img class="game_item_s" v-if="player.item_4_pic" v-bind:src="player.item_4_pic"/>
+                                <img class="game_item_s" v-if="player.item_5_pic" v-bind:src="player.item_5_pic"/>
+                            </div>
+
+                            <div class="back_bag">
+                                <img class="back_bag_item" v-if="player.backpack_0_pic" v-bind:src="player.backpack_0_pic"/>
+                                <img class="back_bag_item" v-if="player.backpack_1_pic" v-bind:src="player.backpack_1_pic"/>
+                                <img class="back_bag_item" v-if="player.backpack_2_pic" v-bind:src="player.backpack_2_pic"/>
+                            </div>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
 
 
     </div>
@@ -329,6 +329,7 @@
         name: "MatchDetail",
         data(){
             return{
+                isLoading:true,
                 match_id:this.$route.params.match_id,
                 matchDetail: {
                     barracks_status_dire: 0,
@@ -399,6 +400,7 @@
         },
         updated:function () {
             console.log('something update');
+            this.isLoading=false;
 
         },
         computed: {

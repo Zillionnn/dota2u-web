@@ -1,53 +1,59 @@
 <template xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
-<div>
-   <!-- 111111111111111111111111
-    <button class="synchronous_player_data" v-on:click="getRecentMatchesByAccount(121320102)">123</button>-->
-    <p v-if="playerForbid">
-        用户未开放数据
-    </p>
-    <div v-if="playerForbid==false">
+<div >
+    <div v-show="isLoading">
+        加载中。。。
+    </div>
+    <div v-show="!isLoading">
+        <!-- 111111111111111111111111
+ <button class="synchronous_player_data" v-on:click="getRecentMatchesByAccount(121320102)">123</button>-->
+        <p v-if="playerForbid">
+            用户未开放数据
+        </p>
+        <div v-if="playerForbid==false">
         <span class="latest_20_win_rate" v-if="playerMatchResult.latest_20_win_rate">
             {{playerMatchResult.latest_20_win_rate}}%
         </span>过去20场胜率
 
-    <table   class="recent_matches_table">
-        <thead style="text-align: center">
-        <th>英雄</th>
-        <th class="win_or_lose">胜败</th>
-        <th>比赛编号</th>
-        <th>时间</th>
-        <th>KDA</th>
-        </thead>
-        <tbody>
-        <tr v-for="(matches,index) in playerMatchResult.recent20matches"
-            v-on:click="toMatchDetailPage(matches.match_id)" class="tr_match" v-bind:class="{tr_even: index%2}">
-            <td class="td_hero_img">
-                <img class="hero_icon"  v-bind:src="matches.hero_img"/>
-                <div style="float:left;margin-top: 0.5em">{{matches.player.hero_localized_name}}</div>
-            </td>
-            <td class="win_or_lose">
-                <span v-if="matches.win==true" class="win_word">胜</span>
-                <span v-if="matches.win==false" class="lose_word">败</span>
-            </td>
+            <table   class="recent_matches_table">
+                <thead style="text-align: center">
+                <th>英雄</th>
+                <th class="win_or_lose">胜败</th>
+                <th>比赛编号</th>
+                <th>时间</th>
+                <th>KDA</th>
+                </thead>
+                <tbody>
+                <tr v-for="(matches,index) in playerMatchResult.recent20matches"
+                    v-on:click="toMatchDetailPage(matches.match_id)" class="tr_match" v-bind:class="{tr_even: index%2}">
+                    <td class="td_hero_img">
+                        <img class="hero_icon"  v-bind:src="matches.hero_img"/>
+                        <div style="float:left;margin-top: 0.5em">{{matches.player.hero_localized_name}}</div>
+                    </td>
+                    <td class="win_or_lose">
+                        <span v-if="matches.win==true" class="win_word">胜</span>
+                        <span v-if="matches.win==false" class="lose_word">败</span>
+                    </td>
 
-            <td style="width: 10em">
-                <div>
-                    <span>{{matches.match_id}}</span><br/>
-                    <span class="td_game_mode">{{matches.game_mode}}</span>
-                </div>
-            </td>
+                    <td style="width: 10em">
+                        <div>
+                            <span>{{matches.match_id}}</span><br/>
+                            <span class="td_game_mode">{{matches.game_mode}}</span>
+                        </div>
+                    </td>
 
-            <td style="width: 10em">
-                <div >
-                    <span>{{matches.start_time}}</span><br/>
-                    <span class="td_duration">{{matches.duration}}</span>
-                </div>
-            </td>
-            <td>{{matches.player.kills}}/{{matches.player.deaths}}/{{matches.player.assists}}</td>
-        </tr>
-        </tbody>
-    </table>
+                    <td style="width: 10em">
+                        <div >
+                            <span>{{matches.start_time}}</span><br/>
+                            <span class="td_duration">{{matches.duration}}</span>
+                        </div>
+                    </td>
+                    <td>{{matches.player.kills}}/{{matches.player.deaths}}/{{matches.player.assists}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+
 </div>
 </template>
 
@@ -66,7 +72,8 @@
                 account_id:this.$route.params.account_id,
                 heroes:dotaconstants.hero,
                 playerForbid:false,
-                synchronousState:'同步数据'
+                synchronousState:'同步数据',
+                isLoading:true
             }
 
         },
@@ -83,6 +90,12 @@
         },
         mounted:function(){
 
+        },
+        beforeUpdate:function(){
+         //   this.data_updated=false;
+        },
+        updated:function(){
+          this.isLoading=false;
         },
         methods: {      synchronousPlayerData:function () {
                 let account =this.account_id;

@@ -1,27 +1,33 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <div>
         <div v-if="playerInfo" class="userinfo">
-            <div class="headPic">
-                <img  v-bind:src="playerInfo.avatarfull"/>
-                <span class="headID">ID:{{playerInfo.account_id}}</span>
+            <div v-show="isLoading">
+                加载中。。。
             </div>
 
-            <span class="headPersonname">{{playerInfo.personaname}}</span>
-            <br/>
-
-            <div class="rank_box">
-                <img class="rank" v-bind:src="playerInfo.rank_img" v-if="playerInfo.rank_img"/>
-                <img class="rank_stars" v-bind:src="playerInfo.rank_stars_img"  v-if="playerInfo.rank_stars_img"/>
-                <span v-if="playerInfo.leaderboard_rank">{{playerInfo.leaderboard_rank}}</span>
+            <div v-show="!isLoading">
+                <div class="headPic">
+                    <img  v-bind:src="playerInfo.avatarfull"/>
+                    <span class="headID">ID:{{playerInfo.account_id}}</span>
+                </div>
+                <span class="headPersonname">{{playerInfo.personaname}}</span>
+                <br/>
+                <div class="rank_box">
+                    <img class="rank" v-bind:src="playerInfo.rank_img" v-if="playerInfo.rank_img"/>
+                    <img class="rank_stars" v-bind:src="playerInfo.rank_stars_img"  v-if="playerInfo.rank_stars_img"/>
+                    <span v-if="playerInfo.leaderboard_rank">{{playerInfo.leaderboard_rank}}</span>
+                </div>
+                <!--同步数据-->
+                <button class="synchronous_player_data" v-on:click="synchronousPlayerData">{{synchronousState}}</button>
             </div>
 
-            <!--同步数据-->
-            <button class="synchronous_player_data" v-on:click="synchronousPlayerData">{{synchronousState}}</button>
         </div>
 
+        <div class="guide_bar">
+            <h3 v-on:click="linkToRecentMatches">最近比赛</h3>
+            <h3 v-on:click="linkToAllMatches">查看战绩</h3>
+        </div>
 
-        <h3 v-on:click="linkToRecentMatches">最近比赛</h3>
-        <h3 v-on:click="linkToAllMatches">查看战绩</h3>
 
         <!--router -view -->
         <router-view></router-view>
@@ -43,7 +49,8 @@
                 account_id:this.$route.params.account_id,
                 recent20matches:[],
                 heroes:dotaconstants.hero,
-                synchronousState:'同步数据'
+                synchronousState:'同步数据',
+                isLoading:true
             }
 
         },
@@ -57,7 +64,18 @@
             this.$store.dispatch('actionGetOrUpdatePlayerInfo',account_id);
         },
         mounted:function(){
-
+          //  alert('mounted');
+        },
+        beforeUpdate:function(){
+          //  alert('before updated');
+          //  this.dataUpdated=false;
+        },
+        updated:function(){
+           // alert('updated');
+          this.isLoading=false;
+        },
+        beforeDestroy:function(){
+          //alert('before destroyed ');
         },
         methods: {
             /**
