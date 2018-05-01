@@ -189,10 +189,6 @@
             },
 
             prePage:function (allMatches) {
-                /*  if(this.current_page.page==1){
-                      this.current_page.matches=allMatches.slice(0,20);
-                  }*/
-              //  console.log("next page all matches >>",allMatches);
                 if(this.current_page.page==1){
                     this.current_page.matches=this.allMatches.slice(0,20);
                     return;
@@ -206,15 +202,17 @@
                // console.log("NEXT  PAGE",this.current_page);
             },
             nextPage:function (allMatches) {
-              /*  if(this.current_page.page==1){
-                    this.current_page.matches=allMatches.slice(0,20);
-                }*/
-          //    console.log("next page all matches >>",allMatches);
                 this.current_page.page+=1;
+                if(this.current_page.page>this.total_page){
+                    this.current_page.page=this.total_page;
+                    return;
+                }
                 let start_index=(this.current_page.page-1)*20;
                 console.log("start index",start_index);
                 this.current_page.matches=allMatches.slice(start_index,start_index+20);
-                console.log("NEXT  PAGE",this.current_page);
+
+               // console.log("NEXT  PAGE",this.current_page);
+
             }
 
             //methods

@@ -41,3 +41,7 @@ leaderboard_rank: 1
 
 34  3==中军
         4==4颗星
+
+
+        #ISSUE:
+        点进比赛详细后，返回是allMatches的首页；
