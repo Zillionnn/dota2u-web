@@ -24,8 +24,9 @@
         </div>
 
         <div class="guide_bar">
-            <h3 v-on:click="linkToRecentMatches">最近比赛</h3>
-            <h3 v-on:click="linkToAllMatches">查看战绩</h3>
+            <div  v-on:click="linkToRecentMatches">最近比赛</div>
+            <div v-on:click="linkToAllMatches">查看战绩</div>
+            <div >英雄统计</div>
         </div>
 
 
@@ -227,4 +228,20 @@
         background: #224e62;
     }
 
+    .guide_bar{
+        width: 100%;
+        margin: 1rem auto 1rem;
+        display: flex;
+       justify-content:space-between ;
+    }
+    .guide_bar div{
+        cursor: pointer;
+        font-weight: bold;
+        margin-bottom: 2rem;
+        border-bottom: 3px solid rgba(255, 246, 254, 0);
+    }
+    .guide_bar div:hover{
+        color: #919191;
+        border-bottom: 3px solid #919191;
+    }
 </style>

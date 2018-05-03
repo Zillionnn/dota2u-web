@@ -4,8 +4,11 @@
             加载中。。。
         </div>
         <div v-show="!isLoading">
-            <p><button v-on:click="prePage(allMatches)">pre page</button>   <button v-on:click="nextPage(allMatches)">next page</button>
-                {{current_page.page}}/{{total_page}}</p>
+            <p>
+                <button class="page_btn" v-on:click="prePage(allMatches)">pre page</button>
+                <button class="page_btn" v-on:click="nextPage(allMatches)">next page</button>
+                {{current_page.page}}/{{total_page}}
+            </p>
             <table  class="recent_matches_table">
                 <thead style="text-align: center">
                 <th>英雄</th>
@@ -330,6 +333,17 @@
     }
     .tr_even{
         background: #224e62;
+    }
+    .page_btn{
+        background: rgba(255,246,254,0);
+        border: none;
+        text-decoration: none;
+        color: #4284d4;
+        outline: none;
+        font-size: 1em;
+    }
+    .page_btn:hover{
+        background: rgba(238, 238, 238, 0.15);
     }
 
 </style>
