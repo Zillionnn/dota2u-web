@@ -14,7 +14,7 @@
 
             </p>
 
-            <div v-if="human_players==10">
+            <div v-if="human_players!==2">
                 <h2>天辉<span class="word_win" v-if="matchDetail.radiant_win">  WIN</span>   <span>{{matchDetail.radiant_score}}</span></h2>
                 <table class="match_detail_table">
                     <thead>
