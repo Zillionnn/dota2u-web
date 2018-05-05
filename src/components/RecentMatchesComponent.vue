@@ -241,7 +241,7 @@
     }
 
     .latest_20_win_rate{
-        font-size: 2em;
+        font-size: 1.5em;
         font-weight: bold;
     }
     .recent_matches_table{

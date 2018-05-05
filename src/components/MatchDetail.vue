@@ -601,7 +601,7 @@
         width: 100px;
     }
     .match_detail_table{
-        width: 770px;
+        width: 70rem;
         text-align: center;
     }
     .td_player_name{
