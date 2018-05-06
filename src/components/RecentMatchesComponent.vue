@@ -89,7 +89,7 @@
 
         },
         mounted:function(){
-
+            this.isLoading=true;
         },
         beforeUpdate:function(){
          //   this.data_updated=false;
@@ -97,7 +97,8 @@
         updated:function(){
           this.isLoading=false;
         },
-        methods: {      synchronousPlayerData:function () {
+        methods: {
+            synchronousPlayerData:function () {
                 let account =this.account_id;
 
                 fetch('/api/player/SynchronousPlayerData',{

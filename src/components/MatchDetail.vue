@@ -15,7 +15,11 @@
             </p>
 
             <div v-if="human_players!==2">
-                <h2>天辉<span class="word_win" v-if="matchDetail.radiant_win">  WIN</span>   <span>{{matchDetail.radiant_score}}</span></h2>
+                <h2>
+                    天辉<span class="word_win" v-if="matchDetail.radiant_win">  WIN</span>
+                    <span style="font-size: 1rem">{{matchDetail.radiant_score}}</span>
+                    <span>{{matchDetail.radiant_name}}</span>
+                </h2>
                 <table class="match_detail_table">
                     <thead>
                     <th></th>
@@ -89,7 +93,11 @@
 
 
 
-                <h2>夜魇<span  class="word_win"  v-if="!matchDetail.radiant_win">  WIN</span>     <span>{{matchDetail.dire_score}}</span></h2>
+                <h2>
+                    夜魇<span  class="word_win"  v-if="!matchDetail.radiant_win">  WIN</span>
+                    <span style="font-size: 1rem">{{matchDetail.dire_score}}</span>
+                    <spanL>{{matchDetail.dire_name}}</spanL>
+                </h2>
                 <table class="match_detail_table">
                     <thead>
                     <th></th>

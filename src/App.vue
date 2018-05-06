@@ -1,7 +1,7 @@
 <template>
   <div id="app">
       <div class="content">
-          <img src="./assets/img/hero_icon/shadow_demon_hphover.png">
+          <img src="./assets/img/Items/refresher_lg.png">
           <router-link to="/">HOME</router-link>
         <!--  <router-link to="/player/121320102">player</router-link>-->
           <router-link to="/parent_component/foo">parent component</router-link>
