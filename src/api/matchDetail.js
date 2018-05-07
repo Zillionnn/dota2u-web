@@ -11,7 +11,6 @@ let heroes=dotaconstants.hero;
 export default {
     getAllMatches:function (account_id,callback) {
         let allMatches,
-            recent20Array=[],
              latest_20_win_rate,
             recent20matches=[],
             playerMatchesResult={};
@@ -24,20 +23,20 @@ export default {
         }).then((data)=>{
             console.log("GET PLAYER ALL MATCHES",data);
             allMatches=data;
-           recent20Array=data.slice(0,20);
+        //   allMatches=data.slice(0,20);
 
 
-            console.log(recent20Array);
+            //console.log(allMatches);
 
             let num_win=0;
-            for(var i in recent20Array){
+            for(var i in allMatches){
                 let match={};
-                match.match_id=recent20Array[i].match_id;
-                match.start_time=utils.formatVTime_startTime(recent20Array[i].start_time);
+                match.match_id=allMatches[i].match_id;
+                match.start_time=utils.formatVTime_startTime(allMatches[i].start_time);
                 //   console.log(match.start_time);
-                match.duration=utils.s2Min$Second(recent20Array[i].duration);
+                match.duration=utils.s2Min$Second(allMatches[i].duration);
 
-                let player=recent20Array[i].player_json;
+                let player=allMatches[i].player_json;
 
 
                 //   console.log(heroes);
@@ -51,10 +50,10 @@ export default {
                     }
                 }
                 match.player = player;
-                match.win = recent20Array[i].radiant_win;
-                match.win = recent20Array[i].radiant_win;
 
-                if(recent20Array[i].player_position<5){
+                match.win = allMatches[i].radiant_win;
+
+                if(allMatches[i].player_position<5){
                     match.win=data[i].radiant_win;
                 }else{
                     match.win=!data[i].radiant_win;
@@ -62,18 +61,23 @@ export default {
 
                 if(match.win==true){
                     num_win++;
-                     latest_20_win_rate=(num_win*100)/20;
                 }
 
-                //match.game_mode=game_mode[data[i].game_mode].mode;
-                match.game_mode=game_mode[recent20Array[i].game_mode].zh_localized_name;
 
-                recent20matches.push(match);
+                //match.game_mode=game_mode[data[i].game_mode].mode;
+                match.game_mode=game_mode[allMatches[i].game_mode].zh_localized_name;
+
+                if(i<20){
+                    latest_20_win_rate=(num_win*100)/20;
+                    recent20matches.push(match);
+                }
+
             }
 
           playerMatchesResult.recent20matches=recent20matches;
             playerMatchesResult.allMatches=allMatches;
             playerMatchesResult.latest_20_win_rate=latest_20_win_rate;
+            playerMatchesResult.num_win=num_win;
            // console.log("API>>\n",playerMatchesResult);
             callback(playerMatchesResult);
         });

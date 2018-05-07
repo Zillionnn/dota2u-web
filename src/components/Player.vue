@@ -1,17 +1,17 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <div>
-        <div v-if="playerInfo" class="userinfo">
+        <div v-if="playerInfo" >
             <div v-show="isLoading">
                 加载中。。。
             </div>
 
-            <div v-show="!isLoading">
+            <div v-show="!isLoading" class="userinfo">
                 <div class="headPic">
                     <img  v-bind:src="playerInfo.avatarfull"/>
                     <span class="headID">ID:{{playerInfo.account_id}}</span>
                 </div>
                 <span class="headPersonname">{{playerInfo.personaname}}</span>
-                <br/>
+
                 <div class="rank_box">
                     <img class="rank" v-bind:src="playerInfo.rank_img" v-if="playerInfo.rank_img"/>
                     <img class="rank_stars" v-bind:src="playerInfo.rank_stars_img"  v-if="playerInfo.rank_stars_img"/>
@@ -19,6 +19,25 @@
                 </div>
                 <!--同步数据-->
                 <button class="synchronous_player_data" v-on:click="synchronousPlayerData">{{synchronousState}}</button>
+
+                <!--玩家平均数据-->
+                <div class="player_data">
+                    <!--<span>场次：{{allMatchesNum}}</span>-->
+                    <table >
+                        <thead>
+                        <th>场次</th>
+                        <th>胜</th>
+                        <th>负</th>
+                        <td>胜率</td>
+                        </thead>
+                        <tr>
+                            <td>{{allMatchesNum}}</td>
+                            <td>{{num_win}}</td>
+                            <td>{{allMatchesNum-num_win}}</td>
+                            <td>{{parseFloat(num_win*100/allMatchesNum).toFixed(2)}} %</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
 
         </div>
@@ -51,18 +70,23 @@
                 recent20matches:[],
                 heroes:dotaconstants.hero,
                 synchronousState:'同步数据',
-                isLoading:true
+                isLoading:true,
+                allMatchesNum:null,
+                num_win:null
             }
 
         },
         computed:mapGetters({
             playerInfo:'getterPlayerInfo',
-            rankInfo:'getterRankInfo'
+            rankInfo:'getterRankInfo',
+            playerMatchResult:'getterPlayerMatchesResult'
+
         }),
         created:function () {
             let account_id=this.account_id;
             console.log(account_id);
             this.$store.dispatch('actionGetOrUpdatePlayerInfo',account_id);
+
         },
         mounted:function(){
           //  alert('mounted');
@@ -99,6 +123,22 @@
                 });
             },
 
+            getAllMatches:function () {
+                let playerMatchesResult=this.$store.state.matchDetail.statePlayerMatchesResult;
+                if(playerMatchesResult==null){
+                    console.log('is Null');
+                    this.$store.dispatch('actionGetPlayerMatchesDetail',this.account_id);
+                }else{
+                    let allMatches=playerMatchesResult.allMatches;
+                    this.allMatchesNum=allMatches.length;
+                    this.num_win=playerMatchesResult.num_win;
+                    console.log("PLAYER>>not null",playerMatchesResult);
+
+                    //this.isLoading=false;
+                 //   this.generateCurrentPage();
+                }
+
+            },
             /**
              * 跳转比赛详情页面component
              * @param match_id
@@ -117,6 +157,12 @@
             }
 
             //methods
+        },
+        watch:{
+            playerMatchResult:function () {
+                console.log('WATCH>>');
+                this.getAllMatches();
+            }
         }
 
     };
@@ -147,6 +193,7 @@
         float:left;
         margin: 0 0 0 2em;
         font-size: 1.5em;
+        display: block;
     }
 
     .one_match{
@@ -243,5 +290,16 @@
     .guide_bar div:hover{
         color: #919191;
         border-bottom: 3px solid #919191;
+    }
+    .player_data{
+        width: 70%;
+        height: 100px;
+        float: left;
+    }
+    .player_data table{
+        width: 87%;
+        height: 100%;
+        margin: 0 auto;
+        text-align: center;
     }
 </style>
