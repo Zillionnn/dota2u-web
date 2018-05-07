@@ -10,7 +10,7 @@
             用户未开放数据
         </p>
         <div v-if="playerForbid==false">
-        <span class="latest_20_win_rate" v-if="playerMatchResult.latest_20_win_rate">
+        <span class="latest_20_win_rate" v-if="playerMatchResult">
             {{playerMatchResult.latest_20_win_rate}}%
         </span>过去20场胜率
 

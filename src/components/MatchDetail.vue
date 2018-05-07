@@ -96,7 +96,7 @@
                 <h2>
                     夜魇<span  class="word_win"  v-if="!matchDetail.radiant_win">  WIN</span>
                     <span style="font-size: 1rem">{{matchDetail.dire_score}}</span>
-                    <spanL>{{matchDetail.dire_name}}</spanL>
+                    <span>{{matchDetail.dire_name}}</span>
                 </h2>
                 <table class="match_detail_table">
                     <thead>
