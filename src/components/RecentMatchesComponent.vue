@@ -95,6 +95,7 @@
          //   this.data_updated=false;
         },
         updated:function(){
+            console.log('something update');
           this.isLoading=false;
         },
         methods: {

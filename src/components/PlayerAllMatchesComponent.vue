@@ -3,7 +3,7 @@
         <div v-show="isLoading">
             加载中。。。
         </div>
-        <div v-show="!isLoading">
+        <div v-show="!isLoading" style="margin: 0 auto;width: 999px;height: 100%">
             <p>
                 <button class="page_btn" v-on:click="prePage(allMatches)">pre page</button>
                 <button class="page_btn" v-on:click="nextPage(allMatches)">next page</button>
@@ -301,8 +301,9 @@
         font-weight: bold;
     }
     .recent_matches_table{
-        /*  width: 80%;*/
+          width: 100%;
         border: 0;
+        margin:0 auto;
     }
     .recent_matches_table tr{
         border: 0;

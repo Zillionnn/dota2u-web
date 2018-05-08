@@ -1,11 +1,11 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <div>
         <div v-if="playerInfo" >
-            <div v-show="isLoading">
+            <div v-if="isLoading" >
                 加载中。。。
             </div>
 
-            <div v-show="!isLoading" class="userinfo">
+            <div v-if="!isLoading" class="userinfo">
                 <div class="headPic">
                     <img  v-bind:src="playerInfo.avatarfull"/>
                     <span class="headID">ID:{{playerInfo.account_id}}</span>
@@ -21,8 +21,13 @@
                 <button class="synchronous_player_data" v-on:click="synchronousPlayerData">{{synchronousState}}</button>
 
                 <!--玩家平均数据-->
-                <div class="player_data">
-                    <!--<span>场次：{{allMatchesNum}}</span>-->
+
+
+                <!--<span>场次：{{allMatchesNum}}</span>-->
+                <div v-if="isLoading_num" class="player_data">
+                    <span style="display: block;margin: 5% auto;">加载中。。。</span>
+                </div>
+                <div class="player_data" v-if="!isLoading_num">
                     <table >
                         <thead>
                         <th>场次</th>
@@ -71,6 +76,7 @@
                 heroes:dotaconstants.hero,
                 synchronousState:'同步数据',
                 isLoading:true,
+                isLoading_num:true,
                 allMatchesNum:null,
                 num_win:null
             }
@@ -98,6 +104,7 @@
         updated:function(){
            // alert('updated');
           this.isLoading=false;
+
         },
         beforeDestroy:function(){
           //alert('before destroyed ');
@@ -134,7 +141,7 @@
                     this.num_win=playerMatchesResult.num_win;
                     console.log("PLAYER>>not null",playerMatchesResult);
 
-                    //this.isLoading=false;
+                    this.isLoading_num=false;
                  //   this.generateCurrentPage();
                 }
 
@@ -295,6 +302,7 @@
         width: 70%;
         height: 100px;
         float: left;
+        text-align: center;
     }
     .player_data table{
         width: 87%;
