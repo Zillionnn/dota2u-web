@@ -39,15 +39,15 @@ export default new Router({
         ]
     },
     {
-      path: '/parent_component/:name',
+      path: '/parent_component',
       name: 'Parent',
       component: Parent,
-        children:[
+  /*      children:[
             {
                 path:'',
                 component:Child
             }
-        ]
+        ]*/
     },
       {
           path:'/matchdetail/:match_id',

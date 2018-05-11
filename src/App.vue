@@ -1,11 +1,14 @@
 <template>
   <div id="app">
       <div class="content">
-          <img src="./assets/img/Items/refresher_lg.png">
-          <router-link to="/">HOME</router-link>
-        <!--  <router-link to="/player/121320102">player</router-link>-->
-          <router-link to="/parent_component/foo">parent component</router-link>
-          <router-link to="/404">404</router-link>
+          <img class="logo" src="./assets/img/Items/refresher_lg.png">
+          <nav>
+              <router-link to="/" >HOME</router-link>
+              <!--  <router-link to="/player/121320102">player</router-link>-->
+              <router-link to="/parent_component">parent component</router-link>
+              <router-link to="/404">404</router-link>
+          </nav>
+
       </div>
 
       <hr/>
@@ -32,18 +35,41 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #d1cecf;
-  margin-top: 60px;
-}
-  a{
-    color: #eed221;
-  }
-    .content{
+    #app {
+        font-family: 'Century Gothic', Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        color: #d1cecf;
+        margin-top: 30px;
+    }
+
+    nav a {
+        text-decoration: none;
+        color: #d0d0d0;
+        margin: 0 3rem;
+        font-size: 1rem;
+        font-weight: bold;
+        line-height: 1.8rem;
+    }
+    nav a:hover{
+        text-decoration: none;
+        color: #d0d0d0;
+        margin: 0 3rem;
+        font-size: 1rem;
+        line-height: 1.8rem;
+        font-weight: bold;
+        background: rgba(131,131,131,0.72);
+    }
+
+    .content {
         width: 80%;
         margin: 0 auto;
+    }
+
+    @media (max-width: 500px) {
+        .logo{
+            margin: 0 auto;
+            display: block;
+        }
     }
 </style>
