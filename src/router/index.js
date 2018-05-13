@@ -8,9 +8,10 @@ import Index from '@/components/Index';
 import PlayerAllMatchesComponent from '@/components/PlayerAllMatchesComponent';
 import RecentMatchesComponent from'@/components/RecentMatchesComponent';
 import Child from '@/components/child';
-
+import Signup from '@/components/Signup';
 
 Vue.use(Router);
+
 
 export default new Router({
     /*mode: 'history',*/
@@ -53,6 +54,11 @@ export default new Router({
           path:'/matchdetail/:match_id',
           name:'matchdetail',
           component:MatchDetail
+      },
+      {
+          path:'/signup',
+          name:'signup',
+          component:Signup
       }
   ]
 });

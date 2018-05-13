@@ -7,6 +7,7 @@
               <!--  <router-link to="/player/121320102">player</router-link>-->
               <router-link to="/parent_component">parent component</router-link>
               <router-link to="/404">404</router-link>
+              <router-link to="/signup">sign up</router-link>
           </nav>
 
       </div>
