@@ -1,26 +1,31 @@
-<template>
+<template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class="parent_section">
         PARENT COMPONENT:
         <br/>
         router?{{$route.params}}
+        <p :style="{fontSize:parentFontSize+'em'}">{{parentMsg}}</p>
         <input v-model="parentMsg">
         <br/>
         <!--parent data=="parentMsg"-->
-       <!-- <child v-bind:message="parentMsg" v-bind="parentObj"></child>-->
-
+   <!--     <child v-bind:message="parentMsg"
+               v-bind:parentObj="parentObj"
+               v-on:enlarge-text="parentFontSize+=$event"></child>-->
+        <child v-bind:message="parentMsg"
+               v-bind:parentObj="parentObj"
+               v-on:enlarge-text="onEnlargeText"></child>
 
         {{fullName}}
 
-        <router-view></router-view>
+        <!--<router-view></router-view>-->
     </div>
 
 </template>
 
 <script>
-//import Child from './child';
+import Child from './child';
 
     export default {
-        //components: {Child},
+        components: {Child},
         name: "Parent",
         data(){
             return{
@@ -30,7 +35,8 @@
                     age:16
                 },
                 firstName: 'Foo',
-                lastName: 'Bar'
+                lastName: 'Bar',
+                parentFontSize:1
             }
         },
         computed: {
@@ -49,6 +55,10 @@
                 console.log(this.$store.state.count);
                   //  return store.state.count
 
+            },
+            onEnlargeText:function (event) {
+                console.log(event);
+                this.parentFontSize+=event;
             }
         }
     }

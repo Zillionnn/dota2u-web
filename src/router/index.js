@@ -9,6 +9,7 @@ import PlayerAllMatchesComponent from '@/components/PlayerAllMatchesComponent';
 import RecentMatchesComponent from'@/components/RecentMatchesComponent';
 import Child from '@/components/child';
 import Signup from '@/components/Signup';
+import BindAccountID from '@/components/BindAccountID';
 
 Vue.use(Router);
 
@@ -59,6 +60,11 @@ export default new Router({
           path:'/signup',
           name:'signup',
           component:Signup
+      },
+      {
+          path:'/bindaccount',
+          name:'bindaccount',
+          component:BindAccountID
       }
   ]
 });

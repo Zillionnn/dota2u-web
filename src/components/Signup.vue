@@ -1,4 +1,5 @@
-<template xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<template xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml"
+          xmlns:disabled="http://www.w3.org/1999/xhtml">
 <div class="content">
     <div class="signup_section">
         <h2>Sign up</h2>
@@ -7,7 +8,7 @@
             {{form_errors}}
             </p>
             <div class="form_item">
-                <input type="text" v-model.trim="account" placeholder="account" required  v-on:blur="checkForm">
+                <input type="email" v-model="email" placeholder="email" required v-on:blur="checkForm">
             </div>
             <div class="form_item">
                 <input type="text" v-model="nick_name" placeholder="nick name" required v-on:blur="checkForm" min="2" max="24">
@@ -15,12 +16,10 @@
             <div class="form_item">
                 <input type="password" v-model="password" placeholder="password" required v-on:blur="checkForm">
             </div>
-            <div class="form_item">
-                <input type="email" v-model="email" placeholder="email" required v-on:blur="checkForm">
-            </div>
 
-                <button type="submit" class="signup_btn">Sign up</button>
 
+                <button type="submit" class="signup_btn"  v-if="!submitted">Sign up</button>
+            <button type="button " class="submitted_btn"  v-if="submitted" disabled>WAITING...</button>
         </form>
     </div>
 
@@ -36,7 +35,8 @@
                 password:null,
                 email:null,
                 nick_name:null,
-                form_errors:null
+                form_errors:null,
+                submitted:false
             }
         },
         filters: {
@@ -50,7 +50,6 @@
         methods:{
             checkForm:function(){
                 this.form_errors=null;
-              this.checkAccount();
               this.checkPwd();
               this.checkNickName();
               this.checkEmail();
@@ -61,6 +60,7 @@
             submitUser:function () {
                 if(this.form_errors==null ){
                     console.log('SUBMIT');
+                    this.submitted=true;
                     console.log(this.account);
                     console.log(this.password);
                     console.log(this.email);
@@ -83,7 +83,7 @@
                         console.log(data);
                         if(data.registerResult==200){
                             alert('sign up success');
-
+                            this.$router.push({ path: `/bindaccount` });
                         }
                     });
                 }
@@ -132,7 +132,7 @@
 
             checkPwd:function(){
                 if(!this.password){
-                    this.form_errors.push('未填写密码');
+                    this.form_errors='未填写密码';
                 }else{
                     let reg=/^[0-9a-zA-Z]{6,30}$/;
                     if(reg.test(this.password)){
@@ -305,6 +305,17 @@
             margin: 0 auto;
             color: #ffffff;
             background: #d68704;
+            border: 0;
+            border-radius: 3px;
+        }
+        .submitted_btn{
+            padding: 3px 5px;
+            width: 100%;
+            height:2.6em;
+            outline: none;
+            margin: 0 auto;
+            color: #ffffff;
+            background: #838282;
             border: 0;
             border-radius: 3px;
         }
