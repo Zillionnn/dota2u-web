@@ -19,7 +19,7 @@
 
 
                 <button type="submit" class="signup_btn"  v-if="!submitted">Sign up</button>
-            <button type="button " class="submitted_btn"  v-if="submitted" disabled>WAITING...</button>
+            <button class="submitted_btn"  v-if="submitted" >WAITING...</button>
         </form>
     </div>
 
@@ -61,12 +61,11 @@
                 if(this.form_errors==null ){
                     console.log('SUBMIT');
                     this.submitted=true;
-                    console.log(this.account);
+
                     console.log(this.password);
                     console.log(this.email);
                     console.log(this.nick_name);
                     let user={
-                        account:this.account.toLowerCase(),
                         password:this.password,
                         email:this.email,
                         nick_name:this.nick_name.toLowerCase()

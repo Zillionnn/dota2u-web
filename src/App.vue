@@ -7,7 +7,14 @@
               <!--  <router-link to="/player/121320102">player</router-link>-->
               <router-link to="/parent_component">parent component</router-link>
               <router-link to="/404">404</router-link>
-              <router-link to="/signup">sign up</router-link>
+              <div v-if="!nick_name" class="sign">
+                  <router-link to="/signup" >sign up</router-link>
+                  <router-link to="/signin">sign in</router-link>
+              </div>
+              <div v-if="nick_name" class="sign">
+                  {{nick_name}}
+              </div>
+
           </nav>
 
       </div>
@@ -29,8 +36,12 @@ export default {
   name: 'App',
     data(){
         return{
-            account_id:null
+            account_id:null,
+            nick_name:null
         }
+    },
+    mounted:function () {
+        this.nick_name=localStorage.getItem("user");
     }
 };
 </script>
@@ -65,6 +76,10 @@ export default {
     .content {
         width: 80%;
         margin: 0 auto;
+    }
+    .sign{
+        float:right;
+        cursor: pointer;
     }
 
     @media (max-width: 500px) {

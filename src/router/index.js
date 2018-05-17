@@ -10,6 +10,7 @@ import RecentMatchesComponent from'@/components/RecentMatchesComponent';
 import Child from '@/components/child';
 import Signup from '@/components/Signup';
 import BindAccountID from '@/components/BindAccountID';
+import Signin from '@/components/Signin';
 
 Vue.use(Router);
 
@@ -60,6 +61,11 @@ export default new Router({
           path:'/signup',
           name:'signup',
           component:Signup
+      },
+      {
+          path:'/signin',
+          name:'signin',
+          component:Signin
       },
       {
           path:'/bindaccount',
