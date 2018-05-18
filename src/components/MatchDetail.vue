@@ -34,7 +34,7 @@
                     <th>XPM</th>
                     <th>ITEMS</th>
                     </thead>
-                    <tr v-for="(player,index) in matchDetail.players" v-if="index<5" v-on:click="toPlayerPage(player.account_id)" class="tr_match_detail">
+                    <tr v-for="(player,index) in matchDetail.players" v-if="player.player_slot<5" v-on:click="toPlayerPage(player.account_id)" class="tr_match_detail">
                         <td style="display: none">{{player.account_id}}</td>
 
                         <td >
@@ -112,7 +112,7 @@
                     <th>XPM</th>
                     <th>ITEMS</th>
                     </thead>
-                    <tr v-for="(player,index) in matchDetail.players" v-if="index>=5" v-on:click="toPlayerPage(player.account_id)" class="tr_match_detail">
+                    <tr v-for="(player,index) in matchDetail.players" v-if="player.player_slot>5" v-on:click="toPlayerPage(player.account_id)" class="tr_match_detail">
                         <td style="display: none">{{player.account_id}}</td>
 
                         <td >
