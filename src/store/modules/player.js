@@ -1,5 +1,5 @@
 //api?
-import  playerApi from '../../api/player';
+import  playerApi from '../api/player';
 
 const state ={
     statePlayerInfo:null,
