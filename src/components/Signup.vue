@@ -82,7 +82,8 @@
                         console.log(data);
                         if(data.registerResult==200){
                             alert('sign up success');
-                            this.$router.push({ path: `/bindaccount` });
+
+                            this.$router.push({ path: `/signin` });
                         }
                     });
                 }

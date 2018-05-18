@@ -25,6 +25,8 @@
 </template>
 
 <script>
+    import {mapGetter,mapActions} from 'vuex';
+
     export default {
         name: "Signin",
         data(){
@@ -54,7 +56,10 @@
                     console.log(data.ret_code==0);
                     localStorage.setItem("token",data.ret_msg);
                     localStorage.setItem("user",data.nick_name);
-                    this.$router.push({ path: `/bindaccount` });
+                    localStorage.setItem("user_id",data.user_id);
+                    this.$store.dispatch('actionGetUserID',data.user_id);
+                    this.$store.dispatch('actionGetUser',data.nick_name);
+                    this.$router.push({ path: `/` });
                 });
             }
         }

@@ -1,6 +1,11 @@
 <template>
-<div>
-    bind A  player account;
+<div class="content">
+    <form v-on:submit="subBindAccountID">
+        bind A  player account:
+        <input type="text" v-model="bind_account"  placeholder="enter your account id "/>
+        <button type="submit" >bind the account</button>
+    </form>
+
 </div>
 </template>
 
@@ -9,12 +14,14 @@
         name: "bindAccountID",
         data(){
             return{
-
+                bind_account:null,
+                user_id:null
             }
         },
 
         mounted:function(){
             console.log('mounted');
+            this.user_id=localStorage.getItem("user_id");
             this.checkSignin();
         },
     methods:{
@@ -32,7 +39,26 @@
                 }).then((data)=>{
                     console.log(data);
                 });
-            }
+            },
+        subBindAccountID:function () {
+            let bind_account = this.bind_account;
+            let user_id=this.user_id;
+            fetch('/api/users/bindAccount',{
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({bind_account:bind_account,user_id:user_id})
+            }).then((res)=>{
+                return res.json();
+            }).then((data)=>{
+                console.log(data);
+                if(data.ret_code==0){
+                    alert('bind success');
+                    this.$router.push({path:`/`});
+                }
+            });
+        }
     }
     }
 </script>
