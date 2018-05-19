@@ -32,8 +32,8 @@
                     method:'POST',
                     headers:{
                         'Content-Type':'application/json',
-                    },
-                    body:JSON.stringify({token:token})
+                        'Authorization': token
+                    }
                 }).then((res)=>{
                     return res.json();
                 }).then((data)=>{
@@ -41,12 +41,14 @@
                 });
             },
         subBindAccountID:function () {
+            let token=localStorage.getItem("token");
             let bind_account = this.bind_account;
             let user_id=this.user_id;
             fetch('/api/users/bindAccount',{
                 method:'POST',
                 headers:{
-                    'Content-Type':'application/json'
+                    'Content-Type':'application/json',
+                    'Authorization': token
                 },
                 body:JSON.stringify({bind_account:bind_account,user_id:user_id})
             }).then((res)=>{
@@ -56,6 +58,8 @@
                 if(data.ret_code==0){
                     alert('bind success');
                     this.$router.push({path:`/`});
+                }else{
+                    alert(data.ret_msg);
                 }
             });
         }
