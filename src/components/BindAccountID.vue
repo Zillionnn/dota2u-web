@@ -56,7 +56,9 @@
             }).then((data)=>{
                 console.log(data);
                 if(data.ret_code==0){
+
                     alert('bind success');
+                    this.$store.dispatch('actionGetAccountID',user_id);
                     this.$router.push({path:`/`});
                 }else{
                     alert(data.ret_msg);

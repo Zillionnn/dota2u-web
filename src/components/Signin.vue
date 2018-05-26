@@ -53,13 +53,17 @@
                 }).then((res)=>{
                     return res.json();
                 }).then((data)=>{
-                    console.log(data.ret_code==0);
-                    localStorage.setItem("token",data.ret_msg);
-                    localStorage.setItem("user",data.nick_name);
-                    localStorage.setItem("user_id",data.user_id);
-                    this.$store.dispatch('actionGetUserID',data.user_id);
-                    this.$store.dispatch('actionGetUser',data.nick_name);
-                    this.$router.push({ path: `/` });
+                    if(data.ret_code==0){
+                        localStorage.setItem("token",data.ret_msg);
+                        localStorage.setItem("user",data.nick_name);
+                        localStorage.setItem("user_id",data.user_id);
+                        this.$store.dispatch('actionGetUserID',data.user_id);
+                        this.$store.dispatch('actionGetUser',data.nick_name);
+                        this.$router.push({ path: `/` });
+                    }else{
+                        alert(data.ret_msg);
+                    }
+
                 });
             }
         }
