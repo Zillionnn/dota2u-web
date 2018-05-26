@@ -100,4 +100,20 @@ export default {
 
         });
     },
+
+    getRecentData:function (account_id,callback) {
+        let account=account_id;
+        fetch('/api/player/getRecentData',{
+            method:'POST',
+            headers:{
+                "Content-Type":'application/json'
+            },
+            body:JSON.stringify({account:account})
+        }).then((res)=>{
+            return res.json();
+        }).then((data)=>{
+            console.log(data);
+            callback(data);
+        });
+    }
 }

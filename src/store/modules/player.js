@@ -3,7 +3,8 @@ import  playerApi from '../api/player';
 
 const state ={
     statePlayerInfo:null,
-    stateRankInfo:null
+    stateRankInfo:null,
+    stateRecentData:null
 };
 
 
@@ -14,6 +15,9 @@ const getters={
     },
     getterRankInfo:(state)=>{
         return state.stateRankInfo;
+    },
+    getterRecentData:(state)=>{
+        return state.stateRecentData
     }
 };
 
@@ -26,7 +30,11 @@ const actions={
 
         playerApi.getPlayerRank(account_id,(rankInfo)=>{
             commit('setRankInfo',rankInfo);
-        })
+        });
+
+        playerApi.getRecentData(account_id,(recentData)=>{
+            commit('setRecentData',recentData);
+        });
     }
 };
 
@@ -38,6 +46,10 @@ const mutations={
 
     setRankInfo(state,rankInfo){
         state.stateRankInfo=rankInfo;
+    },
+
+    setRecentData(state,recentData){
+        state.stateRecentData=recentData;
     }
 };
 

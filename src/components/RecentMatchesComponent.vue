@@ -53,7 +53,6 @@
             </table>
         </div>
     </div>
-
 </div>
 </template>
 
@@ -73,7 +72,7 @@
                 heroes:dotaconstants.hero,
                 playerForbid:false,
                 synchronousState:'同步数据',
-                isLoading:true
+                isLoading:true,
             }
 
         },
@@ -247,7 +246,7 @@
         font-weight: bold;
     }
     .recent_matches_table{
-        /*  width: 80%;*/
+      /*    width: 60%;*/
         border: 0;
     }
     .recent_matches_table tr{

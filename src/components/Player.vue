@@ -55,12 +55,13 @@
 
 
         <!--router -view -->
-        <router-view></router-view>
-
+        <router-view style="width: 70%;float: left"></router-view>
+            <div id="player_charts" style=" width: 29%; height: 400px;"  ref="playerCharts">123</div>
     </div>
 </template>
 
 <script>
+    import echarts from  'echarts';
     import 'whatwg-fetch';
     import dotaconstants from   'dotaconstants';
     import * as utils from '../utils/utils';
@@ -78,24 +79,26 @@
                 isLoading:true,
                 isLoading_num:true,
                 allMatchesNum:null,
-                num_win:null
+                num_win:null,
+                myChart:{}
             }
 
         },
         computed:mapGetters({
             playerInfo:'getterPlayerInfo',
             rankInfo:'getterRankInfo',
-            playerMatchResult:'getterPlayerMatchesResult'
+            playerMatchResult:'getterPlayerMatchesResult',
+            recentData:'getterRecentData'
 
         }),
         created:function () {
             let account_id=this.account_id;
             console.log(account_id);
             this.$store.dispatch('actionGetOrUpdatePlayerInfo',account_id);
-
         },
         mounted:function(){
           //  alert('mounted');
+            this.generateEchart();
         },
         beforeUpdate:function(){
           //  alert('before updated');
@@ -161,6 +164,59 @@
             linkToAllMatches:function(){
                 let account_id=this.account_id;
                 this.$router.push({ path: `/player/${account_id}/allMatches` });
+            },
+
+            generateEchart:function () {
+              //  console.log("======recent data-======",this.recentData);
+                let fight_score=this.recentData.fight_score;
+                let farm_score=this.recentData.farm_score;
+                let support_score=this.recentData.support_score;
+                let push_score=this.recentData.push_score;
+                let versatility_score=this.recentData.versatility_score;
+                this.myChart = echarts.init(document.getElementById('player_charts'));
+
+                // 指定图表的配置项和数据
+                let option = {
+                    title: {
+
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        x: 'center',
+                    },
+                    radar: [
+                        {
+                            indicator: [
+                                {text: 'fight_score', max: 1},
+                                {text:'versatility_score',max:1},
+                                {text: 'support_score', max: 1},
+                                {text:'push_score',max:1},
+                                {text: 'farm_score', max: 1}
+
+                            ],
+                            center: ['35%','40%'],
+                            radius: 60
+                        }
+                    ],
+                    series: [
+                        {
+                            type: 'radar',
+                      /*      tooltip: {
+                                trigger: none
+                            },*/
+                            itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                            data: [
+                                {
+                                    value: [fight_score,versatility_score,support_score,push_score,farm_score],
+                                }
+                            ]
+                        }
+                    ]
+                };
+                // 使用刚指定的配置项和数据显示图表。
+                this.myChart.setOption(option);
             }
 
             //methods
@@ -309,5 +365,8 @@
         height: 100%;
         margin: 0 auto;
         text-align: center;
+    }
+    #player_charts{
+        float: right;
     }
 </style>
