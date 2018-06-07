@@ -4,22 +4,17 @@ import Vue from 'vue';
 import App from '@/App';
 import router from '@/router';
 import store from '@/store';
-import echarts from 'echarts';
-
 
 Vue.config.productionTip = false;
 
-/* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-    store,
+  store,
   components: { App },
-  render:function (createElement) {
-      return createElement(
-          'App'
-           )
+  render: function (createElement) {
+    return createElement(
+      'App'
+    );
   }
 });
-
-

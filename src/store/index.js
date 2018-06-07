@@ -9,9 +9,9 @@ import 'es6-promise/auto';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-    modules:{
-        player,
-        matchDetail,
-        users
-    }
+  modules: {
+    player,
+    matchDetail,
+    users
+  }
 });

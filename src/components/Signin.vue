@@ -25,51 +25,51 @@
 </template>
 
 <script>
-    import {mapGetter,mapActions} from 'vuex';
+import { mapGetter, mapActions } from "vuex";
 
-    export default {
-        name: "Signin",
-        data(){
-            return{
-                email:null,
-                password:null,
-                submitted:false
-            }
-        },
-        methods:{
-            signIn:function () {
-                let email=this.email;
-                let password=this.password;
-                let signInInfo={
-                  email:email.toLowerCase(),
-                  password:password
-                };
-                fetch('/api/users/signin',{
-                    method:'POST',
-                    headers:{
-                        'Content-Type':'application/json'
-                    },
-                    body:JSON.stringify(signInInfo)
-                }).then((res)=>{
+export default {
+    name: "Signin",
+    data() {
+        return {
+            email: null,
+            password: null,
+            submitted: false
+        };
+    },
+    methods: {
+        signIn: function() {
+            let email = this.email;
+            let password = this.password;
+            let signInInfo = {
+                email: email.toLowerCase(),
+                password: password
+            };
+            fetch("/api/users/signin", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(signInInfo)
+            })
+                .then(res => {
                     return res.json();
-                }).then((data)=>{
-                    if(data.ret_code==0){
-                        localStorage.setItem("token",data.ret_msg);
-                        localStorage.setItem("user",data.nick_name);
-                        localStorage.setItem("user_id",data.user_id);
-                        this.$store.dispatch('actionGetUserID',data.user_id);
-                        this.$store.dispatch('actionGetUser',data.nick_name);
+                })
+                .then(data => {
+                    if (data.ret_code == 0) {
+                        localStorage.setItem("token", data.ret_msg);
+                        localStorage.setItem("user", data.nick_name);
+                        localStorage.setItem("user_id", data.user_id);
+                        this.$store.dispatch("actionGetUserID", data.user_id);
+                        this.$store.dispatch("actionGetUser", data.nick_name);
                         this.$router.push({ path: `/` });
-                    }else{
+                    } else {
                         alert(data.ret_msg);
                     }
-
                 });
-            }
         }
     }
+};
 </script>
 
 <style scoped>
-
 </style>
