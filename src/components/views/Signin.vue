@@ -2,7 +2,7 @@
     <div class="content">
         <div class="signup_section">
             <h2>Sign in</h2>
-            <form id="signup_form"   v-on:submit="signIn">
+            <form id="signin_form"   v-on:submit="signIn">
           <!--      <p>
                     {{form_errors}}
                 </p>-->
@@ -15,8 +15,8 @@
                 </div>
 
 
-                <button type="submit" class="signup_btn"  v-if="!submitted">Sign in</button>
-                <button class="submitted_btn"  v-if="submitted" >WAITING...</button>
+                <v-btn color="teal lighten-1" type="submit"   v-if="!submitted">Sign in</v-btn>
+                <v-btn class="submitted_btn"  v-if="submitted" >WAITING...</v-btn>
             </form>
         </div>
 
@@ -57,10 +57,10 @@ export default {
                 .then(data => {
                     if (data.ret_code == 0) {
                         localStorage.setItem("token", data.ret_msg);
-                        localStorage.setItem("user", data.nick_name);
+                        localStorage.setItem("nickName", data.nick_name);
                         localStorage.setItem("user_id", data.user_id);
                         this.$store.dispatch("actionGetUserID", data.user_id);
-                        this.$store.dispatch("actionGetUser", data.nick_name);
+                        this.$store.dispatch("actionGetNickName", data.nick_name);
                         this.$router.push({ path: `/` });
                     } else {
                         alert(data.ret_msg);
@@ -72,4 +72,32 @@ export default {
 </script>
 
 <style scoped>
+    .form_item {
+        margin: 0.5em auto;
+        border: 0;
+        width: 100%;
+        height: 3em;
+    }
+    .form_item input {
+        border: 1px solid #e0e0e0;
+        color: #656565;
+        width: 99%;
+        height: 2em;
+        border-radius: 3px;
+        outline: none;
+        padding: 3px 5px;
+    }
+    .signup_section {
+        height: 400px;
+        margin: 0 auto;
+        width: 529px;
+        margin-top: 2rem;
+    }
+    #signin_form{
+        width: 60%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        margin: 0 auto;
+    }
 </style>

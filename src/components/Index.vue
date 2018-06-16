@@ -1,9 +1,13 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class="content">
-        <input type="text" id="input_account" v-model="account_id" placeholder="输入玩家的id"/>
-        <!--<router-link to="/player/121320102">123</router-link>-->
+        <form >
+            <input type="text" id="input_account" v-model="account_id"
+                   placeholder="输入玩家的id"/>
 
-    <button v-on:click="toPlayerPage(account_id)" class="searchButton">SEARCH</button>
+
+            <button v-on:click="toPlayerPage(account_id)" class="searchButton">SEARCH</button>
+        </form>
+
 
     </div>
 </template>
@@ -72,9 +76,11 @@
         border-radius: 3px;
     }
     .content{
+        display: flex;
         font-family: "Gotham SSm",Helvetica,Arial,sans-serif;
         width: 90%;
         margin: 0 auto;
+        justify-content:  center;
     }
     .content button{
         display: block;

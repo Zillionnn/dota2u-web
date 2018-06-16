@@ -3,7 +3,7 @@ import usersApi from '../api/users';
 const state = {
   stateAccount_id: null,
   user_id: null,
-  user: null
+  nickName: ''
 };
 
 const getters = {
@@ -13,8 +13,8 @@ const getters = {
   getterUserID: (state) => {
     return state.user_id;
   },
-  getterUser: (state) => {
-    return state.user;
+  getterNickName: (state) => {
+    return state.nickName;
   }
 };
 
@@ -27,8 +27,8 @@ const actions = {
   actionGetUserID: ({commit, state}, user_id) => {
     commit('setUserID', user_id);
   },
-  actionGetUser: ({commit, state}, user) => {
-    commit('setUser', user);
+  actionGetNickName: ({commit, state}, nickName) => {
+    commit('setNickName', nickName);
   }
 };
 
@@ -41,8 +41,8 @@ const mutations = {
   setUserID: (state, user_id) => {
     state.user_id = user_id;
   },
-  setUser: (state, user) => {
-    state.user = user;
+  setNickName (state, payload) {
+    state.nickName = payload;
   }
 };
 

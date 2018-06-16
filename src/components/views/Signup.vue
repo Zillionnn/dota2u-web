@@ -221,6 +221,7 @@ export default {
     height: 400px;
     margin: 0 auto;
     width: 529px;
+    margin-top: 2rem;
 }
 form {
     margin: 2rem auto;

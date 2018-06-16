@@ -1,30 +1,50 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
   <div id="app">
+
       <div class="content">
-          <img class="logo" src="./assets/img/Items/refresher_lg.png">
+          <v-toolbar >
+              <v-toolbar-title class="white--text">
+                 <!-- <img class="logo" src="./assets/img/Items/refresher_lg.png">-->
+                  <div>DOTA2U</div>
+              </v-toolbar-title>
+              <v-toolbar-items>
+                  <div  style="display: inline-block;position: relative; text-align: center">
+                      <router-link to="/" >HOME</router-link>
+                  </div>
+                  <!--  <router-link to="/player/121320102">player</router-link>-->
+                  <div  style="display: inline-block;position: relative; text-align: center">
+                      <router-link to="/parent_component">parent component</router-link>
+                  </div>
+                  <div  style="display: inline-block;position: relative; text-align: center">
+                      <router-link to="/404">404</router-link>
+                  </div>
+              </v-toolbar-items>
+              <v-spacer></v-spacer>
 
-          <div v-if="!nick_name" class="sign">
-              <router-link to="/signup" >sign up</router-link>
-              <router-link to="/signin">sign in</router-link>
-          </div>
-          <div v-if="nick_name" class="sign dropdown">
-              <div class="dropdown-btn">{{nick_name}}</div>
-              <div  class="dropdown-content">
-                  <div v-on:click="toPlayerPage(account_id)">my profile </div>
-                  <div v-on:click="signout">exit</div>
+                  <v-btn v-if="!nickName" v-on:click="toSignUp">sign up</v-btn>
+                  <v-btn v-if="!nickName" v-on:click="toSignIn">sign in</v-btn>
+
+              <div v-if="nickName" class="sign dropdown">
+                  <div class="dropdown-btn">{{nickName}}</div>
+                  <div  class="dropdown-content">
+                      <div v-on:click="toPlayerPage(account_id)" class="dropdown-item">my profile </div>
+                      <div v-on:click="signout" class="dropdown-item">exit</div>
+                  </div>
               </div>
-          </div>
 
-          <nav>
+
+          </v-toolbar>
+
+        <!--  <nav>
               <router-link to="/" >HOME</router-link>
-              <!--  <router-link to="/player/121320102">player</router-link>-->
+              &lt;!&ndash;  <router-link to="/player/121320102">player</router-link>&ndash;&gt;
               <router-link to="/parent_component">parent component</router-link>
               <router-link to="/404">404</router-link>
-          </nav>
+          </nav>-->
 
       </div>
 
-      <hr/>
+
 
 
       <div class="content">
@@ -49,10 +69,10 @@
     created:function () {
       console.log('create');
 
-        let nick_name=localStorage.getItem('user');
+        let nickName=localStorage.getItem('nickName');
         let user_id=localStorage.getItem('user_id');
-        console.log(nick_name);
-        this.$store.dispatch('actionGetUser',nick_name);
+        console.log(nickName);
+        this.$store.dispatch('actionGetNickName',nickName);
         this.$store.dispatch('actionGetUserID',user_id);
 
         if(this.user_id){
@@ -65,7 +85,7 @@
             ...mapGetters({
                 account_id: 'getterAccountID',
                 user_id: 'getterUserID',
-                nick_name:'getterUser'
+                nickName: 'getterNickName'
             })
         },
 
@@ -82,28 +102,20 @@
         },
         signout:function () {
             localStorage.clear();
-            this.$store.dispatch('actionGetUser',null);
+            this.$store.dispatch('actionGetNickName',null);
             this.$store.dispatch('actionGetUserID',null);
+        },
+        toSignUp: function () {
+            this.$router.push({path:`/signup`});
+        },
+        toSignIn: function () {
+            this.$router.push({path:`/signin`});
         }
 
     },
         updated:function(a,b,c,d,e){
             console.log('something update');
-        },
-       watch:{
-        user_id:function (n,o) {
-            console.log('WATCH>' ,n);
-            this.user_id=n;
-            if(n){
-                this.$store.dispatch('actionGetAccountID',n);
-            }
-
-            },
-           nick_name:function (n, o) {
-            console.log('WATCH > nick_name ',n);
-               this.nick_name=n;
-           }
-       }
+        }
 };
 </script>
 
@@ -168,12 +180,15 @@
     .dropdown-content div{
         margin: 6px auto;
     }
+    .dropdown-item{
+        line-height: 2.5rem;
+    }
 
     .dropdown:hover .dropdown-content {
         display: block;
     }
     .dropdown-content div:hover{
-        background: rgba(70, 100, 127, 0.91);
+        background: rgba(70, 100, 127, 1);
     }
 
     .sign ul{
@@ -186,4 +201,5 @@
             display: block;
         }
     }
+
 </style>
