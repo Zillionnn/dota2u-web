@@ -63,12 +63,10 @@
     import dotaconstants from   'dotaconstants';
     import * as utils from '../../../../utils/utils';
     import game_mode from '../../../../assets/game_mode.json';
-    import PlayerAllMatchesComponent from '../components/PlayerAllMatchesComponent';
     import { mapGetters, mapActions } from 'vuex';
 
     export default {
         name: 'player',
-        components:{PlayerAllMatchesComponent},
 
         data () {
             return{

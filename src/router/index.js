@@ -5,7 +5,7 @@ import Player from '@/components/views/player/Player';
 import Parent from '@/components/views/Parent';
 import MatchDetail from '@/components/views/player/matchDetail/MatchDetail';
 import Index from '@/components/Index';
-import PlayerAllMatchesComponent from '@/components/views/player/allMatch/playerAllMatchesComponent.vue';
+ import PlayerAllMatchesComponent from '@/components/views/player/allMatch/playerAllMatchesComponent.vue';
 import RecentMatchesComponent from '@/components/views/player/recentMatch/RecentMatchesComponent';
 import Child from '@/components/child';
 import Signup from '@/components/views/Signup';
@@ -34,7 +34,7 @@ export default new Router({
         {
           // 当 /player/:account_id/allMatches 匹配成功，
           // PlayerAllMatchesComponent 会被渲染在 User 的 <router-view> 中
-          path: '/allMatches',
+          path: 'allMatches',
           name: 'allMatches',
           component: PlayerAllMatchesComponent
         }
