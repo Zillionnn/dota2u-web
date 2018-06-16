@@ -7,7 +7,7 @@
 
             <div v-if="!isLoading" class="userinfo">
                 <div class="headPic">
-                    <img  v-bind:src="playerInfo.avatarfull"/>
+                    <img  v-bind:src="playerInfo.avatarfull" class="head-icon"/>
                     <span class="headID">ID:{{playerInfo.account_id}}</span>
                 </div>
                 <span class="headPersonname">{{playerInfo.personaname}}</span>
@@ -30,15 +30,15 @@
                 <div class="player_data" v-if="!isLoading_num">
                     <table >
                         <thead>
-                        <th>场次</th>
                         <th>胜</th>
                         <th>负</th>
+                        <th>场次</th>
                         <td>胜率</td>
                         </thead>
                         <tr>
+                            <td style="color: #2db032;">{{num_win}}</td>
+                            <td style="color: red">{{allMatchesNum-num_win}}</td>
                             <td>{{allMatchesNum}}</td>
-                            <td>{{num_win}}</td>
-                            <td>{{allMatchesNum-num_win}}</td>
                             <td>{{parseFloat(num_win*100/allMatchesNum).toFixed(2)}} %</td>
                         </tr>
                     </table>
@@ -55,13 +55,12 @@
 
 
         <!--router -view -->
-        <router-view style="width: 70%;float: left"></router-view>
-            <div id="player_charts" style=" width: 29%; height: 400px;"  ref="playerCharts">123</div>
+        <router-view style="width: 100%;"></router-view>
+
     </div>
 </template>
 
 <script>
-    import echarts from  'echarts';
     import 'whatwg-fetch';
     import dotaconstants from   'dotaconstants';
     import * as utils from '../utils/utils';
@@ -80,7 +79,6 @@
                 isLoading_num:true,
                 allMatchesNum:null,
                 num_win:null,
-                myChart:{}
             }
 
         },
@@ -98,7 +96,6 @@
         },
         mounted:function(){
           //  alert('mounted');
-            this.generateEchart();
         },
         beforeUpdate:function(){
           //  alert('before updated');
@@ -164,59 +161,6 @@
             linkToAllMatches:function(){
                 let account_id=this.account_id;
                 this.$router.push({ path: `/player/${account_id}/allMatches` });
-            },
-
-            generateEchart:function () {
-              //  console.log("======recent data-======",this.recentData);
-                let fight_score=this.recentData.fight_score;
-                let farm_score=this.recentData.farm_score;
-                let support_score=this.recentData.support_score;
-                let push_score=this.recentData.push_score;
-                let versatility_score=this.recentData.versatility_score;
-                this.myChart = echarts.init(document.getElementById('player_charts'));
-
-                // 指定图表的配置项和数据
-                let option = {
-                    title: {
-
-                    },
-                    tooltip: {
-                        trigger: 'axis'
-                    },
-                    legend: {
-                        x: 'center',
-                    },
-                    radar: [
-                        {
-                            indicator: [
-                                {text: 'fight_score', max: 1},
-                                {text:'versatility_score',max:1},
-                                {text: 'support_score', max: 1},
-                                {text:'push_score',max:1},
-                                {text: 'farm_score', max: 1}
-
-                            ],
-                            center: ['35%','40%'],
-                            radius: 60
-                        }
-                    ],
-                    series: [
-                        {
-                            type: 'radar',
-                      /*      tooltip: {
-                                trigger: none
-                            },*/
-                            itemStyle: {normal: {areaStyle: {type: 'default'}}},
-                            data: [
-                                {
-                                    value: [fight_score,versatility_score,support_score,push_score,farm_score],
-                                }
-                            ]
-                        }
-                    ]
-                };
-                // 使用刚指定的配置项和数据显示图表。
-                this.myChart.setOption(option);
             }
 
             //methods
@@ -366,7 +310,8 @@
         margin: 0 auto;
         text-align: center;
     }
-    #player_charts{
-        float: right;
+
+    .head-icon{
+        border-radius: 50%;
     }
 </style>
