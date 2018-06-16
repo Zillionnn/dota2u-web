@@ -1,4 +1,4 @@
-import usersApi from '../api/users';
+import usersApi from '../../api/users';
 
 const state = {
   stateAccount_id: null,

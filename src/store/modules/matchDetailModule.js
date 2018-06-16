@@ -1,4 +1,4 @@
-import matchDetailApi from '../api/matchDetail';
+import matchDetailApi from '../../api/matchDetail';
 
 const state = {
   statePlayerMatchesResult: null
