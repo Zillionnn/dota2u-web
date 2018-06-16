@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import Child from './child';
+import Child from '../child';
 
     export default {
         components: {Child},

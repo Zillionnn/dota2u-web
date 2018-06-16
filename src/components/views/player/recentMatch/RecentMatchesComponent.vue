@@ -9,7 +9,7 @@
         <p v-if="playerForbid">
             用户未开放数据
         </p>
-        <div v-if="playerForbid==false">
+        <div v-if="playerForbid==false" class="left-section">
         <span class="latest_20_win_rate" v-if="playerMatchResult">
             {{playerMatchResult.latest_20_win_rate}}%
         </span>过去20场胜率
@@ -52,6 +52,8 @@
                 </tbody>
             </table>
         </div>
+
+        <div id="player_charts" style=" width: 29%; height: 400px;"  ref="playerCharts"></div>
     </div>
 </div>
 </template>
@@ -59,9 +61,10 @@
 <script>
     import 'whatwg-fetch';
     import dotaconstants from   'dotaconstants';
-    import * as utils from '../utils/utils';
-    import game_mode from '../assets/game_mode.json';
+    import * as utils from '../../../../utils/utils';
+    import game_mode from '../../../../assets/game_mode.json';
     import { mapGetters, mapActions } from 'vuex';
+    import echarts from  'echarts';
 
     export default {
         name: 'RecentMatchesComponent',
@@ -73,12 +76,14 @@
                 playerForbid:false,
                 synchronousState:'同步数据',
                 isLoading:true,
+                myChart:{}
             }
 
         },
 
         computed:mapGetters({
-            playerMatchResult:'getterPlayerMatchesResult'
+            playerMatchResult:'getterPlayerMatchesResult',
+            recentData:'getterRecentData'
         }),
 
         created:function () {
@@ -89,6 +94,7 @@
         },
         mounted:function(){
             this.isLoading=true;
+            this.generateEchart();
         },
         beforeUpdate:function(){
          //   this.data_updated=false;
@@ -165,7 +171,58 @@
                 let account_id=this.account_id;
                 this.$router.push({ path: `/player/${account_id}/allMatches` });
             },
+            generateEchart:function () {
+                //  console.log("======recent data-======",this.recentData);
+                let fight_score=this.recentData.fight_score;
+                let farm_score=this.recentData.farm_score;
+                let support_score=this.recentData.support_score;
+                let push_score=this.recentData.push_score;
+                let versatility_score=this.recentData.versatility_score;
+                this.myChart = echarts.init(document.getElementById('player_charts'));
 
+                // 指定图表的配置项和数据
+                let option = {
+                    title: {
+
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        x: 'center',
+                    },
+                    radar: [
+                        {
+                            indicator: [
+                                {text: 'fight_score', max: 1},
+                                {text:'versatility_score',max:1},
+                                {text: 'support_score', max: 1},
+                                {text:'push_score',max:1},
+                                {text: 'farm_score', max: 1}
+
+                            ],
+                            center: ['35%','40%'],
+                            radius: 60
+                        }
+                    ],
+                    series: [
+                        {
+                            type: 'radar',
+                            /*      tooltip: {
+                                      trigger: none
+                                  },*/
+                            itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                            data: [
+                                {
+                                    value: [fight_score,versatility_score,support_score,push_score,farm_score],
+                                }
+                            ]
+                        }
+                    ]
+                };
+                // 使用刚指定的配置项和数据显示图表。
+                this.myChart.setOption(option);
+            }
             //methods
         },
         watch:{
@@ -280,5 +337,12 @@
         background: #224e62;
     }
 
+    .left-section{
+        float:left;
+        width: 70%;
+    }
+    #player_charts{
+        float: right;
+    }
 
 </style>

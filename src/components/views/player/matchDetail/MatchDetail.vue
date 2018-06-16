@@ -329,9 +329,9 @@
 <script>
     import 'whatwg-fetch';
     import dotaconstants from   'dotaconstants';
-    import game_mode from '../assets/game_mode.json';
-    import game_items from '../assets/game_items.json';
-    import * as utils from '../utils/utils';
+    import game_mode from '../../../../assets/game_mode.json';
+    import game_items from '../../../../assets/game_items.json';
+    import * as utils from '../../../../utils/utils';
 
     export default {
         name: "MatchDetail",

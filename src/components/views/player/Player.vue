@@ -63,8 +63,8 @@
 <script>
     import 'whatwg-fetch';
     import dotaconstants from   'dotaconstants';
-    import * as utils from '../utils/utils';
-    import game_mode from '../assets/game_mode.json';
+    import * as utils from '../../../utils/utils';
+    import game_mode from '../../../assets/game_mode.json';
     import { mapGetters, mapActions } from 'vuex'
 
     export default {
