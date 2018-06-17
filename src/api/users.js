@@ -24,9 +24,7 @@ export default {
   },
   checkJWT () {
     let token = localStorage.getItem('token');
-    // 在实例已创建后修改默认值
     instance.defaults.headers.common['Authorization'] = token;
-
     return new Promise((resolve, reject) => {
       axios.post(`/api/users/heart`).then((res) => {
         resolve(res.data.ret_code);

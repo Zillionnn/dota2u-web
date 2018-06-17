@@ -58,17 +58,17 @@
 
 <script>
     import { mapGetters, mapActions } from 'vuex';
+import  userApi from '@/api/users';
 
     export default {
   name: 'App',
     data(){
         return{
-
+            heart: null
         }
     },
     created:function () {
       console.log('create');
-
         let nickName=localStorage.getItem('nickName');
         let user_id=localStorage.getItem('user_id');
         console.log(nickName);
@@ -79,6 +79,18 @@
             console.log('do action get account id ;');
             this.$store.dispatch('actionGetAccountID',this.user_id);
         }
+
+          this.heart = setInterval(()=>{
+             userApi.checkJWT().then((data)=>{
+                 console.log(data);
+                 //console.log(ret_code);
+                 if(data !== 0){
+                     alert('token expired');
+                     this.signout();
+                 }
+             });
+
+           },20000);
 
     },
         computed: {
@@ -104,6 +116,7 @@
             localStorage.clear();
             this.$store.dispatch('actionGetNickName',null);
             this.$store.dispatch('actionGetUserID',null);
+            clearInterval(this.heart);
         },
         toSignUp: function () {
             this.$router.push({path:`/signup`});
